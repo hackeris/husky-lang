@@ -22,8 +22,8 @@ namespace husky {
 
     public:
         template<class T>
-        bool is() {
-            return dynamic_cast<T *>(this) != nullptr;
+        bool is() const {
+            return dynamic_cast<const T *>(this) != nullptr;
         }
 
         template<class T>
@@ -37,12 +37,12 @@ namespace husky {
         explicit ASTHolder(ASTNode *ast) : ast(ast) {}
 
         template<class T>
-        bool hold() {
+        bool hold() const {
             return ast->template is<T>();
         }
 
         template<class T>
-        T *get() {
+        T *get() const {
             return ast->template as<T>();
         }
 
@@ -152,17 +152,85 @@ namespace husky {
 
     class Type {
     public:
+	Type(std::string name)
+		: _name(std::move(name)), _returnType(nullptr) {}
+
+	Type(std::string name, Type* returnType, std::vector<Type*> argTypes)
+		: _name(std::move(name)),
+               	  _returnType(returnType), _argTypes(argTypes) {}
+
+	virtual const std::string& name() const {
+	    return _name;
+	}
+
+	virtual bool callable() const {
+	    return _returnType != nullptr;
+	}
+
+	virtual Type* returnType() const {
+	    return _returnType;
+	}
+
+	virtual const std::vector<Type*>& argTypes() const {
+	    return _argTypes;
+	}
+
         virtual ~Type() = default;
+
+    private:
+	int _id;
+	std::string _name;
+
+	Type* _returnType;
+	std::vector<Type*> _argTypes;
     };
 
     class Value {
     public:
+
+        Value(Type* type): _type(type) {}
+
+        virtual Type* type() const;
+
         virtual ~Value() = default;
+    private:
+	Type* _type;
+    };
+
+    template<typename T>
+    class TypedValue : public Value {
+    public:
+	TypedValue(T value, Type* type)
+		: _value(value), Value(type) {}
+    private:
+	T _value;
+    };
+
+    class IntegerValue : public TypedValue<int> {
+    };
+
+    class FloatValue : public TypedValue<float> {
+    };
+
+    class BoolValue : public TypedValue<bool> {
+    };
+
+    template<typename V>
+    class Vector : public TypedValue<std::vector<V>> {
+    };
+
+    class IntegerVector : public Vector<int> {
+    };
+
+    class FloatVector : public Vector<float> {
+    };
+
+    class BoolVector : public Vector<bool> {
     };
 
     class SemanticWrapper {
     public:
-        std::shared_ptr<Type> type();
+        Type* type();
 
     private:
         std::shared_ptr<ASTNode> ast;
