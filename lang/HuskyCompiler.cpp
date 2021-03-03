@@ -4,28 +4,28 @@
 
 #include "HuskyCompiler.h"
 
-void husky::HuskyErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
-                                            size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
+void husky::ErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
+                                       size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
 
 }
 
 void
-husky::HuskyErrorListener::reportAmbiguity(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, size_t startIndex,
-                                           size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts,
-                                           antlr4::atn::ATNConfigSet *configs) {
+husky::ErrorListener::reportAmbiguity(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, size_t startIndex,
+                                      size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts,
+                                      antlr4::atn::ATNConfigSet *configs) {
 
 }
 
-void husky::HuskyErrorListener::reportAttemptingFullContext(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa,
-                                                            size_t startIndex, size_t stopIndex,
-                                                            const antlrcpp::BitSet &conflictingAlts,
-                                                            antlr4::atn::ATNConfigSet *configs) {
+void husky::ErrorListener::reportAttemptingFullContext(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa,
+                                                       size_t startIndex, size_t stopIndex,
+                                                       const antlrcpp::BitSet &conflictingAlts,
+                                                       antlr4::atn::ATNConfigSet *configs) {
 
 }
 
-void husky::HuskyErrorListener::reportContextSensitivity(Parser *recognizer, const dfa::DFA &dfa, size_t startIndex,
-                                                         size_t stopIndex, size_t prediction,
-                                                         atn::ATNConfigSet *configs) {
+void husky::ErrorListener::reportContextSensitivity(Parser *recognizer, const dfa::DFA &dfa, size_t startIndex,
+                                                    size_t stopIndex, size_t prediction,
+                                                    atn::ATNConfigSet *configs) {
 
 }
 
@@ -49,7 +49,7 @@ antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyGrammar::MethodCallCont
 
     auto ident = new Identifier(context->IDENTIFIER()->getText());
 
-    return ASTHolder(new MethodCall(ident, args.as<ArgList>()));
+    return generify(new MethodCall(ident, args.as<ArgList>()));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToIntegerLiteral(HuskyGrammar::ToIntegerLiteralContext *context) {
@@ -62,15 +62,15 @@ antlrcpp::Any husky::HuskyCompiler::visitToFloatLiteral(HuskyGrammar::ToFloatLit
 
 antlrcpp::Any husky::HuskyCompiler::visitToBoolLiteral(HuskyGrammar::ToBoolLiteralContext *context) {
     std::string s = context->getText();
-    return ASTHolder(new BoolLiteral(s == "true"));
+    return generify(new BoolLiteral(s == "true"));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitIntegerLiteral(HuskyGrammar::IntegerLiteralContext *context) {
-    return ASTHolder(new IntegerLiteral((int) std::strtol(context->DECIMAL_LITERAL()->getText().c_str(), nullptr, 10)));
+    return generify(new IntegerLiteral((int) std::strtol(context->DECIMAL_LITERAL()->getText().c_str(), nullptr, 10)));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitFloatLiteral(HuskyGrammar::FloatLiteralContext *context) {
-    return ASTHolder(new FloatLiteral((float) std::strtod(context->FLOAT_LITERAL()->getText().c_str(), nullptr)));
+    return generify(new FloatLiteral((float) std::strtod(context->FLOAT_LITERAL()->getText().c_str(), nullptr)));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *context) {
@@ -91,7 +91,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *c
     }
 
     auto expr = visit(context->expression());
-    return ASTHolder(new UnaryExpr(op, get<Expression>(expr)));
+    return generify(new UnaryExpr(op, get<Expression>(expr)));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToCall(HuskyGrammar::ToCallContext *context) {
@@ -111,7 +111,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToLiteral(HuskyGrammar::ToLiteralContex
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) {
-    return ASTHolder(new Identifier(context->IDENTIFIER()->getText()));
+    return generify(new Identifier(context->IDENTIFIER()->getText()));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext *context) {
@@ -135,7 +135,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext 
     auto left = visit(context->expression(0));
     auto right = visit(context->expression(1));
 
-    return ASTHolder(new BinaryExpr(op, get<Expression>(left), get<Expression>(right)));
+    return generify(new BinaryExpr(op, get<Expression>(left), get<Expression>(right)));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefContext *context) {
@@ -143,7 +143,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefCont
     auto arr = visit(context->expression(0));
     auto index = visit(context->expression(1));
 
-    return ASTHolder(new ArrayRef(get<Expression>(arr), get<Expression>(index)));
+    return generify(new ArrayRef(get<Expression>(arr), get<Expression>(index)));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContext *context) {
@@ -152,9 +152,9 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContex
 
     if (context->methodCall() != nullptr) {
         auto method = visit(context->methodCall());
-        return ASTHolder(new AttrGet(get<Expression>(expr), get<MethodCall>(method)));
+        return generify(new AttrGet(get<Expression>(expr), get<MethodCall>(method)));
     } else {
         auto ident = new Identifier(context->IDENTIFIER()->getText());
-        return ASTHolder(new AttrGet(get<Expression>(expr), ident));
+        return generify(new AttrGet(get<Expression>(expr), ident));
     }
 }

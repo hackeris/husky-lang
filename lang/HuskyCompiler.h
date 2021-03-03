@@ -16,9 +16,37 @@ namespace husky {
 
     using namespace antlr4;
 
-    class ASTNode {
+    class Type {
     public:
-        virtual ~ASTNode() = default;
+        Type(std::string name)
+                : _name(std::move(name)) {}
+
+        const std::string &name() const {
+            return _name;
+        }
+
+        static std::string joinNames(const std::vector<Type *> &types) {
+            std::string joined;
+            for (int i = 0; i < types.size(); i += 1) {
+                joined += types[i]->name();
+                if (i < types.size() - 1) {
+                    joined += ",";
+                }
+            }
+            return joined;
+        }
+
+        ~Type() = default;
+
+    private:
+        std::string _name;
+    };
+
+    class HGraph {
+    public:
+        explicit HGraph(Type *type) : _type(type) {}
+
+        virtual ~HGraph() = default;
 
     public:
         template<class T>
@@ -27,52 +55,44 @@ namespace husky {
         }
 
         template<class T>
-        T* as() {
-            return dynamic_cast<T *>(this);
+        const T *as() const {
+            return dynamic_cast<const T *>(this);
         }
+
+    private:
+        Type *_type;
     };
 
-    class ASTHolder {
+    class Expression : public HGraph {
     public:
-        explicit ASTHolder(ASTNode *ast) : ast(ast) {}
-
-        template<class T>
-        bool hold() const {
-            return ast->template is<T>();
-        }
-
-        template<class T>
-        T *get() const {
-            return ast->template as<T>();
-        }
-
-    public:
-        ASTNode *ast;
-    };
-
-    class Expression : public ASTNode {
+        explicit Expression(Type *type) : HGraph(type) {}
     };
 
     class Primary : public Expression {
+    public:
+        explicit Primary(Type *type) : Expression(type) {}
     };
 
     class Identifier : public Primary {
     public:
-        explicit Identifier(std::string name) : name(std::move(name)) {}
+        explicit Identifier(std::string name, Type *type)
+                : name(std::move(name)), Primary(type) {}
 
     public:
         std::string name;
     };
 
     class Literal : public Primary {
+    public:
+        explicit Literal(Type *type) : Primary(type) {}
     };
 
     using ArgList = std::vector<Expression *>;
 
     class MethodCall : public Expression {
     public:
-        MethodCall(Identifier *identifier, ArgList args) :
-                identifier(identifier), args(std::move(args)) {}
+        MethodCall(Identifier *identifier, ArgList args, Type *type) :
+                identifier(identifier), args(std::move(args)), Expression(type) {}
 
     public:
         Identifier *identifier;
@@ -88,14 +108,17 @@ namespace husky {
         MethodCall *methodCall{nullptr};
 
     public:
-        AttrGet(Expression *expr, Identifier *identifier) : expr(expr), identifier(identifier) {}
+        AttrGet(Expression *expr, Identifier *identifier, Type *type)
+                : expr(expr), identifier(identifier), Expression(type) {}
 
-        AttrGet(Expression *expr, MethodCall *mc) : expr(expr), methodCall(mc) {}
+        AttrGet(Expression *expr, MethodCall *mc, Type *type)
+                : expr(expr), methodCall(mc), Expression(type) {}
     };
 
     class ArrayRef : public Expression {
     public:
-        ArrayRef(Expression *array, Expression *index) : array(array), index(index) {}
+        ArrayRef(Expression *array, Expression *index, Type *type)
+                : array(array), index(index), Expression(type) {}
 
     public:
         Expression *array{};
@@ -110,7 +133,8 @@ namespace husky {
         Operation op;
         Expression *expr{};
     public:
-        UnaryExpr(UnaryExpr::Operation op, Expression *exp) : op(op), expr(exp) {}
+        UnaryExpr(UnaryExpr::Operation op, Expression *exp, Type *type)
+                : op(op), expr(exp), Expression(type) {}
     };
 
     class BinaryExpr : public Expression {
@@ -122,13 +146,14 @@ namespace husky {
         Expression *left{};
         Expression *right{};
     public:
-        BinaryExpr(BinaryExpr::Operation op, Expression *left, Expression *right)
-                : op(op), left(left), right(right) {}
+        BinaryExpr(BinaryExpr::Operation op, Expression *left, Expression *right, Type *type)
+                : op(op), left(left), right(right), Expression(type) {}
     };
 
     class IntegerLiteral : public Literal {
     public:
-        explicit IntegerLiteral(int v) : value(v) {}
+        explicit IntegerLiteral(int v, Type *type)
+                : value(v), Literal(type) {}
 
     public:
         int value{};
@@ -136,7 +161,8 @@ namespace husky {
 
     class FloatLiteral : public Literal {
     public:
-        explicit FloatLiteral(float f) : value(f) {}
+        explicit FloatLiteral(float f, Type *type)
+                : value(f), Literal(type) {}
 
     public:
         float value{};
@@ -144,66 +170,33 @@ namespace husky {
 
     class BoolLiteral : public Literal {
     public:
-        explicit BoolLiteral(bool b) : value(b) {}
+        explicit BoolLiteral(bool b, Type *type)
+                : value(b), Literal(type) {}
 
     public:
         bool value{};
     };
 
-    class Type {
-    public:
-	Type(std::string name)
-		: _name(std::move(name)), _returnType(nullptr) {}
-
-	Type(std::string name, Type* returnType, std::vector<Type*> argTypes)
-		: _name(std::move(name)),
-               	  _returnType(returnType), _argTypes(argTypes) {}
-
-	virtual const std::string& name() const {
-	    return _name;
-	}
-
-	virtual bool callable() const {
-	    return _returnType != nullptr;
-	}
-
-	virtual Type* returnType() const {
-	    return _returnType;
-	}
-
-	virtual const std::vector<Type*>& argTypes() const {
-	    return _argTypes;
-	}
-
-        virtual ~Type() = default;
-
-    private:
-	int _id;
-	std::string _name;
-
-	Type* _returnType;
-	std::vector<Type*> _argTypes;
-    };
-
     class Value {
     public:
+        explicit Value(Type *type) : _type(type) {}
 
-        Value(Type* type): _type(type) {}
-
-        virtual Type* type() const;
+        virtual Type *type() const { return _type; }
 
         virtual ~Value() = default;
+
     private:
-	Type* _type;
+        Type *_type;
     };
 
     template<typename T>
     class TypedValue : public Value {
     public:
-	TypedValue(T value, Type* type)
-		: _value(value), Value(type) {}
+        TypedValue(T value, Type *type)
+                : _value(value), Value(type) {}
+
     private:
-	T _value;
+        T _value;
     };
 
     class IntegerValue : public TypedValue<int> {
@@ -228,23 +221,7 @@ namespace husky {
     class BoolVector : public Vector<bool> {
     };
 
-    class SemanticWrapper {
-    public:
-        Type* type();
-
-    private:
-        std::shared_ptr<ASTNode> ast;
-    };
-
-    class Interpreter {
-    public:
-        std::shared_ptr<Value> evaluate();
-
-    private:
-        std::shared_ptr<ASTNode> ast;
-    };
-
-    class HuskyErrorListener : public ANTLRErrorListener {
+    class ErrorListener : public ANTLRErrorListener {
 
         void syntaxError(Recognizer *recognizer, Token *offendingSymbol, size_t line,
                          size_t charPositionInLine, const std::string &msg, std::exception_ptr e) override;
@@ -294,9 +271,13 @@ namespace husky {
 
         antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) override;
 
-        template<class T>
-        T *get(antlrcpp::Any &any) {
-            return dynamic_cast<T *>(any.template as<ASTHolder>().ast);
+        template<class U>
+        U *get(antlrcpp::Any &any) {
+            return dynamic_cast<U *>(any.template as<HGraph *>());
+        }
+
+        HGraph *generify(HGraph *ast) const {
+            return ast;
         }
     };
 
