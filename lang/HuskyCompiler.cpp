@@ -4,6 +4,51 @@
 
 #include "HuskyCompiler.h"
 
+using namespace husky;
+
+std::string husky::to_string(BinaryExpr::Operation op) {
+    switch (op) {
+        case husky::BinaryExpr::Add:
+            return "+";
+        case husky::BinaryExpr::Sub:
+            return "-";
+        case husky::BinaryExpr::Mul:
+            return "*";
+        case husky::BinaryExpr::Div:
+            return "/";
+        case husky::BinaryExpr::And:
+            return "&";
+        case husky::BinaryExpr::Or:
+            return "|";
+        case husky::BinaryExpr::Power:
+            return "^";
+        case husky::BinaryExpr::NotEqual:
+            return "!=";
+        case husky::BinaryExpr::Equal:
+            return "=";
+        case husky::BinaryExpr::Ge:
+            return ">=";
+        case husky::BinaryExpr::Le:
+            return "<=";
+        case husky::BinaryExpr::Gt:
+            return ">";
+        case husky::BinaryExpr::Lt:
+            return "<";
+    }
+}
+
+std::string husky::to_string(UnaryExpr::Operation op) {
+    switch (op) {
+        case husky::UnaryExpr::Positive:
+            return "+";
+        case husky::UnaryExpr::Negative:
+            return "-";
+        case husky::UnaryExpr::Not:
+            return "!";
+    }
+}
+
+
 void husky::ErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
                                        size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
 
@@ -47,9 +92,20 @@ antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyGrammar::MethodCallCont
     auto args = visit(context->expressionList());
     assert(args.is<ArgList>());
 
-    auto ident = new Identifier(context->IDENTIFIER()->getText());
+    auto identName = context->IDENTIFIER()->getText();
+    auto argList = args.as<ArgList>();
 
-    return generify(new MethodCall(ident, args.as<ArgList>()));
+    std::vector<Type*> argTypes;
+    std::transform(argList.begin(), argList.end(),
+		    std::back_inserter(argTypes),
+		    [](Expression* exp) -> Type* {
+		        return exp->type();
+		    });
+
+    auto type = _compileTime->findFunction(identName, argTypes);
+    auto ident = new Identifier(identName, type);
+
+    return generify(new MethodCall(ident, argList, type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToIntegerLiteral(HuskyGrammar::ToIntegerLiteralContext *context) {
@@ -61,16 +117,19 @@ antlrcpp::Any husky::HuskyCompiler::visitToFloatLiteral(HuskyGrammar::ToFloatLit
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToBoolLiteral(HuskyGrammar::ToBoolLiteralContext *context) {
+    auto type = _compileTime->findType("Bool");
     std::string s = context->getText();
-    return generify(new BoolLiteral(s == "true"));
+    return generify(new BoolLiteral(s == "true", type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitIntegerLiteral(HuskyGrammar::IntegerLiteralContext *context) {
-    return generify(new IntegerLiteral((int) std::strtol(context->DECIMAL_LITERAL()->getText().c_str(), nullptr, 10)));
+    auto type = _compileTime->findType("Integer");
+    return generify(new IntegerLiteral((int) std::strtol(context->DECIMAL_LITERAL()->getText().c_str(), nullptr, 10), type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitFloatLiteral(HuskyGrammar::FloatLiteralContext *context) {
-    return generify(new FloatLiteral((float) std::strtod(context->FLOAT_LITERAL()->getText().c_str(), nullptr)));
+    auto type = _compileTime->findType("Float");
+    return generify(new FloatLiteral((float) std::strtod(context->FLOAT_LITERAL()->getText().c_str(), nullptr), type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *context) {
@@ -90,8 +149,9 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *c
             throw std::runtime_error("unexpected binary operator " + context->prefix->getText());
     }
 
-    auto expr = visit(context->expression());
-    return generify(new UnaryExpr(op, get<Expression>(expr)));
+    auto expr = get<Expression>(visit(context->expression()));
+    auto type = _compileTime->findFunction(to_string(op), {expr->type()});
+    return generify(new UnaryExpr(op, expr, type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToCall(HuskyGrammar::ToCallContext *context) {
@@ -111,7 +171,10 @@ antlrcpp::Any husky::HuskyCompiler::visitToLiteral(HuskyGrammar::ToLiteralContex
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) {
-    return generify(new Identifier(context->IDENTIFIER()->getText()));
+
+    auto identName = context->IDENTIFIER()->getText();
+    auto type = _compileTime->findIdentifier(identName);
+    return generify(new Identifier(identName, type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext *context) {
@@ -127,34 +190,53 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext 
         op = BinaryExpr::Mul;
     } else if (stringOp == "/") {
         op = BinaryExpr::Div;
+    } else if (stringOp == "|") {
+	op = BinaryExpr::Or;
+    } else if (stringOp == "&") {
+	op = BinaryExpr::And;
+    } else if (stringOp == ">") {
+	op = BinaryExpr::Gt;
+    } else if (stringOp == "<") {
+	op = BinaryExpr::Lt;
+    } else if (stringOp == ">=") {
+	op = BinaryExpr::Ge;
+    } else if (stringOp == "<=") {
+	op = BinaryExpr::Le;
     } else {
         throw std::runtime_error("unexpected binary operator " + stringOp);
     }
     //  TODO:   more operation support
 
-    auto left = visit(context->expression(0));
-    auto right = visit(context->expression(1));
+    auto left = get<Expression>(visit(context->expression(0)));
+    auto right = get<Expression>(visit(context->expression(1)));
 
-    return generify(new BinaryExpr(op, get<Expression>(left), get<Expression>(right)));
+    auto type = _compileTime->findFunction(to_string(op), {left->type(), right->type()});
+
+    return generify(new BinaryExpr(op, left, right, type));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefContext *context) {
 
-    auto arr = visit(context->expression(0));
-    auto index = visit(context->expression(1));
+    auto arr = get<Expression>(visit(context->expression(0)));
+    auto index = get<Expression>(visit(context->expression(1)));
 
-    return generify(new ArrayRef(get<Expression>(arr), get<Expression>(index)));
+    //	TODO:	get type from type of arr
+    return generify(new ArrayRef(arr, index, nullptr));
 }
 
 antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContext *context) {
 
-    auto expr = visit(context->expression());
+    auto expr = get<Expression>(visit(context->expression()));
 
     if (context->methodCall() != nullptr) {
-        auto method = visit(context->methodCall());
-        return generify(new AttrGet(get<Expression>(expr), get<MethodCall>(method)));
+	//	TODO:	get function call type from expr
+        auto method = get<MethodCall>(visit(context->methodCall()));
+        return generify(new AttrGet(expr, method, method->type()));
     } else {
-        auto ident = new Identifier(context->IDENTIFIER()->getText());
-        return generify(new AttrGet(get<Expression>(expr), ident));
+	auto identName = context->IDENTIFIER()->getText();
+	//	TODO:	get identifier type from expr
+	auto identType = nullptr;
+        auto ident = new Identifier(identName, identType);
+        return generify(new AttrGet(expr, ident, identType));
     }
 }

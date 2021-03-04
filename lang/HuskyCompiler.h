@@ -25,6 +25,35 @@ namespace husky {
             return _name;
         }
 
+	bool defineField(const std::string& name, Type* type) {
+	    auto iter = _fields.find(name);
+	    if(iter != _fields.end()) {
+		return false;
+	    }
+	    _fields.emplace(name, type);
+	    return true;
+	}
+
+	Type* findField(const std::string& name) {
+	    auto iter = _fields.find(name);
+	    if(iter != _fields.end()) {
+		return iter->second;
+	    }
+	    return nullptr;
+	}
+
+	bool defineMemberFunction(const std::string& name, Type* returnType,
+			const std::vector<Type*>& argTypes) {
+	    auto symbol = name + "(" + joinNames(argTypes) + ")";
+	    return defineField(symbol, returnType);
+	}
+
+	Type* findMemberFunction(const std::string& name,
+			const std::vector<Type*>& argTypes) {
+	    auto symbol = name + "(" + joinNames(argTypes) + ")";
+	    return findField(symbol);
+	}
+
         static std::string joinNames(const std::vector<Type *> &types) {
             std::string joined;
             for (int i = 0; i < types.size(); i += 1) {
@@ -40,6 +69,7 @@ namespace husky {
 
     private:
         std::string _name;
+	std::map<std::string, Type*> _fields;
     };
 
     class HGraph {
@@ -47,6 +77,10 @@ namespace husky {
         explicit HGraph(Type *type) : _type(type) {}
 
         virtual ~HGraph() = default;
+
+	virtual Type* type() {
+	    return _type;
+	}
 
     public:
         template<class T>
@@ -137,6 +171,8 @@ namespace husky {
                 : op(op), expr(exp), Expression(type) {}
     };
 
+    std::string to_string(UnaryExpr::Operation op);
+
     class BinaryExpr : public Expression {
     public:
         enum Operation {
@@ -149,6 +185,8 @@ namespace husky {
         BinaryExpr(BinaryExpr::Operation op, Expression *left, Expression *right, Type *type)
                 : op(op), left(left), right(right), Expression(type) {}
     };
+
+    std::string to_string(BinaryExpr::Operation op);
 
     class IntegerLiteral : public Literal {
     public:
@@ -221,6 +259,24 @@ namespace husky {
     class BoolVector : public Vector<bool> {
     };
 
+
+class CompileTime {
+public:
+    virtual Type *findIdentifier(const std::string &name) = 0;
+
+    virtual Type *findFunction(const std::string &name,
+                               const std::vector<Type *>& argTypes) = 0;
+
+    virtual bool registerType(const std::string &name) = 0;
+
+    virtual Type *findType(const std::string &name) = 0;
+
+    virtual bool registerSymbol(const std::string &name, Type *type) = 0;
+
+    virtual bool registerFunction(const std::string &name,
+                                  Type *returnType, const std::vector<Type *>& argTypes) = 0;
+};
+
     class ErrorListener : public ANTLRErrorListener {
 
         void syntaxError(Recognizer *recognizer, Token *offendingSymbol, size_t line,
@@ -272,13 +328,16 @@ namespace husky {
         antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) override;
 
         template<class U>
-        U *get(antlrcpp::Any &any) {
+        U *get(const antlrcpp::Any &any) {
             return dynamic_cast<U *>(any.template as<HGraph *>());
         }
 
         HGraph *generify(HGraph *ast) const {
             return ast;
         }
+
+    private:
+	CompileTime *_compileTime;
     };
 
 }
