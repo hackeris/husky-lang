@@ -93,6 +93,11 @@ namespace husky {
             return dynamic_cast<const T *>(this);
         }
 
+        template<class T>
+        T *as() {
+            return dynamic_cast<T *>(this);
+        }
+
     private:
         Type *_type;
     };
@@ -294,6 +299,9 @@ public:
     };
 
     class HuskyCompiler : public HuskyGrammarVisitor {
+    public:
+
+	HuskyCompiler(CompileTime* compileTime);
 
         antlrcpp::Any visitExpressionList(HuskyGrammar::ExpressionListContext *context) override;
 

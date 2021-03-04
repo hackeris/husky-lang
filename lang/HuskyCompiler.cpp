@@ -74,6 +74,9 @@ void husky::ErrorListener::reportContextSensitivity(Parser *recognizer, const df
 
 }
 
+husky::HuskyCompiler::HuskyCompiler(CompileTime* compileTime)
+    : _compileTime(compileTime) {}
+
 antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyGrammar::ExpressionListContext *context) {
 
     //  vector of Expression

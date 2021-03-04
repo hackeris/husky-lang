@@ -85,7 +85,7 @@ int main() {
 
     using namespace husky;
 
-    std::string formula = "1 + 2 + f(4, 5)";
+    std::string formula = "1 + 2 + f(4, 5) + v";
 
     std::istringstream stream(formula);
 
@@ -99,20 +99,29 @@ int main() {
 
     ParseTree *tree = parser.expression();
 
-    HuskyCompiler compiler;
-    Any visited = compiler.visit(tree);
-
-    auto expr = visited.as<HGraph *>()->as<Expression>();
-
     DefaultCompileTime compileTime;
     compileTime.registerType("Integer");
     compileTime.registerType("Float");
     compileTime.registerType("Bool");
+    compileTime.registerType("FloatVector");
 
     Type *integer = compileTime.findType("Integer");
+    Type *vectorType = compileTime.findType("FloatVector");
 
+    compileTime.registerSymbol("x", integer);
+    compileTime.registerSymbol("v", vectorType);
     compileTime.registerFunction("f", integer, {integer, integer});
     compileTime.registerFunction(to_string(BinaryExpr::Operation::Add), integer, {integer, integer});
+    compileTime.registerFunction(to_string(BinaryExpr::Operation::Add), vectorType, {vectorType, vectorType});
+    compileTime.registerFunction(to_string(BinaryExpr::Operation::Add), vectorType, {vectorType, integer});
+    compileTime.registerFunction(to_string(BinaryExpr::Operation::Add), vectorType, {integer, vectorType});
+
+    HuskyCompiler compiler(&compileTime);
+    Any visited = compiler.visit(tree);
+
+    auto expr = visited.as<HGraph *>()->as<Expression>();
+    auto type = expr->type();
+    std::cout << type->name() << std::endl;
 
     return 0;
 }
