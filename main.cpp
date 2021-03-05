@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     HuskyCompiler compiler(compileTime);
     ErrorListener errorListener;
 
-    AstBase *expr = nullptr;
+    GraphBase *expr = nullptr;
     try {
         expr = compiler.compile(exprCode, &errorListener);
         auto type = (expr != nullptr) ? expr->type() : nullptr;

@@ -320,7 +320,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *
     }
 }
 
-AstBase *HuskyCompiler::compile(const std::string &code, ErrorListener *errorListener) {
+GraphBase *HuskyCompiler::compile(const std::string &code, ErrorListener *errorListener) {
 
     using namespace antlr4;
     using namespace antlr4::tree;
@@ -341,7 +341,7 @@ AstBase *HuskyCompiler::compile(const std::string &code, ErrorListener *errorLis
     }
 
     Any visited = visit(tree);
-    return visited.as<AstBase *>()->as<Expression>();
+    return visited.as<GraphBase *>()->as<Expression>();
 }
 
 antlrcpp::Any HuskyCompiler::visitToExpression(HuskyExpr::ToExpressionContext *context) {

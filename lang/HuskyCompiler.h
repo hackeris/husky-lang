@@ -74,11 +74,11 @@ namespace husky {
         std::map<std::string, Type *> _fields;
     };
 
-    class AstBase {
+    class GraphBase {
     public:
-        explicit AstBase(Type *type) : _type(type) {}
+        explicit GraphBase(Type *type) : _type(type) {}
 
-        virtual ~AstBase() = default;
+        virtual ~GraphBase() = default;
 
         virtual Type *type() {
             return _type;
@@ -105,9 +105,9 @@ namespace husky {
         Type *_type;
     };
 
-    class Expression : public AstBase {
+    class Expression : public GraphBase {
     public:
-        explicit Expression(Type *type) : AstBase(type) {}
+        explicit Expression(Type *type) : GraphBase(type) {}
     };
 
     class Primary : public Expression {
@@ -541,15 +541,15 @@ namespace husky {
 
         antlrcpp::Any visitToLiteral(HuskyExpr::ToLiteralContext *context) override;
 
-        AstBase *compile(const std::string &code, ErrorListener *errorListener);
+        GraphBase *compile(const std::string &code, ErrorListener *errorListener);
 
         template<class U>
         U *get(const antlrcpp::Any &any) {
-            return dynamic_cast<U *>(any.template as<AstBase *>());
+            return dynamic_cast<U *>(any.template as<GraphBase *>());
         }
 
         inline
-        static AstBase *generify(AstBase *ast) {
+        static GraphBase *generify(GraphBase *ast) {
             return ast;
         }
 
