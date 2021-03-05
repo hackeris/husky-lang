@@ -192,7 +192,9 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *c
     auto type = _compileTime->findFunction(to_string(op), {expr->type()});
 
     if (type == nullptr) {
-        throw std::runtime_error("unary operation '" + strOp + "' on type " + expr->type()->name() + " is not supported");
+	throw compile_error(context,
+            "unary operation '" + strOp 
+	    + "' on type " + expr->type()->name() + " is not supported");
     }
 
     return generify(new UnaryExpr(op, expr, type));
@@ -220,7 +222,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyGrammar::ToIdentifier
     auto type = _compileTime->findIdentifier(identName);
 
     if (type == nullptr) {
-	throw std::runtime_error("identifier '" + identName + "' is not defined");
+	throw compile_error(context, "identifier '" + identName + "' is not defined");
     }
 
     return generify(new Identifier(identName, type));
@@ -237,8 +239,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext 
     auto type = _compileTime->findFunction(to_string(op), {left->type(), right->type()});
 
     if (type == nullptr) {
-	throw std::runtime_error("binary operation '" + stringOp + "' on (" 
-	    + left->type()->name() + "," + right->type()->name() + ") is not defined");
+	throw compile_error(context, "binary operation '" + stringOp + "' on " 
+	    + left->type()->name() + " and " + right->type()->name() + " is not defined");
     }
 
     return generify(new BinaryExpr(op, left, right, type));
@@ -254,7 +256,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefCont
     auto returnType = arrayType->findMember("[]", {indexType});
 
     if (returnType == nullptr) {
-	throw std::runtime_error("operator [" + indexType->name() + "] of " + arrayType->name() + " is not defined");
+	throw compile_error(context, "operator [](" + indexType->name() + ") of " + arrayType->name() + " is not defined");
     }
 
     return generify(new ArrayRef(arr, index, returnType));
@@ -271,7 +273,9 @@ antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyGrammar::ToArraySliceContext
     auto returnType = arrayType->findMember("[:]", {beginType, endType});
 
     if (returnType == nullptr) {
-	throw std::runtime_error("operator [" + beginType->name() + "," + endType->name() + "] of " + arrayType->name() + " is not supported");
+	throw compile_error(context, 
+			"operator [:](" + beginType->name() + "," + endType->name() + ") of " 
+			+ arrayType->name() + " is not supported");
     }
 
     return generify(new ArraySlice(arr, begin, end, returnType));
@@ -291,7 +295,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContex
         auto returnType = prefixType->findMember(methodName, argTypes);
 
         if (returnType == nullptr) {
-	    throw std::runtime_error("cannot find member method '" + methodName + "' of type '" + prefixType->name() + "'");
+	    throw compile_error(context,
+			    "cannot find member method '" + methodName + "' of type '" + prefixType->name() + "'");
         }
 
         return generify(new AttrGet(expr, method, returnType));
@@ -300,7 +305,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContex
         auto identType = prefixType->findField(fieldName);
 
         if (identType == nullptr) {
-	    throw std::runtime_error("cannot find member field '" + fieldName + "' of type '" + prefixType->name() + "'");
+	    throw compile_error(context, 
+			    "cannot find member field '" + fieldName + "' of type '" + prefixType->name() + "'");
         }
 
         auto ident = new Identifier(fieldName, identType);

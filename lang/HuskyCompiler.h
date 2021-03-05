@@ -329,6 +329,22 @@ namespace husky {
         std::vector<bool> masks;
     };
 
+    class compile_error : public std::exception {
+    public:
+	compile_error(ParserRuleContext* context, const std::string& message) {
+	    line = context->start->getLine();
+	    pos = context->start->getCharPositionInLine();
+            this->message = "error at line " + std::to_string(line) 
+		    + ":" + std::to_string(pos) + ": " + message;
+	}
+
+	const char* what() const throw() { return message.c_str(); }
+    private:
+	int line;
+	int pos;
+	std::string message;
+    };
+
     class CompileTime {
     public:
         virtual Type *findIdentifier(const std::string &name) = 0;

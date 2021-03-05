@@ -36,16 +36,21 @@ int main(int argc, char* argv[]) {
     HuskyCompiler compiler(compileTime);
     ErrorListener errorListener;
 
-    auto expr = compiler.compile(exprCode, &errorListener);
-
-    auto type = expr->type();
-    if(type != nullptr) {
-        std::cout << "Inferenced type is: " << type->name() << std::endl;
-    } else {
-	std::cout << "Failed to inference type." << std::endl;
+    AstBase* expr = nullptr;
+    try {
+        expr = compiler.compile(exprCode, &errorListener);
+        auto type = expr->type();
+        if(type != nullptr) {
+            std::cout << "Inferenced type is: " << type->name() << std::endl;
+        } else {
+	    std::cout << "Failed to inference type." << std::endl;
+        }
+    } catch(compile_error e) {
+	std::cerr << e.what() << std::endl;
     }
 
     delete expr;
 
     return 0;
 }
+

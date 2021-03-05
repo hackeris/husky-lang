@@ -1,3 +1,4 @@
+//	comment
 type Integer
 type Float
 type Bool
@@ -20,3 +21,4 @@ func FloatVector.[](Integer): Float
 val x: Integer
 val f: Float
 val v: FloatVector
+
