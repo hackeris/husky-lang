@@ -5,12 +5,12 @@
 
 using namespace husky;
 
-std::string read_file(const std::string& filename) {
-	  std::ifstream infile(filename, std::ios::in | std::ios::binary);
-	    if (infile.is_open()){
-		        return(std::string((std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>()));
-			  }
-	      throw(errno);
+std::string read_file(const std::string &filename) {
+    std::ifstream infile(filename, std::ios::in | std::ios::binary);
+    if (infile.is_open()) {
+        return (std::string((std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>()));
+    }
+    return "";
 }
 
 std::shared_ptr<CompileTime> buildCompileTime(const std::string &def) {
@@ -24,7 +24,7 @@ std::shared_ptr<CompileTime> buildCompileTime(const std::string &def) {
     return compileTime;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
     auto defPath = argv[1];
     auto exprPath = argv[2];
@@ -36,17 +36,17 @@ int main(int argc, char* argv[]) {
     HuskyCompiler compiler(compileTime);
     ErrorListener errorListener;
 
-    AstBase* expr = nullptr;
+    AstBase *expr = nullptr;
     try {
         expr = compiler.compile(exprCode, &errorListener);
         auto type = expr->type();
-        if(type != nullptr) {
+        if (type != nullptr) {
             std::cout << "Inferenced type is: " << type->name() << std::endl;
         } else {
-	    std::cout << "Failed to inference type." << std::endl;
+            std::cout << "Failed to inference type." << std::endl;
         }
-    } catch(compile_error e) {
-	std::cerr << e.what() << std::endl;
+    } catch (compile_error &e) {
+        std::cerr << e.what() << std::endl;
     }
 
     delete expr;

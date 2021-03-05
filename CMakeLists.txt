@@ -6,16 +6,16 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(husky_lang main.cpp
         lang/HuskyCompiler.cpp
         lang/HuskyCompiler.h
-        grammar/HuskyGrammar.cpp
-        grammar/HuskyGrammar.h
-        grammar/HuskyGrammarBaseListener.cpp
-        grammar/HuskyGrammarBaseListener.h
-        grammar/HuskyGrammarBaseVisitor.cpp
-        grammar/HuskyGrammarBaseVisitor.h
-        grammar/HuskyGrammarListener.cpp
-        grammar/HuskyGrammarListener.h
-        grammar/HuskyGrammarVisitor.cpp
-        grammar/HuskyGrammarVisitor.h
+        grammar/HuskyExpr.cpp
+        grammar/HuskyExpr.h
+        grammar/HuskyExprBaseListener.cpp
+        grammar/HuskyExprBaseListener.h
+        grammar/HuskyExprBaseVisitor.cpp
+        grammar/HuskyExprBaseVisitor.h
+        grammar/HuskyExprListener.cpp
+        grammar/HuskyExprListener.h
+        grammar/HuskyExprVisitor.cpp
+        grammar/HuskyExprVisitor.h
         grammar/HuskyDefine.cpp
         grammar/HuskyDefine.h
         grammar/HuskyDefineBaseListener.cpp

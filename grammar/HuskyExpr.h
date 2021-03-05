@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.7.2
+// Generated from grammar/HuskyExpr.g4 by ANTLR 4.8
 
 #pragma once
 
@@ -9,15 +9,16 @@
 
 
 
-class  HuskyGrammar : public antlr4::Parser {
+class  HuskyExpr : public antlr4::Parser {
 public:
   enum {
     DECIMAL_LITERAL = 1, FLOAT_LITERAL = 2, WS = 3, LINE_COMMENT = 4, TYPE = 5, 
     FUNC = 6, VAL = 7, BOOL_LITERAL = 8, IDENTIFIER = 9, LPAREN = 10, RPAREN = 11, 
-    LBRACK = 12, RBRACK = 13, SEMI = 14, COMMA = 15, DOT = 16, GT = 17, 
-    LT = 18, BANG = 19, EQUAL = 20, LE = 21, GE = 22, NOTEQUAL = 23, AND = 24, 
-    OR = 25, ADD = 26, SUB = 27, MUL = 28, DIV = 29, CARET = 30, COLON = 31, 
-    ARRAY_INDEX = 32, ARRAY_SLICE = 33
+    LBRACK = 12, RBRACK = 13, LBRACE = 14, RBRACE = 15, SEMI = 16, COMMA = 17, 
+    DOT = 18, GT = 19, LT = 20, BANG = 21, EQUAL = 22, LE = 23, GE = 24, 
+    NOTEQUAL = 25, AND = 26, OR = 27, ADD = 28, SUB = 29, MUL = 30, DIV = 31, 
+    CARET = 32, COLON = 33, ASSIGN = 34, ARRAY_INDEX = 35, ARRAY_SLICE = 36, 
+    DO = 37, WHILE = 38, FOR = 39, IF = 40, ELSE = 41, RETURN = 42
   };
 
   enum {
@@ -25,8 +26,8 @@ public:
     RuleFloatLiteral = 4, RuleExpression = 5, RulePrimary = 6
   };
 
-  HuskyGrammar(antlr4::TokenStream *input);
-  ~HuskyGrammar();
+  HuskyExpr(antlr4::TokenStream *input);
+  ~HuskyExpr();
 
   virtual std::string getGrammarFileName() const override;
   virtual const antlr4::atn::ATN& getATN() const override { return _atn; };
@@ -174,8 +175,8 @@ public:
   public:
     ToArraySliceContext(ExpressionContext *ctx);
 
-    HuskyGrammar::ExpressionContext *begin = nullptr;
-    HuskyGrammar::ExpressionContext *end = nullptr;
+    HuskyExpr::ExpressionContext *begin = nullptr;
+    HuskyExpr::ExpressionContext *end = nullptr;
     std::vector<ExpressionContext *> expression();
     ExpressionContext* expression(size_t i);
     antlr4::tree::TerminalNode *LBRACK();

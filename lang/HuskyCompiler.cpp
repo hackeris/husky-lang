@@ -6,7 +6,7 @@
 #include "antlr4-runtime.h"
 
 #include "../grammar/HuskyLexer.h"
-#include "../grammar/HuskyGrammar.h"
+#include "../grammar/HuskyExpr.h"
 
 using namespace husky;
 
@@ -126,7 +126,7 @@ void husky::ErrorListener::reportContextSensitivity(Parser *recognizer, const df
 husky::HuskyCompiler::HuskyCompiler(std::shared_ptr<CompileTime> compileTime)
         : _compileTime(std::move(compileTime)) {}
 
-antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyGrammar::ExpressionListContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyExpr::ExpressionListContext *context) {
 
     //  vector of Expression
     std::vector<Expression *> expressions;
@@ -139,7 +139,7 @@ antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyGrammar::Expression
     return expressions;
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyGrammar::MethodCallContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyExpr::MethodCallContext *context) {
 
     auto args = visit(context->expressionList());
     assert(args.is<ArgList>());
@@ -155,35 +155,35 @@ antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyGrammar::MethodCallCont
     return generify(new MethodCall(ident, argList, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToIntegerLiteral(HuskyGrammar::ToIntegerLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToIntegerLiteral(HuskyExpr::ToIntegerLiteralContext *context) {
     return visit(context->integerLiteral());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToFloatLiteral(HuskyGrammar::ToFloatLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToFloatLiteral(HuskyExpr::ToFloatLiteralContext *context) {
     return visit(context->floatLiteral());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToBoolLiteral(HuskyGrammar::ToBoolLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToBoolLiteral(HuskyExpr::ToBoolLiteralContext *context) {
     auto type = _compileTime->findType("Bool");
     bool value = (context->getText() == "true");
     return generify(new BoolLiteral(value, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitIntegerLiteral(HuskyGrammar::IntegerLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitIntegerLiteral(HuskyExpr::IntegerLiteralContext *context) {
     auto type = _compileTime->findType("Integer");
     auto text = context->DECIMAL_LITERAL()->getText();
     auto literal = (int) std::strtol(text.c_str(), nullptr, 10);
     return generify(new IntegerLiteral(literal, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitFloatLiteral(HuskyGrammar::FloatLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitFloatLiteral(HuskyExpr::FloatLiteralContext *context) {
     auto type = _compileTime->findType("Float");
     auto text = context->FLOAT_LITERAL()->getText();
     auto literal = (float) std::strtod(text.c_str(), nullptr);
     return generify(new FloatLiteral(literal, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyExpr::ToUnaryContext *context) {
 
     std::string strOp = context->prefix->getText();
     UnaryExpr::Operation op = parseUnaryOperation(strOp);
@@ -200,23 +200,23 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyGrammar::ToUnaryContext *c
     return generify(new UnaryExpr(op, expr, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToCall(HuskyGrammar::ToCallContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToCall(HuskyExpr::ToCallContext *context) {
     return visit(context->methodCall());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToPrimary(HuskyGrammar::ToPrimaryContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToPrimary(HuskyExpr::ToPrimaryContext *context) {
     return visit(context->primary());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToParen(HuskyGrammar::ToParenContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToParen(HuskyExpr::ToParenContext *context) {
     return visit(context->expression());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToLiteral(HuskyGrammar::ToLiteralContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToLiteral(HuskyExpr::ToLiteralContext *context) {
     return visit(context->literal());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyExpr::ToIdentifierContext *context) {
 
     auto identName = context->IDENTIFIER()->getText();
     auto type = _compileTime->findIdentifier(identName);
@@ -228,7 +228,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyGrammar::ToIdentifier
     return generify(new Identifier(identName, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyExpr::ToBinaryContext *context) {
 
     auto stringOp = context->bop->getText();
     BinaryExpr::Operation op = parseBinaryOperation(stringOp);
@@ -246,7 +246,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyGrammar::ToBinaryContext 
     return generify(new BinaryExpr(op, left, right, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyExpr::ToArrayRefContext *context) {
 
     auto arr = get<Expression>(visit(context->expression(0)));
     auto index = get<Expression>(visit(context->expression(1)));
@@ -262,7 +262,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyGrammar::ToArrayRefCont
     return generify(new ArrayRef(arr, index, returnType));
 }
 
-antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyGrammar::ToArraySliceContext *context) {
+antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyExpr::ToArraySliceContext *context) {
 
     auto arr = get<Expression>(visit(context->expression(0)));
     auto begin = get<Expression>(visit(context->begin));
@@ -281,7 +281,7 @@ antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyGrammar::ToArraySliceContext
     return generify(new ArraySlice(arr, begin, end, returnType));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyGrammar::ToAttrGetContext *context) {
+antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *context) {
 
     auto expr = get<Expression>(visit(context->expression()));
     auto prefixType = expr->type();
@@ -325,7 +325,7 @@ AstBase *HuskyCompiler::compile(const std::string &code, ANTLRErrorListener *err
     ANTLRInputStream input(stream);
     HuskyLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
-    HuskyGrammar parser(&tokens);
+    HuskyExpr parser(&tokens);
 
     parser.addErrorListener(errorListener);
 

@@ -10,8 +10,8 @@
 #include <vector>
 
 #include "antlr4-runtime.h"
-#include "../grammar/HuskyGrammarVisitor.h"
 #include "../grammar/HuskyDefineVisitor.h"
+#include "../grammar/HuskyExprVisitor.h"
 
 namespace husky {
 
@@ -22,6 +22,7 @@ namespace husky {
         explicit Type(std::string name)
                 : _name(std::move(name)) {}
 
+        [[nodiscard]]
         std::string name() const {
             return _name;
         }
@@ -85,6 +86,7 @@ namespace husky {
 
     public:
         template<class T>
+        [[nodiscard]]
         bool is() const {
             return dynamic_cast<const T *>(this) != nullptr;
         }
@@ -134,6 +136,7 @@ namespace husky {
         MethodCall(Identifier *identifier, ArgList args, Type *type) :
                 identifier(identifier), args(std::move(args)), Expression(type) {}
 
+        [[nodiscard]]
         std::vector<Type *> argTypes() const {
             return typesOf(args);
         }
@@ -280,6 +283,7 @@ namespace husky {
     public:
         explicit Value(Type *type) : _type(type) {}
 
+        [[nodiscard]]
         virtual Type *type() const { return _type; }
 
         virtual ~Value() = default;
@@ -331,18 +335,20 @@ namespace husky {
 
     class compile_error : public std::exception {
     public:
-	compile_error(ParserRuleContext* context, const std::string& message) {
-	    line = context->start->getLine();
-	    pos = context->start->getCharPositionInLine();
-            this->message = "error at line " + std::to_string(line) 
-		    + ":" + std::to_string(pos) + ": " + message;
-	}
+        compile_error(ParserRuleContext *context, const std::string &message) {
+            line = context->start->getLine();
+            pos = context->start->getCharPositionInLine();
+            this->message = "error at line " + std::to_string(line)
+                            + ":" + std::to_string(pos) + ": " + message;
+        }
 
-	const char* what() const throw() { return message.c_str(); }
+        [[nodiscard]]
+        const char *what() const throw() { return message.c_str(); }
+
     private:
-	int line;
-	int pos;
-	std::string message;
+        int line;
+        int pos;
+        std::string message;
     };
 
     class CompileTime {
@@ -447,7 +453,7 @@ namespace husky {
 
     class CompileTimeBuilder : public HuskyDefineVisitor {
     public:
-        CompileTimeBuilder(std::shared_ptr<CompileTime> compileTime);
+        explicit CompileTimeBuilder(std::shared_ptr<CompileTime> compileTime);
 
         antlrcpp::Any visitStatements(HuskyDefine::StatementsContext *context) override;
 
@@ -477,44 +483,44 @@ namespace husky {
         std::shared_ptr<CompileTime> _compileTime;
     };
 
-    class HuskyCompiler : public HuskyGrammarVisitor {
+    class HuskyCompiler : public HuskyExprVisitor {
     public:
 
         explicit HuskyCompiler(std::shared_ptr<CompileTime> compileTime);
 
-        antlrcpp::Any visitExpressionList(HuskyGrammar::ExpressionListContext *context) override;
+        antlrcpp::Any visitExpressionList(HuskyExpr::ExpressionListContext *context) override;
 
-        antlrcpp::Any visitMethodCall(HuskyGrammar::MethodCallContext *context) override;
+        antlrcpp::Any visitMethodCall(HuskyExpr::MethodCallContext *context) override;
 
-        antlrcpp::Any visitToIntegerLiteral(HuskyGrammar::ToIntegerLiteralContext *context) override;
+        antlrcpp::Any visitToIntegerLiteral(HuskyExpr::ToIntegerLiteralContext *context) override;
 
-        antlrcpp::Any visitToFloatLiteral(HuskyGrammar::ToFloatLiteralContext *context) override;
+        antlrcpp::Any visitToFloatLiteral(HuskyExpr::ToFloatLiteralContext *context) override;
 
-        antlrcpp::Any visitToBoolLiteral(HuskyGrammar::ToBoolLiteralContext *context) override;
+        antlrcpp::Any visitToBoolLiteral(HuskyExpr::ToBoolLiteralContext *context) override;
 
-        antlrcpp::Any visitIntegerLiteral(HuskyGrammar::IntegerLiteralContext *context) override;
+        antlrcpp::Any visitIntegerLiteral(HuskyExpr::IntegerLiteralContext *context) override;
 
-        antlrcpp::Any visitFloatLiteral(HuskyGrammar::FloatLiteralContext *context) override;
+        antlrcpp::Any visitFloatLiteral(HuskyExpr::FloatLiteralContext *context) override;
 
-        antlrcpp::Any visitToUnary(HuskyGrammar::ToUnaryContext *context) override;
+        antlrcpp::Any visitToUnary(HuskyExpr::ToUnaryContext *context) override;
 
-        antlrcpp::Any visitToCall(HuskyGrammar::ToCallContext *context) override;
+        antlrcpp::Any visitToCall(HuskyExpr::ToCallContext *context) override;
 
-        antlrcpp::Any visitToPrimary(HuskyGrammar::ToPrimaryContext *context) override;
+        antlrcpp::Any visitToPrimary(HuskyExpr::ToPrimaryContext *context) override;
 
-        antlrcpp::Any visitToArrayRef(HuskyGrammar::ToArrayRefContext *context) override;
+        antlrcpp::Any visitToArrayRef(HuskyExpr::ToArrayRefContext *context) override;
 
-        antlrcpp::Any visitToArraySlice(HuskyGrammar::ToArraySliceContext *context) override;
+        antlrcpp::Any visitToArraySlice(HuskyExpr::ToArraySliceContext *context) override;
 
-        antlrcpp::Any visitToBinary(HuskyGrammar::ToBinaryContext *context) override;
+        antlrcpp::Any visitToBinary(HuskyExpr::ToBinaryContext *context) override;
 
-        antlrcpp::Any visitToAttrGet(HuskyGrammar::ToAttrGetContext *context) override;
+        antlrcpp::Any visitToAttrGet(HuskyExpr::ToAttrGetContext *context) override;
 
-        antlrcpp::Any visitToParen(HuskyGrammar::ToParenContext *context) override;
+        antlrcpp::Any visitToParen(HuskyExpr::ToParenContext *context) override;
 
-        antlrcpp::Any visitToLiteral(HuskyGrammar::ToLiteralContext *context) override;
+        antlrcpp::Any visitToLiteral(HuskyExpr::ToLiteralContext *context) override;
 
-        antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) override;
+        antlrcpp::Any visitToIdentifier(HuskyExpr::ToIdentifierContext *context) override;
 
         AstBase *compile(const std::string &code, ANTLRErrorListener *errorListener);
 
@@ -523,7 +529,8 @@ namespace husky {
             return dynamic_cast<U *>(any.template as<AstBase *>());
         }
 
-        AstBase *generify(AstBase *ast) const {
+        inline
+        static AstBase *generify(AstBase *ast) {
             return ast;
         }
 

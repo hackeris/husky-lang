@@ -1,87 +1,87 @@
 
-// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.7.2
+// Generated from grammar/HuskyExpr.g4 by ANTLR 4.8
 
 
-#include "HuskyGrammarListener.h"
-#include "HuskyGrammarVisitor.h"
+#include "HuskyExprListener.h"
+#include "HuskyExprVisitor.h"
 
-#include "HuskyGrammar.h"
+#include "HuskyExpr.h"
 
 
 using namespace antlrcpp;
 using namespace antlr4;
 
-HuskyGrammar::HuskyGrammar(TokenStream *input) : Parser(input) {
+HuskyExpr::HuskyExpr(TokenStream *input) : Parser(input) {
   _interpreter = new atn::ParserATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
 }
 
-HuskyGrammar::~HuskyGrammar() {
+HuskyExpr::~HuskyExpr() {
   delete _interpreter;
 }
 
-std::string HuskyGrammar::getGrammarFileName() const {
-  return "HuskyGrammar.g4";
+std::string HuskyExpr::getGrammarFileName() const {
+  return "HuskyExpr.g4";
 }
 
-const std::vector<std::string>& HuskyGrammar::getRuleNames() const {
+const std::vector<std::string>& HuskyExpr::getRuleNames() const {
   return _ruleNames;
 }
 
-dfa::Vocabulary& HuskyGrammar::getVocabulary() const {
+dfa::Vocabulary& HuskyExpr::getVocabulary() const {
   return _vocabulary;
 }
 
 
 //----------------- ExpressionListContext ------------------------------------------------------------------
 
-HuskyGrammar::ExpressionListContext::ExpressionListContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::ExpressionListContext::ExpressionListContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-std::vector<HuskyGrammar::ExpressionContext *> HuskyGrammar::ExpressionListContext::expression() {
-  return getRuleContexts<HuskyGrammar::ExpressionContext>();
+std::vector<HuskyExpr::ExpressionContext *> HuskyExpr::ExpressionListContext::expression() {
+  return getRuleContexts<HuskyExpr::ExpressionContext>();
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ExpressionListContext::expression(size_t i) {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(i);
+HuskyExpr::ExpressionContext* HuskyExpr::ExpressionListContext::expression(size_t i) {
+  return getRuleContext<HuskyExpr::ExpressionContext>(i);
 }
 
-std::vector<tree::TerminalNode *> HuskyGrammar::ExpressionListContext::COMMA() {
-  return getTokens(HuskyGrammar::COMMA);
+std::vector<tree::TerminalNode *> HuskyExpr::ExpressionListContext::COMMA() {
+  return getTokens(HuskyExpr::COMMA);
 }
 
-tree::TerminalNode* HuskyGrammar::ExpressionListContext::COMMA(size_t i) {
-  return getToken(HuskyGrammar::COMMA, i);
+tree::TerminalNode* HuskyExpr::ExpressionListContext::COMMA(size_t i) {
+  return getToken(HuskyExpr::COMMA, i);
 }
 
 
-size_t HuskyGrammar::ExpressionListContext::getRuleIndex() const {
-  return HuskyGrammar::RuleExpressionList;
+size_t HuskyExpr::ExpressionListContext::getRuleIndex() const {
+  return HuskyExpr::RuleExpressionList;
 }
 
-void HuskyGrammar::ExpressionListContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ExpressionListContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterExpressionList(this);
 }
 
-void HuskyGrammar::ExpressionListContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ExpressionListContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitExpressionList(this);
 }
 
 
-antlrcpp::Any HuskyGrammar::ExpressionListContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ExpressionListContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitExpressionList(this);
   else
     return visitor->visitChildren(this);
 }
 
-HuskyGrammar::ExpressionListContext* HuskyGrammar::expressionList() {
+HuskyExpr::ExpressionListContext* HuskyExpr::expressionList() {
   ExpressionListContext *_localctx = _tracker.createInstance<ExpressionListContext>(_ctx, getState());
-  enterRule(_localctx, 0, HuskyGrammar::RuleExpressionList);
+  enterRule(_localctx, 0, HuskyExpr::RuleExpressionList);
   size_t _la = 0;
 
   auto onExit = finally([=] {
@@ -94,9 +94,9 @@ HuskyGrammar::ExpressionListContext* HuskyGrammar::expressionList() {
     setState(19);
     _errHandler->sync(this);
     _la = _input->LA(1);
-    while (_la == HuskyGrammar::COMMA) {
+    while (_la == HuskyExpr::COMMA) {
       setState(15);
-      match(HuskyGrammar::COMMA);
+      match(HuskyExpr::COMMA);
       setState(16);
       expression(0);
       setState(21);
@@ -116,54 +116,54 @@ HuskyGrammar::ExpressionListContext* HuskyGrammar::expressionList() {
 
 //----------------- MethodCallContext ------------------------------------------------------------------
 
-HuskyGrammar::MethodCallContext::MethodCallContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::MethodCallContext::MethodCallContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* HuskyGrammar::MethodCallContext::IDENTIFIER() {
-  return getToken(HuskyGrammar::IDENTIFIER, 0);
+tree::TerminalNode* HuskyExpr::MethodCallContext::IDENTIFIER() {
+  return getToken(HuskyExpr::IDENTIFIER, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::MethodCallContext::LPAREN() {
-  return getToken(HuskyGrammar::LPAREN, 0);
+tree::TerminalNode* HuskyExpr::MethodCallContext::LPAREN() {
+  return getToken(HuskyExpr::LPAREN, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::MethodCallContext::RPAREN() {
-  return getToken(HuskyGrammar::RPAREN, 0);
+tree::TerminalNode* HuskyExpr::MethodCallContext::RPAREN() {
+  return getToken(HuskyExpr::RPAREN, 0);
 }
 
-HuskyGrammar::ExpressionListContext* HuskyGrammar::MethodCallContext::expressionList() {
-  return getRuleContext<HuskyGrammar::ExpressionListContext>(0);
+HuskyExpr::ExpressionListContext* HuskyExpr::MethodCallContext::expressionList() {
+  return getRuleContext<HuskyExpr::ExpressionListContext>(0);
 }
 
 
-size_t HuskyGrammar::MethodCallContext::getRuleIndex() const {
-  return HuskyGrammar::RuleMethodCall;
+size_t HuskyExpr::MethodCallContext::getRuleIndex() const {
+  return HuskyExpr::RuleMethodCall;
 }
 
-void HuskyGrammar::MethodCallContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::MethodCallContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterMethodCall(this);
 }
 
-void HuskyGrammar::MethodCallContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::MethodCallContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMethodCall(this);
 }
 
 
-antlrcpp::Any HuskyGrammar::MethodCallContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::MethodCallContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitMethodCall(this);
   else
     return visitor->visitChildren(this);
 }
 
-HuskyGrammar::MethodCallContext* HuskyGrammar::methodCall() {
+HuskyExpr::MethodCallContext* HuskyExpr::methodCall() {
   MethodCallContext *_localctx = _tracker.createInstance<MethodCallContext>(_ctx, getState());
-  enterRule(_localctx, 2, HuskyGrammar::RuleMethodCall);
+  enterRule(_localctx, 2, HuskyExpr::RuleMethodCall);
   size_t _la = 0;
 
   auto onExit = finally([=] {
@@ -172,27 +172,27 @@ HuskyGrammar::MethodCallContext* HuskyGrammar::methodCall() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(22);
-    match(HuskyGrammar::IDENTIFIER);
+    match(HuskyExpr::IDENTIFIER);
     setState(23);
-    match(HuskyGrammar::LPAREN);
+    match(HuskyExpr::LPAREN);
     setState(25);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if ((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & ((1ULL << HuskyGrammar::DECIMAL_LITERAL)
-      | (1ULL << HuskyGrammar::FLOAT_LITERAL)
-      | (1ULL << HuskyGrammar::BOOL_LITERAL)
-      | (1ULL << HuskyGrammar::IDENTIFIER)
-      | (1ULL << HuskyGrammar::LPAREN)
-      | (1ULL << HuskyGrammar::BANG)
-      | (1ULL << HuskyGrammar::ADD)
-      | (1ULL << HuskyGrammar::SUB))) != 0)) {
+      ((1ULL << _la) & ((1ULL << HuskyExpr::DECIMAL_LITERAL)
+      | (1ULL << HuskyExpr::FLOAT_LITERAL)
+      | (1ULL << HuskyExpr::BOOL_LITERAL)
+      | (1ULL << HuskyExpr::IDENTIFIER)
+      | (1ULL << HuskyExpr::LPAREN)
+      | (1ULL << HuskyExpr::BANG)
+      | (1ULL << HuskyExpr::ADD)
+      | (1ULL << HuskyExpr::SUB))) != 0)) {
       setState(24);
       expressionList();
     }
     setState(27);
-    match(HuskyGrammar::RPAREN);
+    match(HuskyExpr::RPAREN);
    
   }
   catch (RecognitionException &e) {
@@ -206,97 +206,97 @@ HuskyGrammar::MethodCallContext* HuskyGrammar::methodCall() {
 
 //----------------- LiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::LiteralContext::LiteralContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::LiteralContext::LiteralContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
 
-size_t HuskyGrammar::LiteralContext::getRuleIndex() const {
-  return HuskyGrammar::RuleLiteral;
+size_t HuskyExpr::LiteralContext::getRuleIndex() const {
+  return HuskyExpr::RuleLiteral;
 }
 
-void HuskyGrammar::LiteralContext::copyFrom(LiteralContext *ctx) {
+void HuskyExpr::LiteralContext::copyFrom(LiteralContext *ctx) {
   ParserRuleContext::copyFrom(ctx);
 }
 
 //----------------- ToIntegerLiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::IntegerLiteralContext* HuskyGrammar::ToIntegerLiteralContext::integerLiteral() {
-  return getRuleContext<HuskyGrammar::IntegerLiteralContext>(0);
+HuskyExpr::IntegerLiteralContext* HuskyExpr::ToIntegerLiteralContext::integerLiteral() {
+  return getRuleContext<HuskyExpr::IntegerLiteralContext>(0);
 }
 
-HuskyGrammar::ToIntegerLiteralContext::ToIntegerLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToIntegerLiteralContext::ToIntegerLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToIntegerLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToIntegerLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToIntegerLiteral(this);
 }
-void HuskyGrammar::ToIntegerLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToIntegerLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToIntegerLiteral(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToIntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToIntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToIntegerLiteral(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToFloatLiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::FloatLiteralContext* HuskyGrammar::ToFloatLiteralContext::floatLiteral() {
-  return getRuleContext<HuskyGrammar::FloatLiteralContext>(0);
+HuskyExpr::FloatLiteralContext* HuskyExpr::ToFloatLiteralContext::floatLiteral() {
+  return getRuleContext<HuskyExpr::FloatLiteralContext>(0);
 }
 
-HuskyGrammar::ToFloatLiteralContext::ToFloatLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToFloatLiteralContext::ToFloatLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToFloatLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToFloatLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToFloatLiteral(this);
 }
-void HuskyGrammar::ToFloatLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToFloatLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToFloatLiteral(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToFloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToFloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToFloatLiteral(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToBoolLiteralContext ------------------------------------------------------------------
 
-tree::TerminalNode* HuskyGrammar::ToBoolLiteralContext::BOOL_LITERAL() {
-  return getToken(HuskyGrammar::BOOL_LITERAL, 0);
+tree::TerminalNode* HuskyExpr::ToBoolLiteralContext::BOOL_LITERAL() {
+  return getToken(HuskyExpr::BOOL_LITERAL, 0);
 }
 
-HuskyGrammar::ToBoolLiteralContext::ToBoolLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToBoolLiteralContext::ToBoolLiteralContext(LiteralContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToBoolLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToBoolLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToBoolLiteral(this);
 }
-void HuskyGrammar::ToBoolLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToBoolLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToBoolLiteral(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToBoolLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToBoolLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToBoolLiteral(this);
   else
     return visitor->visitChildren(this);
 }
-HuskyGrammar::LiteralContext* HuskyGrammar::literal() {
+HuskyExpr::LiteralContext* HuskyExpr::literal() {
   LiteralContext *_localctx = _tracker.createInstance<LiteralContext>(_ctx, getState());
-  enterRule(_localctx, 4, HuskyGrammar::RuleLiteral);
+  enterRule(_localctx, 4, HuskyExpr::RuleLiteral);
 
   auto onExit = finally([=] {
     exitRule();
@@ -305,27 +305,27 @@ HuskyGrammar::LiteralContext* HuskyGrammar::literal() {
     setState(32);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case HuskyGrammar::DECIMAL_LITERAL: {
-        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyGrammar::ToIntegerLiteralContext>(_localctx));
+      case HuskyExpr::DECIMAL_LITERAL: {
+        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyExpr::ToIntegerLiteralContext>(_localctx));
         enterOuterAlt(_localctx, 1);
         setState(29);
         integerLiteral();
         break;
       }
 
-      case HuskyGrammar::FLOAT_LITERAL: {
-        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyGrammar::ToFloatLiteralContext>(_localctx));
+      case HuskyExpr::FLOAT_LITERAL: {
+        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyExpr::ToFloatLiteralContext>(_localctx));
         enterOuterAlt(_localctx, 2);
         setState(30);
         floatLiteral();
         break;
       }
 
-      case HuskyGrammar::BOOL_LITERAL: {
-        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyGrammar::ToBoolLiteralContext>(_localctx));
+      case HuskyExpr::BOOL_LITERAL: {
+        _localctx = dynamic_cast<LiteralContext *>(_tracker.createInstance<HuskyExpr::ToBoolLiteralContext>(_localctx));
         enterOuterAlt(_localctx, 3);
         setState(31);
-        match(HuskyGrammar::BOOL_LITERAL);
+        match(HuskyExpr::BOOL_LITERAL);
         break;
       }
 
@@ -345,42 +345,42 @@ HuskyGrammar::LiteralContext* HuskyGrammar::literal() {
 
 //----------------- IntegerLiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::IntegerLiteralContext::IntegerLiteralContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::IntegerLiteralContext::IntegerLiteralContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* HuskyGrammar::IntegerLiteralContext::DECIMAL_LITERAL() {
-  return getToken(HuskyGrammar::DECIMAL_LITERAL, 0);
+tree::TerminalNode* HuskyExpr::IntegerLiteralContext::DECIMAL_LITERAL() {
+  return getToken(HuskyExpr::DECIMAL_LITERAL, 0);
 }
 
 
-size_t HuskyGrammar::IntegerLiteralContext::getRuleIndex() const {
-  return HuskyGrammar::RuleIntegerLiteral;
+size_t HuskyExpr::IntegerLiteralContext::getRuleIndex() const {
+  return HuskyExpr::RuleIntegerLiteral;
 }
 
-void HuskyGrammar::IntegerLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::IntegerLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterIntegerLiteral(this);
 }
 
-void HuskyGrammar::IntegerLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::IntegerLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitIntegerLiteral(this);
 }
 
 
-antlrcpp::Any HuskyGrammar::IntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::IntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitIntegerLiteral(this);
   else
     return visitor->visitChildren(this);
 }
 
-HuskyGrammar::IntegerLiteralContext* HuskyGrammar::integerLiteral() {
+HuskyExpr::IntegerLiteralContext* HuskyExpr::integerLiteral() {
   IntegerLiteralContext *_localctx = _tracker.createInstance<IntegerLiteralContext>(_ctx, getState());
-  enterRule(_localctx, 6, HuskyGrammar::RuleIntegerLiteral);
+  enterRule(_localctx, 6, HuskyExpr::RuleIntegerLiteral);
 
   auto onExit = finally([=] {
     exitRule();
@@ -388,7 +388,7 @@ HuskyGrammar::IntegerLiteralContext* HuskyGrammar::integerLiteral() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(34);
-    match(HuskyGrammar::DECIMAL_LITERAL);
+    match(HuskyExpr::DECIMAL_LITERAL);
    
   }
   catch (RecognitionException &e) {
@@ -402,42 +402,42 @@ HuskyGrammar::IntegerLiteralContext* HuskyGrammar::integerLiteral() {
 
 //----------------- FloatLiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::FloatLiteralContext::FloatLiteralContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::FloatLiteralContext::FloatLiteralContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* HuskyGrammar::FloatLiteralContext::FLOAT_LITERAL() {
-  return getToken(HuskyGrammar::FLOAT_LITERAL, 0);
+tree::TerminalNode* HuskyExpr::FloatLiteralContext::FLOAT_LITERAL() {
+  return getToken(HuskyExpr::FLOAT_LITERAL, 0);
 }
 
 
-size_t HuskyGrammar::FloatLiteralContext::getRuleIndex() const {
-  return HuskyGrammar::RuleFloatLiteral;
+size_t HuskyExpr::FloatLiteralContext::getRuleIndex() const {
+  return HuskyExpr::RuleFloatLiteral;
 }
 
-void HuskyGrammar::FloatLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::FloatLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterFloatLiteral(this);
 }
 
-void HuskyGrammar::FloatLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::FloatLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFloatLiteral(this);
 }
 
 
-antlrcpp::Any HuskyGrammar::FloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::FloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitFloatLiteral(this);
   else
     return visitor->visitChildren(this);
 }
 
-HuskyGrammar::FloatLiteralContext* HuskyGrammar::floatLiteral() {
+HuskyExpr::FloatLiteralContext* HuskyExpr::floatLiteral() {
   FloatLiteralContext *_localctx = _tracker.createInstance<FloatLiteralContext>(_ctx, getState());
-  enterRule(_localctx, 8, HuskyGrammar::RuleFloatLiteral);
+  enterRule(_localctx, 8, HuskyExpr::RuleFloatLiteral);
 
   auto onExit = finally([=] {
     exitRule();
@@ -445,7 +445,7 @@ HuskyGrammar::FloatLiteralContext* HuskyGrammar::floatLiteral() {
   try {
     enterOuterAlt(_localctx, 1);
     setState(36);
-    match(HuskyGrammar::FLOAT_LITERAL);
+    match(HuskyExpr::FLOAT_LITERAL);
    
   }
   catch (RecognitionException &e) {
@@ -459,315 +459,315 @@ HuskyGrammar::FloatLiteralContext* HuskyGrammar::floatLiteral() {
 
 //----------------- ExpressionContext ------------------------------------------------------------------
 
-HuskyGrammar::ExpressionContext::ExpressionContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::ExpressionContext::ExpressionContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
 
-size_t HuskyGrammar::ExpressionContext::getRuleIndex() const {
-  return HuskyGrammar::RuleExpression;
+size_t HuskyExpr::ExpressionContext::getRuleIndex() const {
+  return HuskyExpr::RuleExpression;
 }
 
-void HuskyGrammar::ExpressionContext::copyFrom(ExpressionContext *ctx) {
+void HuskyExpr::ExpressionContext::copyFrom(ExpressionContext *ctx) {
   ParserRuleContext::copyFrom(ctx);
 }
 
 //----------------- ToArraySliceContext ------------------------------------------------------------------
 
-std::vector<HuskyGrammar::ExpressionContext *> HuskyGrammar::ToArraySliceContext::expression() {
-  return getRuleContexts<HuskyGrammar::ExpressionContext>();
+std::vector<HuskyExpr::ExpressionContext *> HuskyExpr::ToArraySliceContext::expression() {
+  return getRuleContexts<HuskyExpr::ExpressionContext>();
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToArraySliceContext::expression(size_t i) {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(i);
+HuskyExpr::ExpressionContext* HuskyExpr::ToArraySliceContext::expression(size_t i) {
+  return getRuleContext<HuskyExpr::ExpressionContext>(i);
 }
 
-tree::TerminalNode* HuskyGrammar::ToArraySliceContext::LBRACK() {
-  return getToken(HuskyGrammar::LBRACK, 0);
+tree::TerminalNode* HuskyExpr::ToArraySliceContext::LBRACK() {
+  return getToken(HuskyExpr::LBRACK, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToArraySliceContext::COLON() {
-  return getToken(HuskyGrammar::COLON, 0);
+tree::TerminalNode* HuskyExpr::ToArraySliceContext::COLON() {
+  return getToken(HuskyExpr::COLON, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToArraySliceContext::RBRACK() {
-  return getToken(HuskyGrammar::RBRACK, 0);
+tree::TerminalNode* HuskyExpr::ToArraySliceContext::RBRACK() {
+  return getToken(HuskyExpr::RBRACK, 0);
 }
 
-HuskyGrammar::ToArraySliceContext::ToArraySliceContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToArraySliceContext::ToArraySliceContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToArraySliceContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToArraySliceContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToArraySlice(this);
 }
-void HuskyGrammar::ToArraySliceContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToArraySliceContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToArraySlice(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToArraySliceContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToArraySliceContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToArraySlice(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToUnaryContext ------------------------------------------------------------------
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToUnaryContext::expression() {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(0);
+HuskyExpr::ExpressionContext* HuskyExpr::ToUnaryContext::expression() {
+  return getRuleContext<HuskyExpr::ExpressionContext>(0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToUnaryContext::ADD() {
-  return getToken(HuskyGrammar::ADD, 0);
+tree::TerminalNode* HuskyExpr::ToUnaryContext::ADD() {
+  return getToken(HuskyExpr::ADD, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToUnaryContext::SUB() {
-  return getToken(HuskyGrammar::SUB, 0);
+tree::TerminalNode* HuskyExpr::ToUnaryContext::SUB() {
+  return getToken(HuskyExpr::SUB, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToUnaryContext::BANG() {
-  return getToken(HuskyGrammar::BANG, 0);
+tree::TerminalNode* HuskyExpr::ToUnaryContext::BANG() {
+  return getToken(HuskyExpr::BANG, 0);
 }
 
-HuskyGrammar::ToUnaryContext::ToUnaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToUnaryContext::ToUnaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToUnaryContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToUnaryContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToUnary(this);
 }
-void HuskyGrammar::ToUnaryContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToUnaryContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToUnary(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToUnaryContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToUnaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToUnary(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToCallContext ------------------------------------------------------------------
 
-HuskyGrammar::MethodCallContext* HuskyGrammar::ToCallContext::methodCall() {
-  return getRuleContext<HuskyGrammar::MethodCallContext>(0);
+HuskyExpr::MethodCallContext* HuskyExpr::ToCallContext::methodCall() {
+  return getRuleContext<HuskyExpr::MethodCallContext>(0);
 }
 
-HuskyGrammar::ToCallContext::ToCallContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToCallContext::ToCallContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToCallContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToCallContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToCall(this);
 }
-void HuskyGrammar::ToCallContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToCallContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToCall(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToCallContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToCallContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToCall(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToArrayRefContext ------------------------------------------------------------------
 
-std::vector<HuskyGrammar::ExpressionContext *> HuskyGrammar::ToArrayRefContext::expression() {
-  return getRuleContexts<HuskyGrammar::ExpressionContext>();
+std::vector<HuskyExpr::ExpressionContext *> HuskyExpr::ToArrayRefContext::expression() {
+  return getRuleContexts<HuskyExpr::ExpressionContext>();
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToArrayRefContext::expression(size_t i) {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(i);
+HuskyExpr::ExpressionContext* HuskyExpr::ToArrayRefContext::expression(size_t i) {
+  return getRuleContext<HuskyExpr::ExpressionContext>(i);
 }
 
-tree::TerminalNode* HuskyGrammar::ToArrayRefContext::LBRACK() {
-  return getToken(HuskyGrammar::LBRACK, 0);
+tree::TerminalNode* HuskyExpr::ToArrayRefContext::LBRACK() {
+  return getToken(HuskyExpr::LBRACK, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToArrayRefContext::RBRACK() {
-  return getToken(HuskyGrammar::RBRACK, 0);
+tree::TerminalNode* HuskyExpr::ToArrayRefContext::RBRACK() {
+  return getToken(HuskyExpr::RBRACK, 0);
 }
 
-HuskyGrammar::ToArrayRefContext::ToArrayRefContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToArrayRefContext::ToArrayRefContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToArrayRefContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToArrayRefContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToArrayRef(this);
 }
-void HuskyGrammar::ToArrayRefContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToArrayRefContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToArrayRef(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToArrayRefContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToArrayRefContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToArrayRef(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToPrimaryContext ------------------------------------------------------------------
 
-HuskyGrammar::PrimaryContext* HuskyGrammar::ToPrimaryContext::primary() {
-  return getRuleContext<HuskyGrammar::PrimaryContext>(0);
+HuskyExpr::PrimaryContext* HuskyExpr::ToPrimaryContext::primary() {
+  return getRuleContext<HuskyExpr::PrimaryContext>(0);
 }
 
-HuskyGrammar::ToPrimaryContext::ToPrimaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToPrimaryContext::ToPrimaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToPrimaryContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToPrimaryContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToPrimary(this);
 }
-void HuskyGrammar::ToPrimaryContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToPrimaryContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToPrimary(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToPrimaryContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToPrimaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToPrimary(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToBinaryContext ------------------------------------------------------------------
 
-std::vector<HuskyGrammar::ExpressionContext *> HuskyGrammar::ToBinaryContext::expression() {
-  return getRuleContexts<HuskyGrammar::ExpressionContext>();
+std::vector<HuskyExpr::ExpressionContext *> HuskyExpr::ToBinaryContext::expression() {
+  return getRuleContexts<HuskyExpr::ExpressionContext>();
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToBinaryContext::expression(size_t i) {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(i);
+HuskyExpr::ExpressionContext* HuskyExpr::ToBinaryContext::expression(size_t i) {
+  return getRuleContext<HuskyExpr::ExpressionContext>(i);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::CARET() {
-  return getToken(HuskyGrammar::CARET, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::CARET() {
+  return getToken(HuskyExpr::CARET, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::MUL() {
-  return getToken(HuskyGrammar::MUL, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::MUL() {
+  return getToken(HuskyExpr::MUL, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::DIV() {
-  return getToken(HuskyGrammar::DIV, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::DIV() {
+  return getToken(HuskyExpr::DIV, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::ADD() {
-  return getToken(HuskyGrammar::ADD, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::ADD() {
+  return getToken(HuskyExpr::ADD, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::SUB() {
-  return getToken(HuskyGrammar::SUB, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::SUB() {
+  return getToken(HuskyExpr::SUB, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::LE() {
-  return getToken(HuskyGrammar::LE, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::LE() {
+  return getToken(HuskyExpr::LE, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::GE() {
-  return getToken(HuskyGrammar::GE, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::GE() {
+  return getToken(HuskyExpr::GE, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::GT() {
-  return getToken(HuskyGrammar::GT, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::GT() {
+  return getToken(HuskyExpr::GT, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::LT() {
-  return getToken(HuskyGrammar::LT, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::LT() {
+  return getToken(HuskyExpr::LT, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::EQUAL() {
-  return getToken(HuskyGrammar::EQUAL, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::EQUAL() {
+  return getToken(HuskyExpr::EQUAL, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::NOTEQUAL() {
-  return getToken(HuskyGrammar::NOTEQUAL, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::NOTEQUAL() {
+  return getToken(HuskyExpr::NOTEQUAL, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::AND() {
-  return getToken(HuskyGrammar::AND, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::AND() {
+  return getToken(HuskyExpr::AND, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToBinaryContext::OR() {
-  return getToken(HuskyGrammar::OR, 0);
+tree::TerminalNode* HuskyExpr::ToBinaryContext::OR() {
+  return getToken(HuskyExpr::OR, 0);
 }
 
-HuskyGrammar::ToBinaryContext::ToBinaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToBinaryContext::ToBinaryContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToBinaryContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToBinaryContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToBinary(this);
 }
-void HuskyGrammar::ToBinaryContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToBinaryContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToBinary(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToBinaryContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToBinaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToBinary(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToAttrGetContext ------------------------------------------------------------------
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToAttrGetContext::expression() {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(0);
+HuskyExpr::ExpressionContext* HuskyExpr::ToAttrGetContext::expression() {
+  return getRuleContext<HuskyExpr::ExpressionContext>(0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToAttrGetContext::DOT() {
-  return getToken(HuskyGrammar::DOT, 0);
+tree::TerminalNode* HuskyExpr::ToAttrGetContext::DOT() {
+  return getToken(HuskyExpr::DOT, 0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToAttrGetContext::IDENTIFIER() {
-  return getToken(HuskyGrammar::IDENTIFIER, 0);
+tree::TerminalNode* HuskyExpr::ToAttrGetContext::IDENTIFIER() {
+  return getToken(HuskyExpr::IDENTIFIER, 0);
 }
 
-HuskyGrammar::MethodCallContext* HuskyGrammar::ToAttrGetContext::methodCall() {
-  return getRuleContext<HuskyGrammar::MethodCallContext>(0);
+HuskyExpr::MethodCallContext* HuskyExpr::ToAttrGetContext::methodCall() {
+  return getRuleContext<HuskyExpr::MethodCallContext>(0);
 }
 
-HuskyGrammar::ToAttrGetContext::ToAttrGetContext(ExpressionContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToAttrGetContext::ToAttrGetContext(ExpressionContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToAttrGetContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToAttrGetContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToAttrGet(this);
 }
-void HuskyGrammar::ToAttrGetContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToAttrGetContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToAttrGet(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToAttrGetContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToAttrGetContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToAttrGet(this);
   else
     return visitor->visitChildren(this);
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::expression() {
+HuskyExpr::ExpressionContext* HuskyExpr::expression() {
    return expression(0);
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
+HuskyExpr::ExpressionContext* HuskyExpr::expression(int precedence) {
   ParserRuleContext *parentContext = _ctx;
   size_t parentState = getState();
-  HuskyGrammar::ExpressionContext *_localctx = _tracker.createInstance<ExpressionContext>(_ctx, parentState);
-  HuskyGrammar::ExpressionContext *previousContext = _localctx;
+  HuskyExpr::ExpressionContext *_localctx = _tracker.createInstance<ExpressionContext>(_ctx, parentState);
+  HuskyExpr::ExpressionContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
   size_t startState = 10;
-  enterRecursionRule(_localctx, 10, HuskyGrammar::RuleExpression, precedence);
+  enterRecursionRule(_localctx, 10, HuskyExpr::RuleExpression, precedence);
 
     size_t _la = 0;
 
@@ -806,9 +806,9 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
       setState(41);
       dynamic_cast<ToUnaryContext *>(_localctx)->prefix = _input->LT(1);
       _la = _input->LA(1);
-      if (!(_la == HuskyGrammar::ADD
+      if (!(_la == HuskyExpr::ADD
 
-      || _la == HuskyGrammar::SUB)) {
+      || _la == HuskyExpr::SUB)) {
         dynamic_cast<ToUnaryContext *>(_localctx)->prefix = _errHandler->recoverInline(this);
       }
       else {
@@ -825,7 +825,7 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
       _ctx = _localctx;
       previousContext = _localctx;
       setState(43);
-      dynamic_cast<ToUnaryContext *>(_localctx)->prefix = match(HuskyGrammar::BANG);
+      dynamic_cast<ToUnaryContext *>(_localctx)->prefix = match(HuskyExpr::BANG);
       setState(44);
       expression(8);
       break;
@@ -852,7 +852,7 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
           setState(48);
-          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyGrammar::CARET);
+          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyExpr::CARET);
           setState(49);
           expression(8);
           break;
@@ -868,9 +868,9 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
           setState(51);
           dynamic_cast<ToBinaryContext *>(_localctx)->bop = _input->LT(1);
           _la = _input->LA(1);
-          if (!(_la == HuskyGrammar::MUL
+          if (!(_la == HuskyExpr::MUL
 
-          || _la == HuskyGrammar::DIV)) {
+          || _la == HuskyExpr::DIV)) {
             dynamic_cast<ToBinaryContext *>(_localctx)->bop = _errHandler->recoverInline(this);
           }
           else {
@@ -892,9 +892,9 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
           setState(54);
           dynamic_cast<ToBinaryContext *>(_localctx)->bop = _input->LT(1);
           _la = _input->LA(1);
-          if (!(_la == HuskyGrammar::ADD
+          if (!(_la == HuskyExpr::ADD
 
-          || _la == HuskyGrammar::SUB)) {
+          || _la == HuskyExpr::SUB)) {
             dynamic_cast<ToBinaryContext *>(_localctx)->bop = _errHandler->recoverInline(this);
           }
           else {
@@ -917,10 +917,10 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
           dynamic_cast<ToBinaryContext *>(_localctx)->bop = _input->LT(1);
           _la = _input->LA(1);
           if (!((((_la & ~ 0x3fULL) == 0) &&
-            ((1ULL << _la) & ((1ULL << HuskyGrammar::GT)
-            | (1ULL << HuskyGrammar::LT)
-            | (1ULL << HuskyGrammar::LE)
-            | (1ULL << HuskyGrammar::GE))) != 0))) {
+            ((1ULL << _la) & ((1ULL << HuskyExpr::GT)
+            | (1ULL << HuskyExpr::LT)
+            | (1ULL << HuskyExpr::LE)
+            | (1ULL << HuskyExpr::GE))) != 0))) {
             dynamic_cast<ToBinaryContext *>(_localctx)->bop = _errHandler->recoverInline(this);
           }
           else {
@@ -942,9 +942,9 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
           setState(60);
           dynamic_cast<ToBinaryContext *>(_localctx)->bop = _input->LT(1);
           _la = _input->LA(1);
-          if (!(_la == HuskyGrammar::EQUAL
+          if (!(_la == HuskyExpr::EQUAL
 
-          || _la == HuskyGrammar::NOTEQUAL)) {
+          || _la == HuskyExpr::NOTEQUAL)) {
             dynamic_cast<ToBinaryContext *>(_localctx)->bop = _errHandler->recoverInline(this);
           }
           else {
@@ -964,7 +964,7 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
           setState(63);
-          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyGrammar::AND);
+          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyExpr::AND);
           setState(64);
           expression(3);
           break;
@@ -978,7 +978,7 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
           setState(66);
-          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyGrammar::OR);
+          dynamic_cast<ToBinaryContext *>(_localctx)->bop = match(HuskyExpr::OR);
           setState(67);
           expression(2);
           break;
@@ -992,13 +992,13 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 13))) throw FailedPredicateException(this, "precpred(_ctx, 13)");
           setState(69);
-          dynamic_cast<ToAttrGetContext *>(_localctx)->dot = match(HuskyGrammar::DOT);
+          dynamic_cast<ToAttrGetContext *>(_localctx)->dot = match(HuskyExpr::DOT);
           setState(72);
           _errHandler->sync(this);
           switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
           case 1: {
             setState(70);
-            match(HuskyGrammar::IDENTIFIER);
+            match(HuskyExpr::IDENTIFIER);
             break;
           }
 
@@ -1020,11 +1020,11 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 12))) throw FailedPredicateException(this, "precpred(_ctx, 12)");
           setState(75);
-          match(HuskyGrammar::LBRACK);
+          match(HuskyExpr::LBRACK);
           setState(76);
           expression(0);
           setState(77);
-          match(HuskyGrammar::RBRACK);
+          match(HuskyExpr::RBRACK);
           break;
         }
 
@@ -1036,15 +1036,15 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
           if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
           setState(80);
-          match(HuskyGrammar::LBRACK);
+          match(HuskyExpr::LBRACK);
           setState(81);
           dynamic_cast<ToArraySliceContext *>(_localctx)->begin = expression(0);
           setState(82);
-          match(HuskyGrammar::COLON);
+          match(HuskyExpr::COLON);
           setState(83);
           dynamic_cast<ToArraySliceContext *>(_localctx)->end = expression(0);
           setState(84);
-          match(HuskyGrammar::RBRACK);
+          match(HuskyExpr::RBRACK);
           break;
         }
 
@@ -1065,105 +1065,105 @@ HuskyGrammar::ExpressionContext* HuskyGrammar::expression(int precedence) {
 
 //----------------- PrimaryContext ------------------------------------------------------------------
 
-HuskyGrammar::PrimaryContext::PrimaryContext(ParserRuleContext *parent, size_t invokingState)
+HuskyExpr::PrimaryContext::PrimaryContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
 }
 
 
-size_t HuskyGrammar::PrimaryContext::getRuleIndex() const {
-  return HuskyGrammar::RulePrimary;
+size_t HuskyExpr::PrimaryContext::getRuleIndex() const {
+  return HuskyExpr::RulePrimary;
 }
 
-void HuskyGrammar::PrimaryContext::copyFrom(PrimaryContext *ctx) {
+void HuskyExpr::PrimaryContext::copyFrom(PrimaryContext *ctx) {
   ParserRuleContext::copyFrom(ctx);
 }
 
 //----------------- ToParenContext ------------------------------------------------------------------
 
-tree::TerminalNode* HuskyGrammar::ToParenContext::LPAREN() {
-  return getToken(HuskyGrammar::LPAREN, 0);
+tree::TerminalNode* HuskyExpr::ToParenContext::LPAREN() {
+  return getToken(HuskyExpr::LPAREN, 0);
 }
 
-HuskyGrammar::ExpressionContext* HuskyGrammar::ToParenContext::expression() {
-  return getRuleContext<HuskyGrammar::ExpressionContext>(0);
+HuskyExpr::ExpressionContext* HuskyExpr::ToParenContext::expression() {
+  return getRuleContext<HuskyExpr::ExpressionContext>(0);
 }
 
-tree::TerminalNode* HuskyGrammar::ToParenContext::RPAREN() {
-  return getToken(HuskyGrammar::RPAREN, 0);
+tree::TerminalNode* HuskyExpr::ToParenContext::RPAREN() {
+  return getToken(HuskyExpr::RPAREN, 0);
 }
 
-HuskyGrammar::ToParenContext::ToParenContext(PrimaryContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToParenContext::ToParenContext(PrimaryContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToParenContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToParenContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToParen(this);
 }
-void HuskyGrammar::ToParenContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToParenContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToParen(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToParenContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToParenContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToParen(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToIdentifierContext ------------------------------------------------------------------
 
-tree::TerminalNode* HuskyGrammar::ToIdentifierContext::IDENTIFIER() {
-  return getToken(HuskyGrammar::IDENTIFIER, 0);
+tree::TerminalNode* HuskyExpr::ToIdentifierContext::IDENTIFIER() {
+  return getToken(HuskyExpr::IDENTIFIER, 0);
 }
 
-HuskyGrammar::ToIdentifierContext::ToIdentifierContext(PrimaryContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToIdentifierContext::ToIdentifierContext(PrimaryContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToIdentifierContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToIdentifierContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToIdentifier(this);
 }
-void HuskyGrammar::ToIdentifierContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToIdentifierContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToIdentifier(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToIdentifierContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToIdentifierContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToIdentifier(this);
   else
     return visitor->visitChildren(this);
 }
 //----------------- ToLiteralContext ------------------------------------------------------------------
 
-HuskyGrammar::LiteralContext* HuskyGrammar::ToLiteralContext::literal() {
-  return getRuleContext<HuskyGrammar::LiteralContext>(0);
+HuskyExpr::LiteralContext* HuskyExpr::ToLiteralContext::literal() {
+  return getRuleContext<HuskyExpr::LiteralContext>(0);
 }
 
-HuskyGrammar::ToLiteralContext::ToLiteralContext(PrimaryContext *ctx) { copyFrom(ctx); }
+HuskyExpr::ToLiteralContext::ToLiteralContext(PrimaryContext *ctx) { copyFrom(ctx); }
 
-void HuskyGrammar::ToLiteralContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToLiteralContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->enterToLiteral(this);
 }
-void HuskyGrammar::ToLiteralContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyGrammarListener *>(listener);
+void HuskyExpr::ToLiteralContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToLiteral(this);
 }
 
-antlrcpp::Any HuskyGrammar::ToLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyGrammarVisitor*>(visitor))
+antlrcpp::Any HuskyExpr::ToLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
     return parserVisitor->visitToLiteral(this);
   else
     return visitor->visitChildren(this);
 }
-HuskyGrammar::PrimaryContext* HuskyGrammar::primary() {
+HuskyExpr::PrimaryContext* HuskyExpr::primary() {
   PrimaryContext *_localctx = _tracker.createInstance<PrimaryContext>(_ctx, getState());
-  enterRule(_localctx, 12, HuskyGrammar::RulePrimary);
+  enterRule(_localctx, 12, HuskyExpr::RulePrimary);
 
   auto onExit = finally([=] {
     exitRule();
@@ -1172,30 +1172,30 @@ HuskyGrammar::PrimaryContext* HuskyGrammar::primary() {
     setState(97);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
-      case HuskyGrammar::IDENTIFIER: {
-        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyGrammar::ToIdentifierContext>(_localctx));
+      case HuskyExpr::IDENTIFIER: {
+        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyExpr::ToIdentifierContext>(_localctx));
         enterOuterAlt(_localctx, 1);
         setState(91);
-        match(HuskyGrammar::IDENTIFIER);
+        match(HuskyExpr::IDENTIFIER);
         break;
       }
 
-      case HuskyGrammar::LPAREN: {
-        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyGrammar::ToParenContext>(_localctx));
+      case HuskyExpr::LPAREN: {
+        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyExpr::ToParenContext>(_localctx));
         enterOuterAlt(_localctx, 2);
         setState(92);
-        match(HuskyGrammar::LPAREN);
+        match(HuskyExpr::LPAREN);
         setState(93);
         expression(0);
         setState(94);
-        match(HuskyGrammar::RPAREN);
+        match(HuskyExpr::RPAREN);
         break;
       }
 
-      case HuskyGrammar::DECIMAL_LITERAL:
-      case HuskyGrammar::FLOAT_LITERAL:
-      case HuskyGrammar::BOOL_LITERAL: {
-        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyGrammar::ToLiteralContext>(_localctx));
+      case HuskyExpr::DECIMAL_LITERAL:
+      case HuskyExpr::FLOAT_LITERAL:
+      case HuskyExpr::BOOL_LITERAL: {
+        _localctx = dynamic_cast<PrimaryContext *>(_tracker.createInstance<HuskyExpr::ToLiteralContext>(_localctx));
         enterOuterAlt(_localctx, 3);
         setState(96);
         literal();
@@ -1216,7 +1216,7 @@ HuskyGrammar::PrimaryContext* HuskyGrammar::primary() {
   return _localctx;
 }
 
-bool HuskyGrammar::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
+bool HuskyExpr::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
     case 5: return expressionSempred(dynamic_cast<ExpressionContext *>(context), predicateIndex);
 
@@ -1226,7 +1226,7 @@ bool HuskyGrammar::sempred(RuleContext *context, size_t ruleIndex, size_t predic
   return true;
 }
 
-bool HuskyGrammar::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
+bool HuskyExpr::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
     case 0: return precpred(_ctx, 7);
     case 1: return precpred(_ctx, 6);
@@ -1246,38 +1246,40 @@ bool HuskyGrammar::expressionSempred(ExpressionContext *_localctx, size_t predic
 }
 
 // Static vars and initialization.
-std::vector<dfa::DFA> HuskyGrammar::_decisionToDFA;
-atn::PredictionContextCache HuskyGrammar::_sharedContextCache;
+std::vector<dfa::DFA> HuskyExpr::_decisionToDFA;
+atn::PredictionContextCache HuskyExpr::_sharedContextCache;
 
 // We own the ATN which in turn owns the ATN states.
-atn::ATN HuskyGrammar::_atn;
-std::vector<uint16_t> HuskyGrammar::_serializedATN;
+atn::ATN HuskyExpr::_atn;
+std::vector<uint16_t> HuskyExpr::_serializedATN;
 
-std::vector<std::string> HuskyGrammar::_ruleNames = {
+std::vector<std::string> HuskyExpr::_ruleNames = {
   "expressionList", "methodCall", "literal", "integerLiteral", "floatLiteral", 
   "expression", "primary"
 };
 
-std::vector<std::string> HuskyGrammar::_literalNames = {
+std::vector<std::string> HuskyExpr::_literalNames = {
   "", "", "", "", "", "'type'", "'func'", "'val'", "", "", "'('", "')'", 
-  "'['", "']'", "';'", "','", "'.'", "'>'", "'<'", "'!'", "'='", "'<='", 
-  "'>='", "'!='", "'&'", "'|'", "'+'", "'-'", "'*'", "'/'", "'^'", "':'", 
-  "'[]'", "'[:]'"
+  "'['", "']'", "'{'", "'}'", "';'", "','", "'.'", "'>'", "'<'", "'!'", 
+  "'='", "'<='", "'>='", "'!='", "'&'", "'|'", "'+'", "'-'", "'*'", "'/'", 
+  "'^'", "':'", "'<-'", "'[]'", "'[:]'", "'do'", "'while'", "'for'", "'if'", 
+  "'else'", "'return'"
 };
 
-std::vector<std::string> HuskyGrammar::_symbolicNames = {
+std::vector<std::string> HuskyExpr::_symbolicNames = {
   "", "DECIMAL_LITERAL", "FLOAT_LITERAL", "WS", "LINE_COMMENT", "TYPE", 
   "FUNC", "VAL", "BOOL_LITERAL", "IDENTIFIER", "LPAREN", "RPAREN", "LBRACK", 
-  "RBRACK", "SEMI", "COMMA", "DOT", "GT", "LT", "BANG", "EQUAL", "LE", "GE", 
-  "NOTEQUAL", "AND", "OR", "ADD", "SUB", "MUL", "DIV", "CARET", "COLON", 
-  "ARRAY_INDEX", "ARRAY_SLICE"
+  "RBRACK", "LBRACE", "RBRACE", "SEMI", "COMMA", "DOT", "GT", "LT", "BANG", 
+  "EQUAL", "LE", "GE", "NOTEQUAL", "AND", "OR", "ADD", "SUB", "MUL", "DIV", 
+  "CARET", "COLON", "ASSIGN", "ARRAY_INDEX", "ARRAY_SLICE", "DO", "WHILE", 
+  "FOR", "IF", "ELSE", "RETURN"
 };
 
-dfa::Vocabulary HuskyGrammar::_vocabulary(_literalNames, _symbolicNames);
+dfa::Vocabulary HuskyExpr::_vocabulary(_literalNames, _symbolicNames);
 
-std::vector<std::string> HuskyGrammar::_tokenNames;
+std::vector<std::string> HuskyExpr::_tokenNames;
 
-HuskyGrammar::Initializer::Initializer() {
+HuskyExpr::Initializer::Initializer() {
 	for (size_t i = 0; i < _symbolicNames.size(); ++i) {
 		std::string name = _vocabulary.getLiteralName(i);
 		if (name.empty()) {
@@ -1293,7 +1295,7 @@ HuskyGrammar::Initializer::Initializer() {
 
   _serializedATN = {
     0x3, 0x608b, 0xa72a, 0x8133, 0xb9ed, 0x417c, 0x3be7, 0x7786, 0x5964, 
-    0x3, 0x23, 0x66, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 0x9, 
+    0x3, 0x2c, 0x66, 0x4, 0x2, 0x9, 0x2, 0x4, 0x3, 0x9, 0x3, 0x4, 0x4, 0x9, 
     0x4, 0x4, 0x5, 0x9, 0x5, 0x4, 0x6, 0x9, 0x6, 0x4, 0x7, 0x9, 0x7, 0x4, 
     0x8, 0x9, 0x8, 0x3, 0x2, 0x3, 0x2, 0x3, 0x2, 0x7, 0x2, 0x14, 0xa, 0x2, 
     0xc, 0x2, 0xe, 0x2, 0x17, 0xb, 0x2, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x5, 
@@ -1309,12 +1311,12 @@ HuskyGrammar::Initializer::Initializer() {
     0x7, 0x59, 0xa, 0x7, 0xc, 0x7, 0xe, 0x7, 0x5c, 0xb, 0x7, 0x3, 0x8, 0x3, 
     0x8, 0x3, 0x8, 0x3, 0x8, 0x3, 0x8, 0x3, 0x8, 0x5, 0x8, 0x64, 0xa, 0x8, 
     0x3, 0x8, 0x2, 0x3, 0xc, 0x9, 0x2, 0x4, 0x6, 0x8, 0xa, 0xc, 0xe, 0x2, 
-    0x6, 0x3, 0x2, 0x1c, 0x1d, 0x3, 0x2, 0x1e, 0x1f, 0x4, 0x2, 0x13, 0x14, 
-    0x17, 0x18, 0x4, 0x2, 0x16, 0x16, 0x19, 0x19, 0x2, 0x72, 0x2, 0x10, 
+    0x6, 0x3, 0x2, 0x1e, 0x1f, 0x3, 0x2, 0x20, 0x21, 0x4, 0x2, 0x15, 0x16, 
+    0x19, 0x1a, 0x4, 0x2, 0x18, 0x18, 0x1b, 0x1b, 0x2, 0x72, 0x2, 0x10, 
     0x3, 0x2, 0x2, 0x2, 0x4, 0x18, 0x3, 0x2, 0x2, 0x2, 0x6, 0x22, 0x3, 0x2, 
     0x2, 0x2, 0x8, 0x24, 0x3, 0x2, 0x2, 0x2, 0xa, 0x26, 0x3, 0x2, 0x2, 0x2, 
     0xc, 0x2f, 0x3, 0x2, 0x2, 0x2, 0xe, 0x63, 0x3, 0x2, 0x2, 0x2, 0x10, 
-    0x15, 0x5, 0xc, 0x7, 0x2, 0x11, 0x12, 0x7, 0x11, 0x2, 0x2, 0x12, 0x14, 
+    0x15, 0x5, 0xc, 0x7, 0x2, 0x11, 0x12, 0x7, 0x13, 0x2, 0x2, 0x12, 0x14, 
     0x5, 0xc, 0x7, 0x2, 0x13, 0x11, 0x3, 0x2, 0x2, 0x2, 0x14, 0x17, 0x3, 
     0x2, 0x2, 0x2, 0x15, 0x13, 0x3, 0x2, 0x2, 0x2, 0x15, 0x16, 0x3, 0x2, 
     0x2, 0x2, 0x16, 0x3, 0x3, 0x2, 0x2, 0x2, 0x17, 0x15, 0x3, 0x2, 0x2, 
@@ -1329,27 +1331,27 @@ HuskyGrammar::Initializer::Initializer() {
     0x27, 0x7, 0x4, 0x2, 0x2, 0x27, 0xb, 0x3, 0x2, 0x2, 0x2, 0x28, 0x29, 
     0x8, 0x7, 0x1, 0x2, 0x29, 0x30, 0x5, 0xe, 0x8, 0x2, 0x2a, 0x30, 0x5, 
     0x4, 0x3, 0x2, 0x2b, 0x2c, 0x9, 0x2, 0x2, 0x2, 0x2c, 0x30, 0x5, 0xc, 
-    0x7, 0xb, 0x2d, 0x2e, 0x7, 0x15, 0x2, 0x2, 0x2e, 0x30, 0x5, 0xc, 0x7, 
+    0x7, 0xb, 0x2d, 0x2e, 0x7, 0x17, 0x2, 0x2, 0x2e, 0x30, 0x5, 0xc, 0x7, 
     0xa, 0x2f, 0x28, 0x3, 0x2, 0x2, 0x2, 0x2f, 0x2a, 0x3, 0x2, 0x2, 0x2, 
     0x2f, 0x2b, 0x3, 0x2, 0x2, 0x2, 0x2f, 0x2d, 0x3, 0x2, 0x2, 0x2, 0x30, 
     0x5a, 0x3, 0x2, 0x2, 0x2, 0x31, 0x32, 0xc, 0x9, 0x2, 0x2, 0x32, 0x33, 
-    0x7, 0x20, 0x2, 0x2, 0x33, 0x59, 0x5, 0xc, 0x7, 0xa, 0x34, 0x35, 0xc, 
+    0x7, 0x22, 0x2, 0x2, 0x33, 0x59, 0x5, 0xc, 0x7, 0xa, 0x34, 0x35, 0xc, 
     0x8, 0x2, 0x2, 0x35, 0x36, 0x9, 0x3, 0x2, 0x2, 0x36, 0x59, 0x5, 0xc, 
     0x7, 0x9, 0x37, 0x38, 0xc, 0x7, 0x2, 0x2, 0x38, 0x39, 0x9, 0x2, 0x2, 
     0x2, 0x39, 0x59, 0x5, 0xc, 0x7, 0x8, 0x3a, 0x3b, 0xc, 0x6, 0x2, 0x2, 
     0x3b, 0x3c, 0x9, 0x4, 0x2, 0x2, 0x3c, 0x59, 0x5, 0xc, 0x7, 0x7, 0x3d, 
     0x3e, 0xc, 0x5, 0x2, 0x2, 0x3e, 0x3f, 0x9, 0x5, 0x2, 0x2, 0x3f, 0x59, 
     0x5, 0xc, 0x7, 0x6, 0x40, 0x41, 0xc, 0x4, 0x2, 0x2, 0x41, 0x42, 0x7, 
-    0x1a, 0x2, 0x2, 0x42, 0x59, 0x5, 0xc, 0x7, 0x5, 0x43, 0x44, 0xc, 0x3, 
-    0x2, 0x2, 0x44, 0x45, 0x7, 0x1b, 0x2, 0x2, 0x45, 0x59, 0x5, 0xc, 0x7, 
-    0x4, 0x46, 0x47, 0xc, 0xf, 0x2, 0x2, 0x47, 0x4a, 0x7, 0x12, 0x2, 0x2, 
+    0x1c, 0x2, 0x2, 0x42, 0x59, 0x5, 0xc, 0x7, 0x5, 0x43, 0x44, 0xc, 0x3, 
+    0x2, 0x2, 0x44, 0x45, 0x7, 0x1d, 0x2, 0x2, 0x45, 0x59, 0x5, 0xc, 0x7, 
+    0x4, 0x46, 0x47, 0xc, 0xf, 0x2, 0x2, 0x47, 0x4a, 0x7, 0x14, 0x2, 0x2, 
     0x48, 0x4b, 0x7, 0xb, 0x2, 0x2, 0x49, 0x4b, 0x5, 0x4, 0x3, 0x2, 0x4a, 
     0x48, 0x3, 0x2, 0x2, 0x2, 0x4a, 0x49, 0x3, 0x2, 0x2, 0x2, 0x4b, 0x59, 
     0x3, 0x2, 0x2, 0x2, 0x4c, 0x4d, 0xc, 0xe, 0x2, 0x2, 0x4d, 0x4e, 0x7, 
     0xe, 0x2, 0x2, 0x4e, 0x4f, 0x5, 0xc, 0x7, 0x2, 0x4f, 0x50, 0x7, 0xf, 
     0x2, 0x2, 0x50, 0x59, 0x3, 0x2, 0x2, 0x2, 0x51, 0x52, 0xc, 0xd, 0x2, 
     0x2, 0x52, 0x53, 0x7, 0xe, 0x2, 0x2, 0x53, 0x54, 0x5, 0xc, 0x7, 0x2, 
-    0x54, 0x55, 0x7, 0x21, 0x2, 0x2, 0x55, 0x56, 0x5, 0xc, 0x7, 0x2, 0x56, 
+    0x54, 0x55, 0x7, 0x23, 0x2, 0x2, 0x55, 0x56, 0x5, 0xc, 0x7, 0x2, 0x56, 
     0x57, 0x7, 0xf, 0x2, 0x2, 0x57, 0x59, 0x3, 0x2, 0x2, 0x2, 0x58, 0x31, 
     0x3, 0x2, 0x2, 0x2, 0x58, 0x34, 0x3, 0x2, 0x2, 0x2, 0x58, 0x37, 0x3, 
     0x2, 0x2, 0x2, 0x58, 0x3a, 0x3, 0x2, 0x2, 0x2, 0x58, 0x3d, 0x3, 0x2, 
@@ -1376,4 +1378,4 @@ HuskyGrammar::Initializer::Initializer() {
   }
 }
 
-HuskyGrammar::Initializer HuskyGrammar::_init;
+HuskyExpr::Initializer HuskyExpr::_init;

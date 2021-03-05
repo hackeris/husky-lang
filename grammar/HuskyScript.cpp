@@ -1,8 +1,9 @@
 
-// Generated from grammar/HuskyScript.g4 by ANTLR 4.7.2
+// Generated from grammar/HuskyScript.g4 by ANTLR 4.8
 
 
 #include "HuskyScriptListener.h"
+#include "HuskyScriptVisitor.h"
 
 #include "HuskyScript.h"
 
@@ -60,6 +61,14 @@ void HuskyScript::LangContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitLang(this);
+}
+
+
+antlrcpp::Any HuskyScript::LangContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitLang(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::LangContext* HuskyScript::lang() {
@@ -134,6 +143,14 @@ void HuskyScript::BasicStatementContext::exitRule(tree::ParseTreeListener *liste
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitBasicStatement(this);
+}
+
+
+antlrcpp::Any HuskyScript::BasicStatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitBasicStatement(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::BasicStatementContext* HuskyScript::basicStatement() {
@@ -232,6 +249,14 @@ void HuskyScript::FunctionDeclarationContext::exitRule(tree::ParseTreeListener *
     parserListener->exitFunctionDeclaration(this);
 }
 
+
+antlrcpp::Any HuskyScript::FunctionDeclarationContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitFunctionDeclaration(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::FunctionDeclarationContext* HuskyScript::functionDeclaration() {
   FunctionDeclarationContext *_localctx = _tracker.createInstance<FunctionDeclarationContext>(_ctx, getState());
   enterRule(_localctx, 4, HuskyScript::RuleFunctionDeclaration);
@@ -310,6 +335,14 @@ void HuskyScript::FormalParameterListContext::exitRule(tree::ParseTreeListener *
     parserListener->exitFormalParameterList(this);
 }
 
+
+antlrcpp::Any HuskyScript::FormalParameterListContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitFormalParameterList(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::FormalParameterListContext* HuskyScript::formalParameterList() {
   FormalParameterListContext *_localctx = _tracker.createInstance<FormalParameterListContext>(_ctx, getState());
   enterRule(_localctx, 6, HuskyScript::RuleFormalParameterList);
@@ -382,6 +415,14 @@ void HuskyScript::StatementContext::exitRule(tree::ParseTreeListener *listener) 
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitStatement(this);
+}
+
+
+antlrcpp::Any HuskyScript::StatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitStatement(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::StatementContext* HuskyScript::statement() {
@@ -483,6 +524,14 @@ void HuskyScript::BlockContext::exitRule(tree::ParseTreeListener *listener) {
     parserListener->exitBlock(this);
 }
 
+
+antlrcpp::Any HuskyScript::BlockContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitBlock(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::BlockContext* HuskyScript::block() {
   BlockContext *_localctx = _tracker.createInstance<BlockContext>(_ctx, getState());
   enterRule(_localctx, 10, HuskyScript::RuleBlock);
@@ -572,6 +621,14 @@ void HuskyScript::WhileStatementContext::exitRule(tree::ParseTreeListener *liste
     parserListener->exitWhileStatement(this);
 }
 
+
+antlrcpp::Any HuskyScript::WhileStatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitWhileStatement(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::WhileStatementContext* HuskyScript::whileStatement() {
   WhileStatementContext *_localctx = _tracker.createInstance<WhileStatementContext>(_ctx, getState());
   enterRule(_localctx, 12, HuskyScript::RuleWhileStatement);
@@ -631,6 +688,14 @@ void HuskyScript::ReturnStatementContext::exitRule(tree::ParseTreeListener *list
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitReturnStatement(this);
+}
+
+
+antlrcpp::Any HuskyScript::ReturnStatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitReturnStatement(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::ReturnStatementContext* HuskyScript::returnStatement() {
@@ -711,6 +776,14 @@ void HuskyScript::IfStatementContext::exitRule(tree::ParseTreeListener *listener
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitIfStatement(this);
+}
+
+
+antlrcpp::Any HuskyScript::IfStatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitIfStatement(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::IfStatementContext* HuskyScript::ifStatement() {
@@ -801,6 +874,14 @@ void HuskyScript::ElseStatementContext::exitRule(tree::ParseTreeListener *listen
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitElseStatement(this);
+}
+
+
+antlrcpp::Any HuskyScript::ElseStatementContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitElseStatement(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::ElseStatementContext* HuskyScript::elseStatement() {
@@ -900,6 +981,14 @@ void HuskyScript::ExpressionListContext::exitRule(tree::ParseTreeListener *liste
     parserListener->exitExpressionList(this);
 }
 
+
+antlrcpp::Any HuskyScript::ExpressionListContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitExpressionList(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::ExpressionListContext* HuskyScript::expressionList() {
   ExpressionListContext *_localctx = _tracker.createInstance<ExpressionListContext>(_ctx, getState());
   enterRule(_localctx, 20, HuskyScript::RuleExpressionList);
@@ -972,6 +1061,14 @@ void HuskyScript::MethodCallContext::exitRule(tree::ParseTreeListener *listener)
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitMethodCall(this);
+}
+
+
+antlrcpp::Any HuskyScript::MethodCallContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitMethodCall(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::MethodCallContext* HuskyScript::methodCall() {
@@ -1050,6 +1147,13 @@ void HuskyScript::ToIntegerLiteralContext::exitRule(tree::ParseTreeListener *lis
   if (parserListener != nullptr)
     parserListener->exitToIntegerLiteral(this);
 }
+
+antlrcpp::Any HuskyScript::ToIntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToIntegerLiteral(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToFloatLiteralContext ------------------------------------------------------------------
 
 HuskyScript::FloatLiteralContext* HuskyScript::ToFloatLiteralContext::floatLiteral() {
@@ -1068,6 +1172,13 @@ void HuskyScript::ToFloatLiteralContext::exitRule(tree::ParseTreeListener *liste
   if (parserListener != nullptr)
     parserListener->exitToFloatLiteral(this);
 }
+
+antlrcpp::Any HuskyScript::ToFloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToFloatLiteral(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToBoolLiteralContext ------------------------------------------------------------------
 
 tree::TerminalNode* HuskyScript::ToBoolLiteralContext::BOOL_LITERAL() {
@@ -1085,6 +1196,13 @@ void HuskyScript::ToBoolLiteralContext::exitRule(tree::ParseTreeListener *listen
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToBoolLiteral(this);
+}
+
+antlrcpp::Any HuskyScript::ToBoolLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToBoolLiteral(this);
+  else
+    return visitor->visitChildren(this);
 }
 HuskyScript::LiteralContext* HuskyScript::literal() {
   LiteralContext *_localctx = _tracker.createInstance<LiteralContext>(_ctx, getState());
@@ -1162,6 +1280,14 @@ void HuskyScript::IntegerLiteralContext::exitRule(tree::ParseTreeListener *liste
     parserListener->exitIntegerLiteral(this);
 }
 
+
+antlrcpp::Any HuskyScript::IntegerLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitIntegerLiteral(this);
+  else
+    return visitor->visitChildren(this);
+}
+
 HuskyScript::IntegerLiteralContext* HuskyScript::integerLiteral() {
   IntegerLiteralContext *_localctx = _tracker.createInstance<IntegerLiteralContext>(_ctx, getState());
   enterRule(_localctx, 26, HuskyScript::RuleIntegerLiteral);
@@ -1209,6 +1335,14 @@ void HuskyScript::FloatLiteralContext::exitRule(tree::ParseTreeListener *listene
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitFloatLiteral(this);
+}
+
+
+antlrcpp::Any HuskyScript::FloatLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitFloatLiteral(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::FloatLiteralContext* HuskyScript::floatLiteral() {
@@ -1282,6 +1416,13 @@ void HuskyScript::ToArraySliceContext::exitRule(tree::ParseTreeListener *listene
   if (parserListener != nullptr)
     parserListener->exitToArraySlice(this);
 }
+
+antlrcpp::Any HuskyScript::ToArraySliceContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToArraySlice(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToAssignContext ------------------------------------------------------------------
 
 std::vector<HuskyScript::ExpressionContext *> HuskyScript::ToAssignContext::expression() {
@@ -1307,6 +1448,13 @@ void HuskyScript::ToAssignContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToAssign(this);
+}
+
+antlrcpp::Any HuskyScript::ToAssignContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToAssign(this);
+  else
+    return visitor->visitChildren(this);
 }
 //----------------- ToUnaryContext ------------------------------------------------------------------
 
@@ -1338,6 +1486,13 @@ void HuskyScript::ToUnaryContext::exitRule(tree::ParseTreeListener *listener) {
   if (parserListener != nullptr)
     parserListener->exitToUnary(this);
 }
+
+antlrcpp::Any HuskyScript::ToUnaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToUnary(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToCallContext ------------------------------------------------------------------
 
 HuskyScript::MethodCallContext* HuskyScript::ToCallContext::methodCall() {
@@ -1355,6 +1510,13 @@ void HuskyScript::ToCallContext::exitRule(tree::ParseTreeListener *listener) {
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToCall(this);
+}
+
+antlrcpp::Any HuskyScript::ToCallContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToCall(this);
+  else
+    return visitor->visitChildren(this);
 }
 //----------------- ToArrayRefContext ------------------------------------------------------------------
 
@@ -1386,6 +1548,13 @@ void HuskyScript::ToArrayRefContext::exitRule(tree::ParseTreeListener *listener)
   if (parserListener != nullptr)
     parserListener->exitToArrayRef(this);
 }
+
+antlrcpp::Any HuskyScript::ToArrayRefContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToArrayRef(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToPrimaryContext ------------------------------------------------------------------
 
 HuskyScript::PrimaryContext* HuskyScript::ToPrimaryContext::primary() {
@@ -1403,6 +1572,13 @@ void HuskyScript::ToPrimaryContext::exitRule(tree::ParseTreeListener *listener) 
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToPrimary(this);
+}
+
+antlrcpp::Any HuskyScript::ToPrimaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToPrimary(this);
+  else
+    return visitor->visitChildren(this);
 }
 //----------------- ToBinaryContext ------------------------------------------------------------------
 
@@ -1478,6 +1654,13 @@ void HuskyScript::ToBinaryContext::exitRule(tree::ParseTreeListener *listener) {
   if (parserListener != nullptr)
     parserListener->exitToBinary(this);
 }
+
+antlrcpp::Any HuskyScript::ToBinaryContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToBinary(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToAttrGetContext ------------------------------------------------------------------
 
 HuskyScript::ExpressionContext* HuskyScript::ToAttrGetContext::expression() {
@@ -1507,6 +1690,13 @@ void HuskyScript::ToAttrGetContext::exitRule(tree::ParseTreeListener *listener) 
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToAttrGet(this);
+}
+
+antlrcpp::Any HuskyScript::ToAttrGetContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToAttrGet(this);
+  else
+    return visitor->visitChildren(this);
 }
 
 HuskyScript::ExpressionContext* HuskyScript::expression() {
@@ -1871,6 +2061,13 @@ void HuskyScript::ToParenContext::exitRule(tree::ParseTreeListener *listener) {
   if (parserListener != nullptr)
     parserListener->exitToParen(this);
 }
+
+antlrcpp::Any HuskyScript::ToParenContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToParen(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToIdentifierContext ------------------------------------------------------------------
 
 tree::TerminalNode* HuskyScript::ToIdentifierContext::IDENTIFIER() {
@@ -1889,6 +2086,13 @@ void HuskyScript::ToIdentifierContext::exitRule(tree::ParseTreeListener *listene
   if (parserListener != nullptr)
     parserListener->exitToIdentifier(this);
 }
+
+antlrcpp::Any HuskyScript::ToIdentifierContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToIdentifier(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ToLiteralContext ------------------------------------------------------------------
 
 HuskyScript::LiteralContext* HuskyScript::ToLiteralContext::literal() {
@@ -1906,6 +2110,13 @@ void HuskyScript::ToLiteralContext::exitRule(tree::ParseTreeListener *listener) 
   auto parserListener = dynamic_cast<HuskyScriptListener *>(listener);
   if (parserListener != nullptr)
     parserListener->exitToLiteral(this);
+}
+
+antlrcpp::Any HuskyScript::ToLiteralContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyScriptVisitor*>(visitor))
+    return parserVisitor->visitToLiteral(this);
+  else
+    return visitor->visitChildren(this);
 }
 HuskyScript::PrimaryContext* HuskyScript::primary() {
   PrimaryContext *_localctx = _tracker.createInstance<PrimaryContext>(_ctx, getState());

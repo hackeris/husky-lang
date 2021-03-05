@@ -1,4 +1,4 @@
-parser grammar HuskyGrammar;
+parser grammar HuskyExpr;
 
 options { tokenVocab=HuskyLexer; }
 

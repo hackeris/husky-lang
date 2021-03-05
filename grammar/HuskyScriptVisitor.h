@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyScript.g4 by ANTLR 4.7.2
+// Generated from grammar/HuskyScript.g4 by ANTLR 4.8
 
 #pragma once
 
@@ -21,9 +21,7 @@ public:
    */
     virtual antlrcpp::Any visitLang(HuskyScript::LangContext *context) = 0;
 
-    virtual antlrcpp::Any visitOuterStatement(HuskyScript::OuterStatementContext *context) = 0;
-
-    virtual antlrcpp::Any visitDeclaration(HuskyScript::DeclarationContext *context) = 0;
+    virtual antlrcpp::Any visitBasicStatement(HuskyScript::BasicStatementContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionDeclaration(HuskyScript::FunctionDeclarationContext *context) = 0;
 
