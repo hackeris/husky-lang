@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.8
+// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.7.2
 
 #pragma once
 
@@ -58,14 +58,14 @@ public:
   virtual void enterToAttrGet(HuskyGrammar::ToAttrGetContext * /*ctx*/) override { }
   virtual void exitToAttrGet(HuskyGrammar::ToAttrGetContext * /*ctx*/) override { }
 
+  virtual void enterToIdentifier(HuskyGrammar::ToIdentifierContext * /*ctx*/) override { }
+  virtual void exitToIdentifier(HuskyGrammar::ToIdentifierContext * /*ctx*/) override { }
+
   virtual void enterToParen(HuskyGrammar::ToParenContext * /*ctx*/) override { }
   virtual void exitToParen(HuskyGrammar::ToParenContext * /*ctx*/) override { }
 
   virtual void enterToLiteral(HuskyGrammar::ToLiteralContext * /*ctx*/) override { }
   virtual void exitToLiteral(HuskyGrammar::ToLiteralContext * /*ctx*/) override { }
-
-  virtual void enterToIdentifier(HuskyGrammar::ToIdentifierContext * /*ctx*/) override { }
-  virtual void exitToIdentifier(HuskyGrammar::ToIdentifierContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

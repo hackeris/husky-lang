@@ -46,7 +46,7 @@ expression
     ;
 
 primary
-    : LPAREN expression RPAREN              #  ToParen
+    : IDENTIFIER                            #  ToIdentifier
+    | LPAREN expression RPAREN              #  ToParen
     | literal                               #  ToLiteral
-    | IDENTIFIER                            #  ToIdentifier
     ;

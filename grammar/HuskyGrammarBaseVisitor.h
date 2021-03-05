@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.8
+// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.7.2
 
 #pragma once
 
@@ -71,15 +71,15 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitToParen(HuskyGrammar::ToParenContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitToLiteral(HuskyGrammar::ToLiteralContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *ctx) override {
     return visitChildren(ctx);
   }
 

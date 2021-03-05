@@ -32,7 +32,7 @@ std::shared_ptr<CompileTime> buildCompileTime(const std::string &hdf) {
                "type Integer;\n"
                "type FloatVector;\n"
                "\n"
-               "func f(Integer, Integer): Integer;\n"
+               "func add(Integer, Integer): Integer;\n"
                "func +(Integer, Integer): Integer;\n"
                "func +(FloatVector, FloatVector): FloatVector;\n"
                "func +(Integer, FloatVector): FloatVector;\n"
@@ -52,7 +52,7 @@ int main() {
     HuskyCompiler compiler(compileTime);
     ErrorListener errorListener;
 
-    std::string formula = "1 + 2 + f(4, 5) + v";
+    std::string formula = "1 + 2 + x + add(4, 5) + v";
     auto expr = compiler.compile(formula, &errorListener);
 
     auto type = expr->type();

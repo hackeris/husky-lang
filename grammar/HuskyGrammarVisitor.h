@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.8
+// Generated from grammar/HuskyGrammar.g4 by ANTLR 4.7.2
 
 #pragma once
 
@@ -47,11 +47,11 @@ public:
 
     virtual antlrcpp::Any visitToAttrGet(HuskyGrammar::ToAttrGetContext *context) = 0;
 
+    virtual antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) = 0;
+
     virtual antlrcpp::Any visitToParen(HuskyGrammar::ToParenContext *context) = 0;
 
     virtual antlrcpp::Any visitToLiteral(HuskyGrammar::ToLiteralContext *context) = 0;
-
-    virtual antlrcpp::Any visitToIdentifier(HuskyGrammar::ToIdentifierContext *context) = 0;
 
 
 };
