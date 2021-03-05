@@ -3,16 +3,12 @@ parser grammar HuskyScript;
 options { tokenVocab=HuskyLexer; }
 
 lang
-    : outerStatement*
+    : basicStatement*
     ;
 
-outerStatement
+basicStatement
     : statement
-    | declaration
-    ;
-
-declaration
-    : functionDeclaration
+    | functionDeclaration
     ;
 
 functionDeclaration

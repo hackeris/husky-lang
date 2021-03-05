@@ -17,11 +17,8 @@ public:
   virtual void enterLang(HuskyScript::LangContext *ctx) = 0;
   virtual void exitLang(HuskyScript::LangContext *ctx) = 0;
 
-  virtual void enterOuterStatement(HuskyScript::OuterStatementContext *ctx) = 0;
-  virtual void exitOuterStatement(HuskyScript::OuterStatementContext *ctx) = 0;
-
-  virtual void enterDeclaration(HuskyScript::DeclarationContext *ctx) = 0;
-  virtual void exitDeclaration(HuskyScript::DeclarationContext *ctx) = 0;
+  virtual void enterBasicStatement(HuskyScript::BasicStatementContext *ctx) = 0;
+  virtual void exitBasicStatement(HuskyScript::BasicStatementContext *ctx) = 0;
 
   virtual void enterFunctionDeclaration(HuskyScript::FunctionDeclarationContext *ctx) = 0;
   virtual void exitFunctionDeclaration(HuskyScript::FunctionDeclarationContext *ctx) = 0;

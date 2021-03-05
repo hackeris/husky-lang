@@ -19,11 +19,8 @@ public:
   virtual void enterLang(HuskyScript::LangContext * /*ctx*/) override { }
   virtual void exitLang(HuskyScript::LangContext * /*ctx*/) override { }
 
-  virtual void enterOuterStatement(HuskyScript::OuterStatementContext * /*ctx*/) override { }
-  virtual void exitOuterStatement(HuskyScript::OuterStatementContext * /*ctx*/) override { }
-
-  virtual void enterDeclaration(HuskyScript::DeclarationContext * /*ctx*/) override { }
-  virtual void exitDeclaration(HuskyScript::DeclarationContext * /*ctx*/) override { }
+  virtual void enterBasicStatement(HuskyScript::BasicStatementContext * /*ctx*/) override { }
+  virtual void exitBasicStatement(HuskyScript::BasicStatementContext * /*ctx*/) override { }
 
   virtual void enterFunctionDeclaration(HuskyScript::FunctionDeclarationContext * /*ctx*/) override { }
   virtual void exitFunctionDeclaration(HuskyScript::FunctionDeclarationContext * /*ctx*/) override { }
