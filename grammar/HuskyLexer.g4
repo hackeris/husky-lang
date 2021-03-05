@@ -57,3 +57,6 @@ MUL:                '*';
 DIV:                '/';
 CARET:              '^';
 COLON:              ':';
+ARRAY_INDEX:        '[]';
+ARRAY_SLICE:        '[:]';
+

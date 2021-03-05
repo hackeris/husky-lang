@@ -16,7 +16,8 @@ public:
     FUNC = 6, VAL = 7, BOOL_LITERAL = 8, IDENTIFIER = 9, LPAREN = 10, RPAREN = 11, 
     LBRACK = 12, RBRACK = 13, SEMI = 14, COMMA = 15, DOT = 16, GT = 17, 
     LT = 18, BANG = 19, EQUAL = 20, LE = 21, GE = 22, NOTEQUAL = 23, AND = 24, 
-    OR = 25, ADD = 26, SUB = 27, MUL = 28, DIV = 29, CARET = 30, COLON = 31
+    OR = 25, ADD = 26, SUB = 27, MUL = 28, DIV = 29, CARET = 30, COLON = 31, 
+    ARRAY_INDEX = 32, ARRAY_SLICE = 33
   };
 
   enum {

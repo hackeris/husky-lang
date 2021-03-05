@@ -5,42 +5,45 @@
 
 using namespace husky;
 
-std::shared_ptr<CompileTime> buildCompileTime(const std::string &hdf) {
+std::string read_file(const std::string& filename) {
+	  std::ifstream infile(filename, std::ios::in | std::ios::binary);
+	    if (infile.is_open()){
+		        return(std::string((std::istreambuf_iterator<char>(infile)), std::istreambuf_iterator<char>()));
+			  }
+	      throw(errno);
+}
+
+std::shared_ptr<CompileTime> buildCompileTime(const std::string &def) {
 
     auto compileTime = std::make_shared<DefaultCompileTime>();
 
     CompileTimeBuilder builder(compileTime);
-    auto def = "type Integer\n"
-               "type Float\n"
-               "type Bool\n"
-               "type Integer\n"
-               "type FloatVector\n"
-               "\n"
-               "func add(Integer, Integer): Integer\n"
-               "func +(Integer, Integer): Integer\n"
-               "func +(FloatVector, FloatVector): FloatVector\n"
-               "func +(Integer, FloatVector): FloatVector\n"
-               "func +(FloatVector, Integer): FloatVector\n"
-               "\n"
-               "val x: Integer\n"
-               "val v: FloatVector";
 
     builder.load(def);
 
     return compileTime;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 
-    auto compileTime = buildCompileTime("");
+    auto defPath = argv[1];
+    auto exprPath = argv[2];
+
+    auto defCode = read_file(defPath);
+    auto exprCode = read_file(exprPath);
+
+    auto compileTime = buildCompileTime(defCode);
     HuskyCompiler compiler(compileTime);
     ErrorListener errorListener;
 
-    std::string formula = "1 + 2 + x + add(4, 5) + v";
-    auto expr = compiler.compile(formula, &errorListener);
+    auto expr = compiler.compile(exprCode, &errorListener);
 
     auto type = expr->type();
-    std::cout << type->name() << std::endl;
+    if(type != nullptr) {
+        std::cout << "Inferenced type is: " << type->name() << std::endl;
+    } else {
+	std::cout << "Failed to inference type." << std::endl;
+    }
 
     delete expr;
 

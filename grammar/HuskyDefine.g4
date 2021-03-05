@@ -35,7 +35,7 @@ funcDefine
 
 memberFuncDefine
     : FUNC typeName=IDENTIFIER
-              DOT (member=IDENTIFIER | bop | uop)
+              DOT (member=IDENTIFIER | bop | uop | ARRAY_INDEX | ARRAY_SLICE)
                 LPAREN args? RPAREN
                   COLON returnType=IDENTIFIER
     ;
