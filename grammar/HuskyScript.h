@@ -22,11 +22,11 @@ public:
   };
 
   enum {
-    RuleLang = 0, RuleBasicStatement = 1, RuleFunctionDeclaration = 2, RuleFormalParameterList = 3, 
-    RuleStatement = 4, RuleBlock = 5, RuleWhileStatement = 6, RuleReturnStatement = 7, 
-    RuleIfStatement = 8, RuleElseStatement = 9, RuleExpressionList = 10, 
-    RuleMethodCall = 11, RuleLiteral = 12, RuleIntegerLiteral = 13, RuleFloatLiteral = 14, 
-    RuleExpression = 15, RulePrimary = 16
+    RuleScript = 0, RuleBasicStatement = 1, RuleFunctionDeclaration = 2, 
+    RuleFormalParameterList = 3, RuleStatement = 4, RuleBlock = 5, RuleWhileStatement = 6, 
+    RuleReturnStatement = 7, RuleIfStatement = 8, RuleElseStatement = 9, 
+    RuleExpressionList = 10, RuleMethodCall = 11, RuleLiteral = 12, RuleIntegerLiteral = 13, 
+    RuleFloatLiteral = 14, RuleExpression = 15, RulePrimary = 16
   };
 
   HuskyScript(antlr4::TokenStream *input);
@@ -39,7 +39,7 @@ public:
   virtual antlr4::dfa::Vocabulary& getVocabulary() const override;
 
 
-  class LangContext;
+  class ScriptContext;
   class BasicStatementContext;
   class FunctionDeclarationContext;
   class FormalParameterListContext;
@@ -57,10 +57,11 @@ public:
   class ExpressionContext;
   class PrimaryContext; 
 
-  class  LangContext : public antlr4::ParserRuleContext {
+  class  ScriptContext : public antlr4::ParserRuleContext {
   public:
-    LangContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    ScriptContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *EOF();
     std::vector<BasicStatementContext *> basicStatement();
     BasicStatementContext* basicStatement(size_t i);
 
@@ -71,7 +72,7 @@ public:
    
   };
 
-  LangContext* lang();
+  ScriptContext* script();
 
   class  BasicStatementContext : public antlr4::ParserRuleContext {
   public:

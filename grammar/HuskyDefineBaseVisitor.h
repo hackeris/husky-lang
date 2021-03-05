@@ -15,11 +15,7 @@
 class  HuskyDefineBaseVisitor : public HuskyDefineVisitor {
 public:
 
-  virtual antlrcpp::Any visitStatements(HuskyDefine::StatementsContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitStatement(HuskyDefine::StatementContext *ctx) override {
+  virtual antlrcpp::Any visitDefineStatements(HuskyDefine::DefineStatementsContext *ctx) override {
     return visitChildren(ctx);
   }
 

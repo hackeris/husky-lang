@@ -471,9 +471,7 @@ namespace husky {
     public:
         explicit CompileTimeBuilder(std::shared_ptr<CompileTime> compileTime);
 
-        antlrcpp::Any visitStatements(HuskyDefine::StatementsContext *context) override;
-
-        antlrcpp::Any visitStatement(HuskyDefine::StatementContext *context) override;
+        antlrcpp::Any visitDefineStatements(HuskyDefine::DefineStatementsContext *context) override;
 
         antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) override;
 
@@ -501,8 +499,13 @@ namespace husky {
 
     class HuskyCompiler : public HuskyExprVisitor {
     public:
-
         explicit HuskyCompiler(std::shared_ptr<CompileTime> compileTime);
+
+        antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *context) override;
+
+        antlrcpp::Any visitAssign(HuskyExpr::AssignContext *context) override;
+
+        antlrcpp::Any visitToExpression(HuskyExpr::ToExpressionContext *context) override;
 
         antlrcpp::Any visitExpressionList(HuskyExpr::ExpressionListContext *context) override;
 
@@ -538,7 +541,7 @@ namespace husky {
 
         antlrcpp::Any visitToLiteral(HuskyExpr::ToLiteralContext *context) override;
 
-        AstBase *compile(const std::string &code, ANTLRErrorListener *errorListener);
+        AstBase *compile(const std::string &code, ErrorListener *errorListener);
 
         template<class U>
         U *get(const antlrcpp::Any &any) {

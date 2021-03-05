@@ -19,9 +19,7 @@ public:
   /**
    * Visit parse trees produced by HuskyDefine.
    */
-    virtual antlrcpp::Any visitStatements(HuskyDefine::StatementsContext *context) = 0;
-
-    virtual antlrcpp::Any visitStatement(HuskyDefine::StatementContext *context) = 0;
+    virtual antlrcpp::Any visitDefineStatements(HuskyDefine::DefineStatementsContext *context) = 0;
 
     virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) = 0;
 

@@ -16,6 +16,12 @@
 class  HuskyExprBaseListener : public HuskyExprListener {
 public:
 
+  virtual void enterToAssign(HuskyExpr::ToAssignContext * /*ctx*/) override { }
+  virtual void exitToAssign(HuskyExpr::ToAssignContext * /*ctx*/) override { }
+
+  virtual void enterToExpression(HuskyExpr::ToExpressionContext * /*ctx*/) override { }
+  virtual void exitToExpression(HuskyExpr::ToExpressionContext * /*ctx*/) override { }
+
   virtual void enterExpressionList(HuskyExpr::ExpressionListContext * /*ctx*/) override { }
   virtual void exitExpressionList(HuskyExpr::ExpressionListContext * /*ctx*/) override { }
 
@@ -57,6 +63,9 @@ public:
 
   virtual void enterToAttrGet(HuskyExpr::ToAttrGetContext * /*ctx*/) override { }
   virtual void exitToAttrGet(HuskyExpr::ToAttrGetContext * /*ctx*/) override { }
+
+  virtual void enterAssign(HuskyExpr::AssignContext * /*ctx*/) override { }
+  virtual void exitAssign(HuskyExpr::AssignContext * /*ctx*/) override { }
 
   virtual void enterToIdentifier(HuskyExpr::ToIdentifierContext * /*ctx*/) override { }
   virtual void exitToIdentifier(HuskyExpr::ToIdentifierContext * /*ctx*/) override { }

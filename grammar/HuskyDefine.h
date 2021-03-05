@@ -22,9 +22,9 @@ public:
   };
 
   enum {
-    RuleStatements = 0, RuleStatement = 1, RuleArgs = 2, RuleBop = 3, RuleUop = 4, 
-    RuleDefineStatement = 5, RuleTypeDefine = 6, RuleFuncDefine = 7, RuleMemberFuncDefine = 8, 
-    RuleValueDefine = 9, RuleMemberValueDefine = 10
+    RuleDefineStatements = 0, RuleArgs = 1, RuleBop = 2, RuleUop = 3, RuleDefineStatement = 4, 
+    RuleTypeDefine = 5, RuleFuncDefine = 6, RuleMemberFuncDefine = 7, RuleValueDefine = 8, 
+    RuleMemberValueDefine = 9
   };
 
   HuskyDefine(antlr4::TokenStream *input);
@@ -37,8 +37,7 @@ public:
   virtual antlr4::dfa::Vocabulary& getVocabulary() const override;
 
 
-  class StatementsContext;
-  class StatementContext;
+  class DefineStatementsContext;
   class ArgsContext;
   class BopContext;
   class UopContext;
@@ -49,12 +48,13 @@ public:
   class ValueDefineContext;
   class MemberValueDefineContext; 
 
-  class  StatementsContext : public antlr4::ParserRuleContext {
+  class  DefineStatementsContext : public antlr4::ParserRuleContext {
   public:
-    StatementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    DefineStatementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<StatementContext *> statement();
-    StatementContext* statement(size_t i);
+    antlr4::tree::TerminalNode *EOF();
+    std::vector<DefineStatementContext *> defineStatement();
+    DefineStatementContext* defineStatement(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -63,22 +63,7 @@ public:
    
   };
 
-  StatementsContext* statements();
-
-  class  StatementContext : public antlr4::ParserRuleContext {
-  public:
-    StatementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    DefineStatementContext *defineStatement();
-
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  StatementContext* statement();
+  DefineStatementsContext* defineStatements();
 
   class  ArgsContext : public antlr4::ParserRuleContext {
   public:

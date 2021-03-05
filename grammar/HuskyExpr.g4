@@ -2,6 +2,10 @@ parser grammar HuskyExpr;
 
 options { tokenVocab=HuskyLexer; }
 
+huskyExpr
+    : assign SEMI huskyExpr              # ToAssign
+    | expression EOF                # ToExpression
+    ;
 
 expressionList
     : expression (COMMA expression)*
@@ -32,7 +36,7 @@ expression
     | expression LBRACK expression RBRACK       # ToArrayRef
     | expression
       LBRACK begin=expression
-      COLON end=expression RBRACK                   # ToArraySlice
+        COLON end=expression RBRACK               # ToArraySlice
     | methodCall                                # ToCall
     | prefix=(ADD|SUB) expression               # ToUnary
     | prefix=BANG expression                    # ToUnary
@@ -43,6 +47,10 @@ expression
     | expression bop=(EQUAL | NOTEQUAL) expression  # ToBinary
     | expression bop=AND expression                 # ToBinary
     | expression bop=OR expression                  # ToBinary
+    ;
+
+assign
+    : IDENTIFIER bop=ASSIGN expression
     ;
 
 primary

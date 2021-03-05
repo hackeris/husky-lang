@@ -14,11 +14,8 @@
 class  HuskyDefineListener : public antlr4::tree::ParseTreeListener {
 public:
 
-  virtual void enterStatements(HuskyDefine::StatementsContext *ctx) = 0;
-  virtual void exitStatements(HuskyDefine::StatementsContext *ctx) = 0;
-
-  virtual void enterStatement(HuskyDefine::StatementContext *ctx) = 0;
-  virtual void exitStatement(HuskyDefine::StatementContext *ctx) = 0;
+  virtual void enterDefineStatements(HuskyDefine::DefineStatementsContext *ctx) = 0;
+  virtual void exitDefineStatements(HuskyDefine::DefineStatementsContext *ctx) = 0;
 
   virtual void enterArgs(HuskyDefine::ArgsContext *ctx) = 0;
   virtual void exitArgs(HuskyDefine::ArgsContext *ctx) = 0;

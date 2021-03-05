@@ -16,11 +16,8 @@
 class  HuskyDefineBaseListener : public HuskyDefineListener {
 public:
 
-  virtual void enterStatements(HuskyDefine::StatementsContext * /*ctx*/) override { }
-  virtual void exitStatements(HuskyDefine::StatementsContext * /*ctx*/) override { }
-
-  virtual void enterStatement(HuskyDefine::StatementContext * /*ctx*/) override { }
-  virtual void exitStatement(HuskyDefine::StatementContext * /*ctx*/) override { }
+  virtual void enterDefineStatements(HuskyDefine::DefineStatementsContext * /*ctx*/) override { }
+  virtual void exitDefineStatements(HuskyDefine::DefineStatementsContext * /*ctx*/) override { }
 
   virtual void enterArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }
   virtual void exitArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }

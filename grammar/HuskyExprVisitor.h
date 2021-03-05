@@ -19,6 +19,10 @@ public:
   /**
    * Visit parse trees produced by HuskyExpr.
    */
+    virtual antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *context) = 0;
+
+    virtual antlrcpp::Any visitToExpression(HuskyExpr::ToExpressionContext *context) = 0;
+
     virtual antlrcpp::Any visitExpressionList(HuskyExpr::ExpressionListContext *context) = 0;
 
     virtual antlrcpp::Any visitMethodCall(HuskyExpr::MethodCallContext *context) = 0;
@@ -46,6 +50,8 @@ public:
     virtual antlrcpp::Any visitToBinary(HuskyExpr::ToBinaryContext *context) = 0;
 
     virtual antlrcpp::Any visitToAttrGet(HuskyExpr::ToAttrGetContext *context) = 0;
+
+    virtual antlrcpp::Any visitAssign(HuskyExpr::AssignContext *context) = 0;
 
     virtual antlrcpp::Any visitToIdentifier(HuskyExpr::ToIdentifierContext *context) = 0;
 

@@ -19,7 +19,7 @@ public:
   /**
    * Visit parse trees produced by HuskyScript.
    */
-    virtual antlrcpp::Any visitLang(HuskyScript::LangContext *context) = 0;
+    virtual antlrcpp::Any visitScript(HuskyScript::ScriptContext *context) = 0;
 
     virtual antlrcpp::Any visitBasicStatement(HuskyScript::BasicStatementContext *context) = 0;
 

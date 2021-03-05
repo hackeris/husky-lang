@@ -14,8 +14,8 @@
 class  HuskyScriptListener : public antlr4::tree::ParseTreeListener {
 public:
 
-  virtual void enterLang(HuskyScript::LangContext *ctx) = 0;
-  virtual void exitLang(HuskyScript::LangContext *ctx) = 0;
+  virtual void enterScript(HuskyScript::ScriptContext *ctx) = 0;
+  virtual void exitScript(HuskyScript::ScriptContext *ctx) = 0;
 
   virtual void enterBasicStatement(HuskyScript::BasicStatementContext *ctx) = 0;
   virtual void exitBasicStatement(HuskyScript::BasicStatementContext *ctx) = 0;

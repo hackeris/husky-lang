@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     AstBase *expr = nullptr;
     try {
         expr = compiler.compile(exprCode, &errorListener);
-        auto type = expr->type();
+        auto type = (expr != nullptr) ? expr->type() : nullptr;
         if (type != nullptr && !errorListener.hasError()) {
             std::cout << "Inferenced type is: " << type->name() << std::endl;
         } else {

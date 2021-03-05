@@ -2,8 +2,8 @@ parser grammar HuskyScript;
 
 options { tokenVocab=HuskyLexer; }
 
-lang
-    : basicStatement*
+script
+    : basicStatement* EOF
     ;
 
 basicStatement

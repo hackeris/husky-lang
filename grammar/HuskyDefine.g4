@@ -2,12 +2,8 @@ parser grammar HuskyDefine;
 
 options { tokenVocab=HuskyLexer; }
 
-statements
-    : (statement)*
-    ;
-
-statement
-    : defineStatement
+defineStatements
+    : (defineStatement)* EOF
     ;
 
 args: IDENTIFIER (COMMA IDENTIFIER)*;

@@ -22,8 +22,9 @@ public:
   };
 
   enum {
-    RuleExpressionList = 0, RuleMethodCall = 1, RuleLiteral = 2, RuleIntegerLiteral = 3, 
-    RuleFloatLiteral = 4, RuleExpression = 5, RulePrimary = 6
+    RuleHuskyExpr = 0, RuleExpressionList = 1, RuleMethodCall = 2, RuleLiteral = 3, 
+    RuleIntegerLiteral = 4, RuleFloatLiteral = 5, RuleExpression = 6, RuleAssign = 7, 
+    RulePrimary = 8
   };
 
   HuskyExpr(antlr4::TokenStream *input);
@@ -36,13 +37,55 @@ public:
   virtual antlr4::dfa::Vocabulary& getVocabulary() const override;
 
 
+  class HuskyExprContext;
   class ExpressionListContext;
   class MethodCallContext;
   class LiteralContext;
   class IntegerLiteralContext;
   class FloatLiteralContext;
   class ExpressionContext;
+  class AssignContext;
   class PrimaryContext; 
+
+  class  HuskyExprContext : public antlr4::ParserRuleContext {
+  public:
+    HuskyExprContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+   
+    HuskyExprContext() = default;
+    void copyFrom(HuskyExprContext *context);
+    using antlr4::ParserRuleContext::copyFrom;
+
+    virtual size_t getRuleIndex() const override;
+
+   
+  };
+
+  class  ToAssignContext : public HuskyExprContext {
+  public:
+    ToAssignContext(HuskyExprContext *ctx);
+
+    AssignContext *assign();
+    antlr4::tree::TerminalNode *SEMI();
+    HuskyExprContext *huskyExpr();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  ToExpressionContext : public HuskyExprContext {
+  public:
+    ToExpressionContext(HuskyExprContext *ctx);
+
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *EOF();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  HuskyExprContext* huskyExpr();
 
   class  ExpressionListContext : public antlr4::ParserRuleContext {
   public:
@@ -282,6 +325,24 @@ public:
 
   ExpressionContext* expression();
   ExpressionContext* expression(int precedence);
+  class  AssignContext : public antlr4::ParserRuleContext {
+  public:
+    antlr4::Token *bop = nullptr;;
+    AssignContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IDENTIFIER();
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *ASSIGN();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssignContext* assign();
+
   class  PrimaryContext : public antlr4::ParserRuleContext {
   public:
     PrimaryContext(antlr4::ParserRuleContext *parent, size_t invokingState);

@@ -16,8 +16,8 @@
 class  HuskyScriptBaseListener : public HuskyScriptListener {
 public:
 
-  virtual void enterLang(HuskyScript::LangContext * /*ctx*/) override { }
-  virtual void exitLang(HuskyScript::LangContext * /*ctx*/) override { }
+  virtual void enterScript(HuskyScript::ScriptContext * /*ctx*/) override { }
+  virtual void exitScript(HuskyScript::ScriptContext * /*ctx*/) override { }
 
   virtual void enterBasicStatement(HuskyScript::BasicStatementContext * /*ctx*/) override { }
   virtual void exitBasicStatement(HuskyScript::BasicStatementContext * /*ctx*/) override { }

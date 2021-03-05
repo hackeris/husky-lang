@@ -15,7 +15,7 @@
 class  HuskyScriptBaseVisitor : public HuskyScriptVisitor {
 public:
 
-  virtual antlrcpp::Any visitLang(HuskyScript::LangContext *ctx) override {
+  virtual antlrcpp::Any visitScript(HuskyScript::ScriptContext *ctx) override {
     return visitChildren(ctx);
   }
 

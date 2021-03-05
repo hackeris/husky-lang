@@ -15,6 +15,14 @@
 class  HuskyExprBaseVisitor : public HuskyExprVisitor {
 public:
 
+  virtual antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitToExpression(HuskyExpr::ToExpressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitExpressionList(HuskyExpr::ExpressionListContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -68,6 +76,10 @@ public:
   }
 
   virtual antlrcpp::Any visitToAttrGet(HuskyExpr::ToAttrGetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAssign(HuskyExpr::AssignContext *ctx) override {
     return visitChildren(ctx);
   }
 
