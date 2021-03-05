@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyDefine.g4 by ANTLR 4.8
+// Generated from grammar/HuskyDefine.g4 by ANTLR 4.7.2
 
 #pragma once
 
@@ -68,7 +68,6 @@ public:
     StatementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     DefineStatementContext *defineStatement();
-    antlr4::tree::TerminalNode *SEMI();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

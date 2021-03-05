@@ -7,7 +7,7 @@ statements
     ;
 
 statement
-    : defineStatement SEMI
+    : defineStatement
     ;
 
 args: IDENTIFIER (COMMA IDENTIFIER)*;
