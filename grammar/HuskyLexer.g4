@@ -38,6 +38,8 @@ LPAREN:             '(';
 RPAREN:             ')';
 LBRACK:             '[';
 RBRACK:             ']';
+LBRACE:		    '{';
+RBRACE:		    '}';
 SEMI:               ';';
 COMMA:              ',';
 DOT:                '.';
@@ -57,6 +59,15 @@ MUL:                '*';
 DIV:                '/';
 CARET:              '^';
 COLON:              ':';
+ASSIGN:             '<-';
 ARRAY_INDEX:        '[]';
 ARRAY_SLICE:        '[:]';
+
+DO:		    'do';
+WHILE:		    'while';
+FOR:		    'for';
+IF:		    'if';
+ELSE:		    'else';
+RETURN:		    'return';
+
 
