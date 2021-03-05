@@ -16,7 +16,7 @@ public:
     BOOL_LITERAL = 6, LPAREN = 7, RPAREN = 8, LBRACK = 9, RBRACK = 10, SEMI = 11, 
     COMMA = 12, DOT = 13, GT = 14, LT = 15, BANG = 16, EQUAL = 17, LE = 18, 
     GE = 19, NOTEQUAL = 20, AND = 21, OR = 22, ADD = 23, SUB = 24, MUL = 25, 
-    DIV = 26, CARET = 27
+    DIV = 26, CARET = 27, COLON = 28
   };
 
   enum {
@@ -167,6 +167,23 @@ public:
     virtual size_t getRuleIndex() const override;
 
    
+  };
+
+  class  ToArraySliceContext : public ExpressionContext {
+  public:
+    ToArraySliceContext(ExpressionContext *ctx);
+
+    HuskyGrammar::ExpressionContext *begin = nullptr;
+    HuskyGrammar::ExpressionContext *end = nullptr;
+    std::vector<ExpressionContext *> expression();
+    ExpressionContext* expression(size_t i);
+    antlr4::tree::TerminalNode *LBRACK();
+    antlr4::tree::TerminalNode *COLON();
+    antlr4::tree::TerminalNode *RBRACK();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
   class  ToUnaryContext : public ExpressionContext {

@@ -33,6 +33,8 @@ public:
 
     virtual antlrcpp::Any visitFloatLiteral(HuskyGrammar::FloatLiteralContext *context) = 0;
 
+    virtual antlrcpp::Any visitToArraySlice(HuskyGrammar::ToArraySliceContext *context) = 0;
+
     virtual antlrcpp::Any visitToUnary(HuskyGrammar::ToUnaryContext *context) = 0;
 
     virtual antlrcpp::Any visitToCall(HuskyGrammar::ToCallContext *context) = 0;

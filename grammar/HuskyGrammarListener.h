@@ -35,6 +35,9 @@ public:
   virtual void enterFloatLiteral(HuskyGrammar::FloatLiteralContext *ctx) = 0;
   virtual void exitFloatLiteral(HuskyGrammar::FloatLiteralContext *ctx) = 0;
 
+  virtual void enterToArraySlice(HuskyGrammar::ToArraySliceContext *ctx) = 0;
+  virtual void exitToArraySlice(HuskyGrammar::ToArraySliceContext *ctx) = 0;
+
   virtual void enterToUnary(HuskyGrammar::ToUnaryContext *ctx) = 0;
   virtual void exitToUnary(HuskyGrammar::ToUnaryContext *ctx) = 0;
 

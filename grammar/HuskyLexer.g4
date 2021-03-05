@@ -29,6 +29,11 @@ BOOL_LITERAL:       'true'
             |       'false'
             ;
 
+TYPE:               'type';
+FUNC:               'func';
+VAL:                'val';
+
+
 // Separators
 LPAREN:             '(';
 RPAREN:             ')';
@@ -52,3 +57,4 @@ SUB:                '-';
 MUL:                '*';
 DIV:                '/';
 CARET:              '^';
+COLON:              ':';

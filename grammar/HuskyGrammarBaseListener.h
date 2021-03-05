@@ -37,6 +37,9 @@ public:
   virtual void enterFloatLiteral(HuskyGrammar::FloatLiteralContext * /*ctx*/) override { }
   virtual void exitFloatLiteral(HuskyGrammar::FloatLiteralContext * /*ctx*/) override { }
 
+  virtual void enterToArraySlice(HuskyGrammar::ToArraySliceContext * /*ctx*/) override { }
+  virtual void exitToArraySlice(HuskyGrammar::ToArraySliceContext * /*ctx*/) override { }
+
   virtual void enterToUnary(HuskyGrammar::ToUnaryContext * /*ctx*/) override { }
   virtual void exitToUnary(HuskyGrammar::ToUnaryContext * /*ctx*/) override { }
 

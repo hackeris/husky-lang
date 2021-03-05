@@ -30,6 +30,9 @@ expression
     | expression dot=DOT
       ( IDENTIFIER | methodCall )               # ToAttrGet
     | expression LBRACK expression RBRACK       # ToArrayRef
+    | expression
+      LBRACK begin=expression
+      COLON end=expression RBRACK                   # ToArraySlice
     | methodCall                                # ToCall
     | prefix=(ADD|SUB) expression               # ToUnary
     | prefix=BANG expression                    # ToUnary

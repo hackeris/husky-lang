@@ -43,6 +43,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitToArraySlice(HuskyGrammar::ToArraySliceContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitToUnary(HuskyGrammar::ToUnaryContext *ctx) override {
     return visitChildren(ctx);
   }

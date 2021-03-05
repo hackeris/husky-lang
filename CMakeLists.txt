@@ -16,6 +16,16 @@ add_executable(husky_lang main.cpp
         grammar/HuskyGrammarListener.h
         grammar/HuskyGrammarVisitor.cpp
         grammar/HuskyGrammarVisitor.h
+        grammar/HuskyDefine.cpp
+        grammar/HuskyDefine.h
+        grammar/HuskyDefineBaseListener.cpp
+        grammar/HuskyDefineBaseListener.h
+        grammar/HuskyDefineBaseVisitor.cpp
+        grammar/HuskyDefineBaseVisitor.h
+        grammar/HuskyDefineListener.cpp
+        grammar/HuskyDefineListener.h
+        grammar/HuskyDefineVisitor.cpp
+        grammar/HuskyDefineVisitor.h
         grammar/HuskyLexer.cpp
         grammar/HuskyLexer.h)
 
