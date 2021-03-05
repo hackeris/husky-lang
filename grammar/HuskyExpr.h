@@ -13,12 +13,12 @@ class  HuskyExpr : public antlr4::Parser {
 public:
   enum {
     DECIMAL_LITERAL = 1, FLOAT_LITERAL = 2, WS = 3, LINE_COMMENT = 4, TYPE = 5, 
-    FUNC = 6, VAL = 7, BOOL_LITERAL = 8, IDENTIFIER = 9, LPAREN = 10, RPAREN = 11, 
-    LBRACK = 12, RBRACK = 13, LBRACE = 14, RBRACE = 15, SEMI = 16, COMMA = 17, 
-    DOT = 18, GT = 19, LT = 20, BANG = 21, EQUAL = 22, LE = 23, GE = 24, 
-    NOTEQUAL = 25, AND = 26, OR = 27, ADD = 28, SUB = 29, MUL = 30, DIV = 31, 
-    CARET = 32, COLON = 33, ASSIGN = 34, ARRAY_INDEX = 35, ARRAY_SLICE = 36, 
-    DO = 37, WHILE = 38, FOR = 39, IF = 40, ELSE = 41, RETURN = 42
+    FUNC = 6, VAL = 7, DO = 8, WHILE = 9, FOR = 10, IF = 11, ELSE = 12, 
+    RETURN = 13, BOOL_LITERAL = 14, IDENTIFIER = 15, LPAREN = 16, RPAREN = 17, 
+    LBRACK = 18, RBRACK = 19, LBRACE = 20, RBRACE = 21, SEMI = 22, COMMA = 23, 
+    DOT = 24, GT = 25, LT = 26, BANG = 27, EQUAL = 28, LE = 29, GE = 30, 
+    NOTEQUAL = 31, AND = 32, OR = 33, ADD = 34, SUB = 35, MUL = 36, DIV = 37, 
+    CARET = 38, COLON = 39, ASSIGN = 40, ARRAY_INDEX = 41, ARRAY_SLICE = 42
   };
 
   enum {

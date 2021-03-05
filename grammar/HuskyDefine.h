@@ -1,5 +1,5 @@
 
-// Generated from grammar/HuskyDefine.g4 by ANTLR 4.7.2
+// Generated from grammar/HuskyDefine.g4 by ANTLR 4.8
 
 #pragma once
 
@@ -13,11 +13,12 @@ class  HuskyDefine : public antlr4::Parser {
 public:
   enum {
     DECIMAL_LITERAL = 1, FLOAT_LITERAL = 2, WS = 3, LINE_COMMENT = 4, TYPE = 5, 
-    FUNC = 6, VAL = 7, BOOL_LITERAL = 8, IDENTIFIER = 9, LPAREN = 10, RPAREN = 11, 
-    LBRACK = 12, RBRACK = 13, SEMI = 14, COMMA = 15, DOT = 16, GT = 17, 
-    LT = 18, BANG = 19, EQUAL = 20, LE = 21, GE = 22, NOTEQUAL = 23, AND = 24, 
-    OR = 25, ADD = 26, SUB = 27, MUL = 28, DIV = 29, CARET = 30, COLON = 31, 
-    ARRAY_INDEX = 32, ARRAY_SLICE = 33
+    FUNC = 6, VAL = 7, DO = 8, WHILE = 9, FOR = 10, IF = 11, ELSE = 12, 
+    RETURN = 13, BOOL_LITERAL = 14, IDENTIFIER = 15, LPAREN = 16, RPAREN = 17, 
+    LBRACK = 18, RBRACK = 19, LBRACE = 20, RBRACE = 21, SEMI = 22, COMMA = 23, 
+    DOT = 24, GT = 25, LT = 26, BANG = 27, EQUAL = 28, LE = 29, GE = 30, 
+    NOTEQUAL = 31, AND = 32, OR = 33, ADD = 34, SUB = 35, MUL = 36, DIV = 37, 
+    CARET = 38, COLON = 39, ASSIGN = 40, ARRAY_INDEX = 41, ARRAY_SLICE = 42
   };
 
   enum {

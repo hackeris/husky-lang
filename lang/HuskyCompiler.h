@@ -343,7 +343,7 @@ namespace husky {
         }
 
         [[nodiscard]]
-        const char *what() const throw() { return message.c_str(); }
+        const char *what() const noexcept override { return message.c_str(); }
 
     private:
         int line;
@@ -436,6 +436,13 @@ namespace husky {
     };
 
     class ErrorListener : public ANTLRErrorListener {
+    public:
+        struct ANTLRError {
+        public:
+            int line;
+            int pos;
+            std::string message;
+        };
 
         void syntaxError(Recognizer *recognizer, Token *offendingSymbol, size_t line,
                          size_t charPositionInLine, const std::string &msg, std::exception_ptr e) override;
@@ -449,6 +456,15 @@ namespace husky {
 
         void reportContextSensitivity(Parser *recognizer, const dfa::DFA &dfa, size_t startIndex,
                                       size_t stopIndex, size_t prediction, atn::ATNConfigSet *configs) override;
+
+        [[nodiscard]]
+        bool hasError() const;
+
+        [[nodiscard]]
+        const std::vector<ANTLRError> &getErrors() const;
+
+    private:
+        std::vector<ANTLRError> errors;
     };
 
     class CompileTimeBuilder : public HuskyDefineVisitor {
@@ -477,7 +493,7 @@ namespace husky {
 
         antlrcpp::Any visitMemberValueDefine(HuskyDefine::MemberValueDefineContext *context) override;
 
-        void load(const std::string &code);
+        void compile(const std::string &code);
 
     private:
         std::shared_ptr<CompileTime> _compileTime;
@@ -502,25 +518,25 @@ namespace husky {
 
         antlrcpp::Any visitFloatLiteral(HuskyExpr::FloatLiteralContext *context) override;
 
+        antlrcpp::Any visitToArraySlice(HuskyExpr::ToArraySliceContext *context) override;
+
         antlrcpp::Any visitToUnary(HuskyExpr::ToUnaryContext *context) override;
 
         antlrcpp::Any visitToCall(HuskyExpr::ToCallContext *context) override;
 
-        antlrcpp::Any visitToPrimary(HuskyExpr::ToPrimaryContext *context) override;
-
         antlrcpp::Any visitToArrayRef(HuskyExpr::ToArrayRefContext *context) override;
 
-        antlrcpp::Any visitToArraySlice(HuskyExpr::ToArraySliceContext *context) override;
+        antlrcpp::Any visitToPrimary(HuskyExpr::ToPrimaryContext *context) override;
 
         antlrcpp::Any visitToBinary(HuskyExpr::ToBinaryContext *context) override;
 
         antlrcpp::Any visitToAttrGet(HuskyExpr::ToAttrGetContext *context) override;
 
+        antlrcpp::Any visitToIdentifier(HuskyExpr::ToIdentifierContext *context) override;
+
         antlrcpp::Any visitToParen(HuskyExpr::ToParenContext *context) override;
 
         antlrcpp::Any visitToLiteral(HuskyExpr::ToLiteralContext *context) override;
-
-        antlrcpp::Any visitToIdentifier(HuskyExpr::ToIdentifierContext *context) override;
 
         AstBase *compile(const std::string &code, ANTLRErrorListener *errorListener);
 

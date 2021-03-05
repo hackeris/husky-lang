@@ -19,12 +19,18 @@ std::shared_ptr<CompileTime> buildCompileTime(const std::string &def) {
 
     CompileTimeBuilder builder(compileTime);
 
-    builder.load(def);
+    builder.compile(def);
 
     return compileTime;
 }
 
 int main(int argc, char *argv[]) {
+
+    if (argc < 3) {
+        std::cout << "usage: " << argv[0]
+                  << " <def file> <expr file" << std::endl;
+        return -1;
+    }
 
     auto defPath = argv[1];
     auto exprPath = argv[2];
@@ -40,10 +46,14 @@ int main(int argc, char *argv[]) {
     try {
         expr = compiler.compile(exprCode, &errorListener);
         auto type = expr->type();
-        if (type != nullptr) {
+        if (type != nullptr && !errorListener.hasError()) {
             std::cout << "Inferenced type is: " << type->name() << std::endl;
         } else {
             std::cout << "Failed to inference type." << std::endl;
+            for (auto &err: errorListener.getErrors()) {
+                std::cout << "Syntax error at " << err.line << ":"
+                          << err.pos << ", " << err.message << std::endl;
+            }
         }
     } catch (compile_error &e) {
         std::cerr << e.what() << std::endl;

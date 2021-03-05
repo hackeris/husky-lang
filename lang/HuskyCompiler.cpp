@@ -100,14 +100,13 @@ UnaryExpr::Operation parseUnaryOperation(const std::string &str) {
 
 void husky::ErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
                                        size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
-
+    errors.emplace_back(ANTLRError{(int) line, (int) charPositionInLine, msg});
 }
 
 void
 husky::ErrorListener::reportAmbiguity(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, size_t startIndex,
                                       size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts,
                                       antlr4::atn::ATNConfigSet *configs) {
-
 }
 
 void husky::ErrorListener::reportAttemptingFullContext(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa,
@@ -121,6 +120,14 @@ void husky::ErrorListener::reportContextSensitivity(Parser *recognizer, const df
                                                     size_t stopIndex, size_t prediction,
                                                     atn::ATNConfigSet *configs) {
 
+}
+
+bool ErrorListener::hasError() const {
+    return !errors.empty();
+}
+
+const std::vector<ErrorListener::ANTLRError> &ErrorListener::getErrors() const {
+    return errors;
 }
 
 husky::HuskyCompiler::HuskyCompiler(std::shared_ptr<CompileTime> compileTime)
@@ -192,9 +199,9 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyExpr::ToUnaryContext *cont
     auto type = _compileTime->findFunction(to_string(op), {expr->type()});
 
     if (type == nullptr) {
-	throw compile_error(context,
-            "unary operation '" + strOp 
-	    + "' on type " + expr->type()->name() + " is not supported");
+        throw compile_error(context,
+                            "unary operation '" + strOp
+                            + "' on type " + expr->type()->name() + " is not supported");
     }
 
     return generify(new UnaryExpr(op, expr, type));
@@ -222,7 +229,7 @@ antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyExpr::ToIdentifierCon
     auto type = _compileTime->findIdentifier(identName);
 
     if (type == nullptr) {
-	throw compile_error(context, "identifier '" + identName + "' is not defined");
+        throw compile_error(context, "identifier '" + identName + "' is not defined");
     }
 
     return generify(new Identifier(identName, type));
@@ -239,8 +246,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyExpr::ToBinaryContext *co
     auto type = _compileTime->findFunction(to_string(op), {left->type(), right->type()});
 
     if (type == nullptr) {
-	throw compile_error(context, "binary operation '" + stringOp + "' on " 
-	    + left->type()->name() + " and " + right->type()->name() + " is not defined");
+        throw compile_error(context, "binary operation '" + stringOp + "' on "
+                                     + left->type()->name() + " and " + right->type()->name() + " is not defined");
     }
 
     return generify(new BinaryExpr(op, left, right, type));
@@ -256,7 +263,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyExpr::ToArrayRefContext
     auto returnType = arrayType->findMember("[]", {indexType});
 
     if (returnType == nullptr) {
-	throw compile_error(context, "operator [](" + indexType->name() + ") of " + arrayType->name() + " is not defined");
+        throw compile_error(context,
+                            "operator [](" + indexType->name() + ") of " + arrayType->name() + " is not defined");
     }
 
     return generify(new ArrayRef(arr, index, returnType));
@@ -273,9 +281,9 @@ antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyExpr::ToArraySliceContext *c
     auto returnType = arrayType->findMember("[:]", {beginType, endType});
 
     if (returnType == nullptr) {
-	throw compile_error(context, 
-			"operator [:](" + beginType->name() + "," + endType->name() + ") of " 
-			+ arrayType->name() + " is not supported");
+        throw compile_error(context,
+                            "operator [:](" + beginType->name() + "," + endType->name() + ") of "
+                            + arrayType->name() + " is not supported");
     }
 
     return generify(new ArraySlice(arr, begin, end, returnType));
@@ -295,8 +303,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *
         auto returnType = prefixType->findMember(methodName, argTypes);
 
         if (returnType == nullptr) {
-	    throw compile_error(context,
-			    "cannot find member method '" + methodName + "' of type '" + prefixType->name() + "'");
+            throw compile_error(context,
+                                "cannot find member method '" + methodName + "' of type '" + prefixType->name() + "'");
         }
 
         return generify(new AttrGet(expr, method, returnType));
@@ -305,8 +313,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *
         auto identType = prefixType->findField(fieldName);
 
         if (identType == nullptr) {
-	    throw compile_error(context, 
-			    "cannot find member field '" + fieldName + "' of type '" + prefixType->name() + "'");
+            throw compile_error(context,
+                                "cannot find member field '" + fieldName + "' of type '" + prefixType->name() + "'");
         }
 
         auto ident = new Identifier(fieldName, identType);
@@ -331,7 +339,7 @@ AstBase *HuskyCompiler::compile(const std::string &code, ANTLRErrorListener *err
 
     ParseTree *tree = parser.expression();
 
-    Any visited = this->visit(tree);
+    Any visited = visit(tree);
 
     return visited.as<AstBase *>()->as<Expression>();
 }
@@ -375,7 +383,8 @@ antlrcpp::Any CompileTimeBuilder::visitFuncDefine(HuskyDefine::FuncDefineContext
         name = context->uop()->getText();
     }
 
-    auto returnType = _compileTime->findType(context->returnType->getText());
+    auto returnTypeName = context->returnType->getText();
+    auto returnType = _compileTime->findType(returnTypeName);
     auto argTypes = visit(context->args()).as<std::vector<Type *>>();
 
     _compileTime->registerFunction(name, returnType, argTypes);
@@ -399,9 +408,9 @@ antlrcpp::Any CompileTimeBuilder::visitMemberFuncDefine(HuskyDefine::MemberFuncD
     } else if (context->uop() != nullptr) {
         member = context->uop()->getText();
     } else if (context->ARRAY_INDEX() != nullptr) {
-	member = context->ARRAY_INDEX()->getText();
+        member = context->ARRAY_INDEX()->getText();
     } else if (context->ARRAY_SLICE() != nullptr) {
-	member = context->ARRAY_SLICE()->getText();
+        member = context->ARRAY_SLICE()->getText();
     }
 
     auto typeName = context->typeName->getText();
@@ -432,7 +441,7 @@ antlrcpp::Any CompileTimeBuilder::visitMemberValueDefine(HuskyDefine::MemberValu
     return nullptr;
 }
 
-void CompileTimeBuilder::load(const std::string &code) {
+void CompileTimeBuilder::compile(const std::string &code) {
 
     using namespace antlr4;
     using namespace antlr4::tree;

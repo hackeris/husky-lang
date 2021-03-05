@@ -11,6 +11,12 @@ LINE_COMMENT:       '//' ~[\r\n]*    -> channel(HIDDEN);
 TYPE:               'type';
 FUNC:               'func';
 VAL:                'val';
+DO:	        	    'do';
+WHILE:		        'while';
+FOR:		        'for';
+IF: 		        'if';
+ELSE:	    	    'else';
+RETURN: 		    'return';
 
 BOOL_LITERAL:       'true'
             |       'false'
@@ -62,12 +68,3 @@ COLON:              ':';
 ASSIGN:             '<-';
 ARRAY_INDEX:        '[]';
 ARRAY_SLICE:        '[:]';
-
-DO:		    'do';
-WHILE:		    'while';
-FOR:		    'for';
-IF:		    'if';
-ELSE:		    'else';
-RETURN:		    'return';
-
-
