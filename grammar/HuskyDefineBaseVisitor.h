@@ -35,23 +35,27 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitTypeDef(HuskyDefine::TypeDefContext *ctx) override {
+  virtual antlrcpp::Any visitDefineStatement(HuskyDefine::DefineStatementContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFuncDef(HuskyDefine::FuncDefContext *ctx) override {
+  virtual antlrcpp::Any visitTypeDefine(HuskyDefine::TypeDefineContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitMemberFuncDef(HuskyDefine::MemberFuncDefContext *ctx) override {
+  virtual antlrcpp::Any visitFuncDefine(HuskyDefine::FuncDefineContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitValueDef(HuskyDefine::ValueDefContext *ctx) override {
+  virtual antlrcpp::Any visitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitMemberValueDef(HuskyDefine::MemberValueDefContext *ctx) override {
+  virtual antlrcpp::Any visitValueDefine(HuskyDefine::ValueDefineContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitMemberValueDefine(HuskyDefine::MemberValueDefineContext *ctx) override {
     return visitChildren(ctx);
   }
 

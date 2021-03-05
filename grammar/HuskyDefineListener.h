@@ -29,20 +29,23 @@ public:
   virtual void enterUop(HuskyDefine::UopContext *ctx) = 0;
   virtual void exitUop(HuskyDefine::UopContext *ctx) = 0;
 
-  virtual void enterTypeDef(HuskyDefine::TypeDefContext *ctx) = 0;
-  virtual void exitTypeDef(HuskyDefine::TypeDefContext *ctx) = 0;
+  virtual void enterDefineStatement(HuskyDefine::DefineStatementContext *ctx) = 0;
+  virtual void exitDefineStatement(HuskyDefine::DefineStatementContext *ctx) = 0;
 
-  virtual void enterFuncDef(HuskyDefine::FuncDefContext *ctx) = 0;
-  virtual void exitFuncDef(HuskyDefine::FuncDefContext *ctx) = 0;
+  virtual void enterTypeDefine(HuskyDefine::TypeDefineContext *ctx) = 0;
+  virtual void exitTypeDefine(HuskyDefine::TypeDefineContext *ctx) = 0;
 
-  virtual void enterMemberFuncDef(HuskyDefine::MemberFuncDefContext *ctx) = 0;
-  virtual void exitMemberFuncDef(HuskyDefine::MemberFuncDefContext *ctx) = 0;
+  virtual void enterFuncDefine(HuskyDefine::FuncDefineContext *ctx) = 0;
+  virtual void exitFuncDefine(HuskyDefine::FuncDefineContext *ctx) = 0;
 
-  virtual void enterValueDef(HuskyDefine::ValueDefContext *ctx) = 0;
-  virtual void exitValueDef(HuskyDefine::ValueDefContext *ctx) = 0;
+  virtual void enterMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *ctx) = 0;
+  virtual void exitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *ctx) = 0;
 
-  virtual void enterMemberValueDef(HuskyDefine::MemberValueDefContext *ctx) = 0;
-  virtual void exitMemberValueDef(HuskyDefine::MemberValueDefContext *ctx) = 0;
+  virtual void enterValueDefine(HuskyDefine::ValueDefineContext *ctx) = 0;
+  virtual void exitValueDefine(HuskyDefine::ValueDefineContext *ctx) = 0;
+
+  virtual void enterMemberValueDefine(HuskyDefine::MemberValueDefineContext *ctx) = 0;
+  virtual void exitMemberValueDefine(HuskyDefine::MemberValueDefineContext *ctx) = 0;
 
 
 };

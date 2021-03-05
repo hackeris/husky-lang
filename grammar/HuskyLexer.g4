@@ -8,6 +8,14 @@ FLOAT_LITERAL:      (Digits '.' Digits? | '.' Digits) ;
 WS:                 [ \t\r\n\u000C]+ -> channel(HIDDEN);
 LINE_COMMENT:       '//' ~[\r\n]*    -> channel(HIDDEN);
 
+TYPE:               'type';
+FUNC:               'func';
+VAL:                'val';
+
+BOOL_LITERAL:       'true'
+            |       'false'
+            ;
+
 // Identifiers
 
 IDENTIFIER:         Letter LetterOrDigit*;
@@ -24,15 +32,6 @@ fragment LetterOrDigit
 fragment Letter
     : [a-zA-Z$_] // these are the "java letters" below 0x7F
     ;
-
-BOOL_LITERAL:       'true'
-            |       'false'
-            ;
-
-TYPE:               'type';
-FUNC:               'func';
-VAL:                'val';
-
 
 // Separators
 LPAREN:             '(';

@@ -31,20 +31,23 @@ public:
   virtual void enterUop(HuskyDefine::UopContext * /*ctx*/) override { }
   virtual void exitUop(HuskyDefine::UopContext * /*ctx*/) override { }
 
-  virtual void enterTypeDef(HuskyDefine::TypeDefContext * /*ctx*/) override { }
-  virtual void exitTypeDef(HuskyDefine::TypeDefContext * /*ctx*/) override { }
+  virtual void enterDefineStatement(HuskyDefine::DefineStatementContext * /*ctx*/) override { }
+  virtual void exitDefineStatement(HuskyDefine::DefineStatementContext * /*ctx*/) override { }
 
-  virtual void enterFuncDef(HuskyDefine::FuncDefContext * /*ctx*/) override { }
-  virtual void exitFuncDef(HuskyDefine::FuncDefContext * /*ctx*/) override { }
+  virtual void enterTypeDefine(HuskyDefine::TypeDefineContext * /*ctx*/) override { }
+  virtual void exitTypeDefine(HuskyDefine::TypeDefineContext * /*ctx*/) override { }
 
-  virtual void enterMemberFuncDef(HuskyDefine::MemberFuncDefContext * /*ctx*/) override { }
-  virtual void exitMemberFuncDef(HuskyDefine::MemberFuncDefContext * /*ctx*/) override { }
+  virtual void enterFuncDefine(HuskyDefine::FuncDefineContext * /*ctx*/) override { }
+  virtual void exitFuncDefine(HuskyDefine::FuncDefineContext * /*ctx*/) override { }
 
-  virtual void enterValueDef(HuskyDefine::ValueDefContext * /*ctx*/) override { }
-  virtual void exitValueDef(HuskyDefine::ValueDefContext * /*ctx*/) override { }
+  virtual void enterMemberFuncDefine(HuskyDefine::MemberFuncDefineContext * /*ctx*/) override { }
+  virtual void exitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext * /*ctx*/) override { }
 
-  virtual void enterMemberValueDef(HuskyDefine::MemberValueDefContext * /*ctx*/) override { }
-  virtual void exitMemberValueDef(HuskyDefine::MemberValueDefContext * /*ctx*/) override { }
+  virtual void enterValueDefine(HuskyDefine::ValueDefineContext * /*ctx*/) override { }
+  virtual void exitValueDefine(HuskyDefine::ValueDefineContext * /*ctx*/) override { }
+
+  virtual void enterMemberValueDefine(HuskyDefine::MemberValueDefineContext * /*ctx*/) override { }
+  virtual void exitMemberValueDefine(HuskyDefine::MemberValueDefineContext * /*ctx*/) override { }
 
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

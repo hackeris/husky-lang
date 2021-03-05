@@ -443,17 +443,19 @@ namespace husky {
 
         antlrcpp::Any visitUop(HuskyDefine::UopContext *context) override;
 
-        antlrcpp::Any visitTypeDef(HuskyDefine::TypeDefContext *context) override;
+        antlrcpp::Any visitDefineStatement(HuskyDefine::DefineStatementContext *context) override;
 
-        antlrcpp::Any visitFuncDef(HuskyDefine::FuncDefContext *context) override;
+        antlrcpp::Any visitTypeDefine(HuskyDefine::TypeDefineContext *context) override;
 
-        antlrcpp::Any visitMemberFuncDef(HuskyDefine::MemberFuncDefContext *context) override;
+        antlrcpp::Any visitFuncDefine(HuskyDefine::FuncDefineContext *context) override;
 
-        antlrcpp::Any visitValueDef(HuskyDefine::ValueDefContext *context) override;
+        antlrcpp::Any visitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *context) override;
 
-        antlrcpp::Any visitMemberValueDef(HuskyDefine::MemberValueDefContext *context) override;
+        antlrcpp::Any visitValueDefine(HuskyDefine::ValueDefineContext *context) override;
 
-        void load(const std::string& code);
+        antlrcpp::Any visitMemberValueDefine(HuskyDefine::MemberValueDefineContext *context) override;
+
+        void load(const std::string &code);
 
     private:
         std::shared_ptr<CompileTime> _compileTime;

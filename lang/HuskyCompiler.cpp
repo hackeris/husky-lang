@@ -344,20 +344,20 @@ antlrcpp::Any CompileTimeBuilder::visitStatement(HuskyDefine::StatementContext *
 
 antlrcpp::Any CompileTimeBuilder::visitArgs(HuskyDefine::ArgsContext *context) {
     std::vector<Type *> types;
-    std::transform(context->IDENTIFIER().begin(), context->IDENTIFIER().end(),
-                   std::back_inserter(types),
-                   [this](auto node) -> auto {
-                       return _compileTime->findType(node->getText());
-                   });
+    for (int i = 0; i < context->IDENTIFIER().size(); i += 1) {
+        auto typeName = context->IDENTIFIER(i)->getText();
+        auto type = _compileTime->findType(typeName);
+        types.emplace_back(type);
+    }
     return types;
 }
 
-antlrcpp::Any CompileTimeBuilder::visitTypeDef(HuskyDefine::TypeDefContext *context) {
+antlrcpp::Any CompileTimeBuilder::visitTypeDefine(HuskyDefine::TypeDefineContext *context) {
     _compileTime->registerType(context->name->getText());
     return nullptr;
 }
 
-antlrcpp::Any CompileTimeBuilder::visitFuncDef(HuskyDefine::FuncDefContext *context) {
+antlrcpp::Any CompileTimeBuilder::visitFuncDefine(HuskyDefine::FuncDefineContext *context) {
     std::string name;
     if (context->name != nullptr) {
         name = context->name->getText();
@@ -382,7 +382,7 @@ antlrcpp::Any CompileTimeBuilder::visitUop(HuskyDefine::UopContext *context) {
     return context->getText();
 }
 
-antlrcpp::Any CompileTimeBuilder::visitMemberFuncDef(HuskyDefine::MemberFuncDefContext *context) {
+antlrcpp::Any CompileTimeBuilder::visitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *context) {
     std::string member;
     if (context->member != nullptr) {
         member = context->member->getText();
@@ -402,7 +402,7 @@ antlrcpp::Any CompileTimeBuilder::visitMemberFuncDef(HuskyDefine::MemberFuncDefC
     return nullptr;
 }
 
-antlrcpp::Any CompileTimeBuilder::visitValueDef(HuskyDefine::ValueDefContext *context) {
+antlrcpp::Any CompileTimeBuilder::visitValueDefine(HuskyDefine::ValueDefineContext *context) {
 
     auto valueType = _compileTime->findType(context->typeName->getText());
     auto name = context->name->getText();
@@ -410,7 +410,7 @@ antlrcpp::Any CompileTimeBuilder::visitValueDef(HuskyDefine::ValueDefContext *co
     return nullptr;
 }
 
-antlrcpp::Any CompileTimeBuilder::visitMemberValueDef(HuskyDefine::MemberValueDefContext *context) {
+antlrcpp::Any CompileTimeBuilder::visitMemberValueDefine(HuskyDefine::MemberValueDefineContext *context) {
 
     auto valueType = _compileTime->findType(context->typeName->getText());
     auto typeName = context->typeName->getText();
@@ -435,5 +435,12 @@ void CompileTimeBuilder::load(const std::string &code) {
 
     ParseTree *tree = parser.statements();
     this->visit(tree);
+}
+
+antlrcpp::Any CompileTimeBuilder::visitDefineStatement(HuskyDefine::DefineStatementContext *context) {
+    for (auto &child: context->children) {
+        visit(child);
+    }
+    return nullptr;
 }
 

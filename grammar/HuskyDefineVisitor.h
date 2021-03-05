@@ -29,15 +29,17 @@ public:
 
     virtual antlrcpp::Any visitUop(HuskyDefine::UopContext *context) = 0;
 
-    virtual antlrcpp::Any visitTypeDef(HuskyDefine::TypeDefContext *context) = 0;
+    virtual antlrcpp::Any visitDefineStatement(HuskyDefine::DefineStatementContext *context) = 0;
 
-    virtual antlrcpp::Any visitFuncDef(HuskyDefine::FuncDefContext *context) = 0;
+    virtual antlrcpp::Any visitTypeDefine(HuskyDefine::TypeDefineContext *context) = 0;
 
-    virtual antlrcpp::Any visitMemberFuncDef(HuskyDefine::MemberFuncDefContext *context) = 0;
+    virtual antlrcpp::Any visitFuncDefine(HuskyDefine::FuncDefineContext *context) = 0;
 
-    virtual antlrcpp::Any visitValueDef(HuskyDefine::ValueDefContext *context) = 0;
+    virtual antlrcpp::Any visitMemberFuncDefine(HuskyDefine::MemberFuncDefineContext *context) = 0;
 
-    virtual antlrcpp::Any visitMemberValueDef(HuskyDefine::MemberValueDefContext *context) = 0;
+    virtual antlrcpp::Any visitValueDefine(HuskyDefine::ValueDefineContext *context) = 0;
+
+    virtual antlrcpp::Any visitMemberValueDefine(HuskyDefine::MemberValueDefineContext *context) = 0;
 
 
 };
