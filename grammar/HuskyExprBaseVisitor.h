@@ -15,7 +15,7 @@
 class  HuskyExprBaseVisitor : public HuskyExprVisitor {
 public:
 
-  virtual antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *ctx) override {
+  virtual antlrcpp::Any visitExtractAssign(HuskyExpr::ExtractAssignContext *ctx) override {
     return visitChildren(ctx);
   }
 

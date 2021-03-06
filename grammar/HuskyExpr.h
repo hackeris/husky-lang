@@ -60,25 +60,25 @@ public:
    
   };
 
-  class  ToAssignContext : public HuskyExprContext {
-  public:
-    ToAssignContext(HuskyExprContext *ctx);
-
-    AssignContext *assign();
-    antlr4::tree::TerminalNode *SEMI();
-    HuskyExprContext *huskyExpr();
-    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
-    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
   class  ToExpressionContext : public HuskyExprContext {
   public:
     ToExpressionContext(HuskyExprContext *ctx);
 
     ExpressionContext *expression();
     antlr4::tree::TerminalNode *EOF();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  ExtractAssignContext : public HuskyExprContext {
+  public:
+    ExtractAssignContext(HuskyExprContext *ctx);
+
+    AssignContext *assign();
+    antlr4::tree::TerminalNode *SEMI();
+    HuskyExprContext *huskyExpr();
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
 

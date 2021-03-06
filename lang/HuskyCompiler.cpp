@@ -100,7 +100,7 @@ UnaryExpr::Operation parseUnaryOperation(const std::string &str) {
 
 void husky::ErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
                                        size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
-    errors.emplace_back(ANTLRError{(int) line, (int) charPositionInLine, msg});
+    errors.emplace_back(SyntaxError{(int) line, (int) charPositionInLine, msg});
     std::cout << "syntaxError" << std::endl;
 }
 
@@ -128,14 +128,14 @@ bool ErrorListener::hasError() const {
     return !errors.empty();
 }
 
-const std::vector<ErrorListener::ANTLRError> &ErrorListener::getErrors() const {
+const std::vector<ErrorListener::SyntaxError> &ErrorListener::getErrors() const {
     return errors;
 }
 
-husky::HuskyCompiler::HuskyCompiler(std::shared_ptr<CompileTime> compileTime)
+husky::HuskyExprCompiler::HuskyExprCompiler(std::shared_ptr<CompileTime> compileTime)
         : _compileTime(std::move(compileTime)) {}
 
-antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyExpr::ExpressionListContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitExpressionList(HuskyExpr::ExpressionListContext *context) {
 
     //  vector of Expression
     std::vector<Expression *> expressions;
@@ -148,7 +148,7 @@ antlrcpp::Any husky::HuskyCompiler::visitExpressionList(HuskyExpr::ExpressionLis
     return expressions;
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyExpr::MethodCallContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitMethodCall(HuskyExpr::MethodCallContext *context) {
 
     auto args = visit(context->expressionList());
     assert(args.is<ArgList>());
@@ -164,35 +164,35 @@ antlrcpp::Any husky::HuskyCompiler::visitMethodCall(HuskyExpr::MethodCallContext
     return generify(new MethodCall(ident, argList, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToIntegerLiteral(HuskyExpr::ToIntegerLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToIntegerLiteral(HuskyExpr::ToIntegerLiteralContext *context) {
     return visit(context->integerLiteral());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToFloatLiteral(HuskyExpr::ToFloatLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToFloatLiteral(HuskyExpr::ToFloatLiteralContext *context) {
     return visit(context->floatLiteral());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToBoolLiteral(HuskyExpr::ToBoolLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToBoolLiteral(HuskyExpr::ToBoolLiteralContext *context) {
     auto type = _compileTime->findType("Bool");
     bool value = (context->getText() == "true");
     return generify(new BoolLiteral(value, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitIntegerLiteral(HuskyExpr::IntegerLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitIntegerLiteral(HuskyExpr::IntegerLiteralContext *context) {
     auto type = _compileTime->findType("Integer");
     auto text = context->DECIMAL_LITERAL()->getText();
     auto literal = (int) std::strtol(text.c_str(), nullptr, 10);
     return generify(new IntegerLiteral(literal, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitFloatLiteral(HuskyExpr::FloatLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitFloatLiteral(HuskyExpr::FloatLiteralContext *context) {
     auto type = _compileTime->findType("Float");
     auto text = context->FLOAT_LITERAL()->getText();
     auto literal = (float) std::strtod(text.c_str(), nullptr);
     return generify(new FloatLiteral(literal, type));
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyExpr::ToUnaryContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToUnary(HuskyExpr::ToUnaryContext *context) {
 
     std::string strOp = context->prefix->getText();
     UnaryExpr::Operation op = parseUnaryOperation(strOp);
@@ -200,44 +200,44 @@ antlrcpp::Any husky::HuskyCompiler::visitToUnary(HuskyExpr::ToUnaryContext *cont
     auto expr = get<Expression>(visit(context->expression()));
     auto type = _compileTime->findFunction(to_string(op), {expr->type()});
 
-    if (type == nullptr) {
-        throw compile_error(context,
-                            "unary operation '" + strOp
-                            + "' on type " + expr->type()->name() + " is not supported");
+    if (type != nullptr) {
+        return generify(new UnaryExpr(op, expr, type));
     }
 
-    return generify(new UnaryExpr(op, expr, type));
+    throw CompileError(context,
+                       "unary operation '" + strOp
+                       + "' on type " + expr->type()->name() + " is not supported");
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToCall(HuskyExpr::ToCallContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToCall(HuskyExpr::ToCallContext *context) {
     return visit(context->methodCall());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToPrimary(HuskyExpr::ToPrimaryContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToPrimary(HuskyExpr::ToPrimaryContext *context) {
     return visit(context->primary());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToParen(HuskyExpr::ToParenContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToParen(HuskyExpr::ToParenContext *context) {
     return visit(context->expression());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToLiteral(HuskyExpr::ToLiteralContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToLiteral(HuskyExpr::ToLiteralContext *context) {
     return visit(context->literal());
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToIdentifier(HuskyExpr::ToIdentifierContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToIdentifier(HuskyExpr::ToIdentifierContext *context) {
 
     auto identName = context->IDENTIFIER()->getText();
     auto type = _compileTime->findIdentifier(identName);
 
-    if (type == nullptr) {
-        throw compile_error(context, "identifier '" + identName + "' is not defined");
+    if (type != nullptr) {
+        return generify(new Identifier(identName, type));
     }
 
-    return generify(new Identifier(identName, type));
+    throw CompileError(context, "identifier '" + identName + "' is not defined");
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyExpr::ToBinaryContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToBinary(HuskyExpr::ToBinaryContext *context) {
 
     auto stringOp = context->bop->getText();
     BinaryExpr::Operation op = parseBinaryOperation(stringOp);
@@ -250,11 +250,11 @@ antlrcpp::Any husky::HuskyCompiler::visitToBinary(HuskyExpr::ToBinaryContext *co
         return generify(new BinaryExpr(op, left, right, type));
     }
 
-    throw compile_error(context, "binary operation '" + stringOp + "' on "
-                                 + left->type()->name() + " and " + right->type()->name() + " is not defined");
+    throw CompileError(context, "binary operation '" + stringOp + "' on "
+                                + left->type()->name() + " and " + right->type()->name() + " is not defined");
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyExpr::ToArrayRefContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToArrayRef(HuskyExpr::ToArrayRefContext *context) {
 
     auto arr = get<Expression>(visit(context->expression(0)));
     auto index = get<Expression>(visit(context->expression(1)));
@@ -267,11 +267,11 @@ antlrcpp::Any husky::HuskyCompiler::visitToArrayRef(HuskyExpr::ToArrayRefContext
         return generify(new ArrayRef(arr, index, returnType));
     }
 
-    throw compile_error(context, "operator [](" + indexType->name() + ") of "
-                                 + arrayType->name() + " is not defined");
+    throw CompileError(context, "operator [](" + indexType->name() + ") of "
+                                + arrayType->name() + " is not defined");
 }
 
-antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyExpr::ToArraySliceContext *context) {
+antlrcpp::Any HuskyExprCompiler::visitToArraySlice(HuskyExpr::ToArraySliceContext *context) {
 
     auto arr = get<Expression>(visit(context->expression(0)));
     auto begin = get<Expression>(visit(context->begin));
@@ -284,11 +284,11 @@ antlrcpp::Any HuskyCompiler::visitToArraySlice(HuskyExpr::ToArraySliceContext *c
     if (returnType != nullptr) {
         return generify(new ArraySlice(arr, begin, end, returnType));
     }
-    throw compile_error(context, "operator [:](" + beginType->name() + "," + endType->name()
-                                 + ") of " + arrayType->name() + " is not supported");
+    throw CompileError(context, "operator [:](" + beginType->name() + "," + endType->name()
+                                + ") of " + arrayType->name() + " is not supported");
 }
 
-antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *context) {
+antlrcpp::Any husky::HuskyExprCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *context) {
 
     auto expr = get<Expression>(visit(context->expression()));
     auto prefixType = expr->type();
@@ -305,8 +305,8 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *
             return generify(new AttrGet(expr, method, returnType));
         }
 
-        throw compile_error(context, "cannot find member method '"
-                                     + methodName + "' of type '" + prefixType->name() + "'");
+        throw CompileError(context, "cannot find member method '"
+                                    + methodName + "' of type '" + prefixType->name() + "'");
     } else {
         auto fieldName = context->IDENTIFIER()->getText();
         auto identType = prefixType->findField(fieldName);
@@ -315,12 +315,12 @@ antlrcpp::Any husky::HuskyCompiler::visitToAttrGet(HuskyExpr::ToAttrGetContext *
             auto ident = new Identifier(fieldName, identType);
             return generify(new AttrGet(expr, ident, identType));
         }
-        throw compile_error(context, "cannot find member field '"
-                                     + fieldName + "' of type '" + prefixType->name() + "'");
+        throw CompileError(context, "cannot find member field '"
+                                    + fieldName + "' of type '" + prefixType->name() + "'");
     }
 }
 
-GraphBase *HuskyCompiler::compile(const std::string &code, ErrorListener *errorListener) {
+GraphBase *HuskyExprCompiler::compile(const std::string &code, ErrorListener *errorListener) {
 
     using namespace antlr4;
     using namespace antlr4::tree;
@@ -341,24 +341,28 @@ GraphBase *HuskyCompiler::compile(const std::string &code, ErrorListener *errorL
     }
 
     Any visited = visit(tree);
-    return visited.as<GraphBase *>()->as<Expression>();
+    return visited.as<GraphBase *>()->as<ExprRoot>();
 }
 
-antlrcpp::Any HuskyCompiler::visitToExpression(HuskyExpr::ToExpressionContext *context) {
-    return visit(context->expression());
+antlrcpp::Any HuskyExprCompiler::visitToExpression(HuskyExpr::ToExpressionContext *context) {
+    auto expr = get<Expression>(visit(context->expression()));
+    return generify(new ExprRoot(expr));
 }
 
-antlrcpp::Any HuskyCompiler::visitToAssign(HuskyExpr::ToAssignContext *context) {
-    visit(context->assign());
-    return visit(context->huskyExpr());
+antlrcpp::Any HuskyExprCompiler::visitExtractAssign(HuskyExpr::ExtractAssignContext *context) {
+
+    auto assign = get<AssignStatement>(visit(context->assign()));
+    auto root = get<ExprRoot>(visit(context->huskyExpr()));
+    root->merge(assign);
+    return generify(root);
 }
 
-antlrcpp::Any HuskyCompiler::visitAssign(HuskyExpr::AssignContext *context) {
+antlrcpp::Any HuskyExprCompiler::visitAssign(HuskyExpr::AssignContext *context) {
 
     auto identName = context->IDENTIFIER()->getText();
     auto found = _compileTime->findIdentifier(identName);
     if (found != nullptr) {
-        throw compile_error(context, "identifier '" + identName + "' already defined");
+        throw CompileError(context, "identifier '" + identName + "' already defined");
     }
 
     auto expr = get<Expression>(visit(context->expression()));
@@ -366,7 +370,7 @@ antlrcpp::Any HuskyCompiler::visitAssign(HuskyExpr::AssignContext *context) {
 
     _compileTime->registerSymbol(identName, exprType);
 
-    return expr;
+    return generify(new AssignStatement(identName, expr));
 }
 
 husky::CompileTimeBuilder::CompileTimeBuilder(std::shared_ptr<CompileTime> compileTime)
@@ -486,3 +490,20 @@ antlrcpp::Any CompileTimeBuilder::visitDefineStatement(HuskyDefine::DefineStatem
     return nullptr;
 }
 
+Recomputable *HuskyExprEvaluator::visitLiteral(Literal *literal) {
+
+    if (literal->is<IntegerLiteral>()) {
+        auto type = _runtime->getType("Integer");
+        auto integer = literal->as<IntegerLiteral>();
+        return new Recomputable(new IntegerValue(integer->value, type), literal);
+    } else if (literal->is<FloatLiteral>()) {
+        auto type = _runtime->getType("Float");
+        auto number = literal->as<FloatLiteral>();
+        return new Recomputable(new FloatValue(number->value, type), literal);
+    } else if (literal->is<BoolLiteral>()) {
+        auto type = _runtime->getType("Bool");
+        auto value = literal->as<BoolLiteral>();
+        return new Recomputable(new BoolValue(value->value, type), literal);
+    }
+    throw std::runtime_error("no such literal type " + literal->type()->name());
+}

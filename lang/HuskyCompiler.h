@@ -8,6 +8,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <functional>
 
 #include "antlr4-runtime.h"
 #include "../grammar/HuskyDefineVisitor.h"
@@ -92,6 +93,7 @@ namespace husky {
         }
 
         template<class T>
+        [[nodiscard]]
         const T *as() const {
             return dynamic_cast<const T *>(this);
         }
@@ -252,6 +254,42 @@ namespace husky {
 
     std::string to_string(BinaryExpr::Operation op);
 
+    class AssignStatement : public GraphBase {
+    public:
+        AssignStatement(std::string identifier, Expression *right)
+                : identifier(std::move(identifier)), right(right),
+                  GraphBase(right->type()) {}
+
+        ~AssignStatement() override {
+            delete right;
+        }
+
+    public:
+        std::string identifier;
+        Expression *right;
+    };
+
+    class ExprRoot : public GraphBase {
+    public:
+        explicit ExprRoot(Expression *expression)
+                : expression(expression), GraphBase(expression->type()) {}
+
+        void merge(AssignStatement *assign) {
+            assigns.insert(assigns.begin(), assign);
+        }
+
+        ~ExprRoot() override {
+            for (auto assign: assigns) {
+                delete assign;
+            }
+            delete expression;
+        }
+
+    public:
+        std::vector<AssignStatement *> assigns;
+        Expression *expression;
+    };
+
     class IntegerLiteral : public Literal {
     public:
         explicit IntegerLiteral(int v, Type *type)
@@ -279,6 +317,8 @@ namespace husky {
         bool value{};
     };
 
+    class Function;
+
     class Value {
     public:
         explicit Value(Type *type) : _type(type) {}
@@ -292,6 +332,13 @@ namespace husky {
         Type *_type;
     };
 
+    class Function {
+    public:
+        virtual Type *returnType() = 0;
+
+        virtual Value *apply(const std::vector<Value *> &args) = 0;
+    };
+
     template<typename T>
     class TypedValue : public Value {
     public:
@@ -302,40 +349,24 @@ namespace husky {
         T _value;
     };
 
-    class IntegerValue : public TypedValue<int> {
-    };
-
-    class FloatValue : public TypedValue<float> {
-    };
-
-    class BoolValue : public TypedValue<bool> {
-    };
+    using IntegerValue = TypedValue<int>;
+    using FloatValue = TypedValue<float>;
+    using BoolValue = TypedValue<bool>;
 
     template<typename V>
     class Vector : public TypedValue<std::vector<V>> {
-    };
-
-    class IntegerVector : public Vector<int> {
     private:
         std::vector<int> values;
         std::vector<bool> masks;
     };
 
-    class FloatVector : public Vector<float> {
-    private:
-        std::vector<float> values;
-        std::vector<bool> masks;
-    };
+    using IntegerVector = Vector<int>;
+    using FloatVector = Vector<float>;
+    using BoolVector = Vector<bool>;
 
-    class BoolVector : public Vector<bool> {
-    private:
-        std::vector<bool> values;
-        std::vector<bool> masks;
-    };
-
-    class compile_error : public std::exception {
+    class CompileError : public std::exception {
     public:
-        compile_error(ParserRuleContext *context, const std::string &message) {
+        CompileError(ParserRuleContext *context, const std::string &message) {
             line = context->start->getLine();
             pos = context->start->getCharPositionInLine();
             this->message = "error at line " + std::to_string(line)
@@ -437,7 +468,7 @@ namespace husky {
 
     class ErrorListener : public ANTLRErrorListener {
     public:
-        struct ANTLRError {
+        struct SyntaxError {
         public:
             int line;
             int pos;
@@ -461,10 +492,10 @@ namespace husky {
         bool hasError() const;
 
         [[nodiscard]]
-        const std::vector<ANTLRError> &getErrors() const;
+        const std::vector<SyntaxError> &getErrors() const;
 
     private:
-        std::vector<ANTLRError> errors;
+        std::vector<SyntaxError> errors;
     };
 
     class CompileTimeBuilder : public HuskyDefineVisitor {
@@ -497,11 +528,132 @@ namespace husky {
         std::shared_ptr<CompileTime> _compileTime;
     };
 
-    class HuskyCompiler : public HuskyExprVisitor {
+    template<typename T>
+    class HuskyExprGraphVisitor {
     public:
-        explicit HuskyCompiler(std::shared_ptr<CompileTime> compileTime);
+        virtual T visitRoot(ExprRoot *root) = 0;
 
-        antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *context) override;
+        virtual T visitLiteral(Literal *literal) = 0;
+
+        virtual T visitAssign(AssignStatement *assign) = 0;
+
+        virtual T visitBinaryExpression(BinaryExpr *expr) = 0;
+
+        virtual T visitUnaryExpression(UnaryExpr *expr) = 0;
+
+        virtual T visitMethodCall(MethodCall *expr) = 0;
+
+        virtual T visitAttrGet(AttrGet *expr) = 0;
+
+        virtual T visitArrayRef(ArrayRef *expr) = 0;
+
+        virtual T visitArraySlice(ArraySlice *expr) = 0;
+
+        virtual T visitIdentifier(Identifier *identifier) = 0;
+
+        T visit(GraphBase *graph) {
+            if (graph->template is<ExprRoot>()) {
+                return visitRoot(graph->template is<ExprRoot>());
+            } else if (graph->template is<AssignStatement>()) {
+                return visitAssign(graph->template as<AssignStatement>());
+            } else if (graph->template is<Literal>()) {
+                return visitLiteral(graph->template as<Literal>());
+            } else if (graph->template is<BinaryExpr>()) {
+                return visitBinaryExpression(graph->template as<BinaryExpr>());
+            } else if (graph->template is<UnaryExpr>()) {
+                return visitUnaryExpression(graph->template as<UnaryExpr>());
+            } else if (graph->template is<MethodCall>()) {
+                return visitMethodCall(graph->template as<MethodCall>());
+            } else if (graph->template is<AttrGet>()) {
+                return visitAttrGet(graph->template as<AttrGet>());
+            } else if (graph->template is<ArrayRef>()) {
+                return visitArrayRef(graph->template as<ArrayRef>());
+            } else if (graph->template is<ArraySlice>()) {
+                return visitArraySlice(graph->template as<ArraySlice>());
+            } else if (graph->template is<Identifier>()) {
+                return visitIdentifier(graph->template as<Identifier>());
+            }
+        }
+    };
+
+    class Recomputable {
+    public:
+        Recomputable(Value *value, GraphBase *graph)
+                : value(value), graph(graph) {}
+
+    public:
+        Value *value;
+        GraphBase *graph;
+    };
+
+    class ExprRuntime {
+    public:
+        virtual Type *getType(const std::string &name) = 0;
+
+        virtual Value *getValue(const std::string &name) = 0;
+
+        virtual Value *getValue(Value *value, const std::string &name) = 0;
+
+        virtual Function *getFunction(const std::string &name, const std::vector<Type *> &args) = 0;
+
+        virtual Function *getFunction(Type *type, const std::string &name, const std::vector<Type *> &args) = 0;
+    };
+
+    class DefineExprRuntime : public ExprRuntime {
+    public:
+        Type *getType(const std::string &name) override;
+
+        Value *getValue(const std::string &name) override;
+
+        Value *getValue(Value *value, const std::string &name) override;
+
+        Function *getFunction(const std::string &name, const std::vector<Type *> &args) override;
+
+        Function *getFunction(Type *type, const std::string &name, const std::vector<Type *> &args) override;
+
+    private:
+        std::map<std::string, Value *> _values;
+        std::map<std::string, Type *> _types;
+        std::map<std::string, Function *> _funcs;
+
+        std::map<std::string, std::function<Value *(Value *)>> _fields;
+        std::map<std::string, Function *> _memberFunctions;
+    };
+
+    class HuskyExprEvaluator : public HuskyExprGraphVisitor<Recomputable *> {
+    public:
+        Recomputable *visitRoot(ExprRoot *root) override;
+
+        Recomputable *visitLiteral(Literal *literal) override;
+
+        Recomputable *visitAssign(AssignStatement *assign) override;
+
+        Recomputable *visitBinaryExpression(BinaryExpr *expr) override;
+
+        Recomputable *visitUnaryExpression(UnaryExpr *expr) override;
+
+        Recomputable *visitMethodCall(MethodCall *expr) override;
+
+        Recomputable *visitAttrGet(AttrGet *expr) override;
+
+        Recomputable *visitArrayRef(ArrayRef *expr) override;
+
+        Recomputable *visitArraySlice(ArraySlice *expr) override;
+
+        Recomputable *visitIdentifier(Identifier *identifier) override;
+
+        Value *evaluate(ExprRoot *expr);
+
+    private:
+        ExprRuntime *_runtime;
+        std::map<std::string, Recomputable *> _locals;
+    };
+
+    class HuskyExprCompiler : public HuskyExprVisitor {
+    public:
+        explicit HuskyExprCompiler(std::shared_ptr<CompileTime> compileTime);
+
+        antlrcpp::Any visitExtractAssign(HuskyExpr::ExtractAssignContext *context) override;
 
         antlrcpp::Any visitAssign(HuskyExpr::AssignContext *context) override;
 

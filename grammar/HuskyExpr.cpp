@@ -47,39 +47,6 @@ void HuskyExpr::HuskyExprContext::copyFrom(HuskyExprContext *ctx) {
   ParserRuleContext::copyFrom(ctx);
 }
 
-//----------------- ToAssignContext ------------------------------------------------------------------
-
-HuskyExpr::AssignContext* HuskyExpr::ToAssignContext::assign() {
-  return getRuleContext<HuskyExpr::AssignContext>(0);
-}
-
-tree::TerminalNode* HuskyExpr::ToAssignContext::SEMI() {
-  return getToken(HuskyExpr::SEMI, 0);
-}
-
-HuskyExpr::HuskyExprContext* HuskyExpr::ToAssignContext::huskyExpr() {
-  return getRuleContext<HuskyExpr::HuskyExprContext>(0);
-}
-
-HuskyExpr::ToAssignContext::ToAssignContext(HuskyExprContext *ctx) { copyFrom(ctx); }
-
-void HuskyExpr::ToAssignContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterToAssign(this);
-}
-void HuskyExpr::ToAssignContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitToAssign(this);
-}
-
-antlrcpp::Any HuskyExpr::ToAssignContext::accept(tree::ParseTreeVisitor *visitor) {
-  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
-    return parserVisitor->visitToAssign(this);
-  else
-    return visitor->visitChildren(this);
-}
 //----------------- ToExpressionContext ------------------------------------------------------------------
 
 HuskyExpr::ExpressionContext* HuskyExpr::ToExpressionContext::expression() {
@@ -109,6 +76,39 @@ antlrcpp::Any HuskyExpr::ToExpressionContext::accept(tree::ParseTreeVisitor *vis
   else
     return visitor->visitChildren(this);
 }
+//----------------- ExtractAssignContext ------------------------------------------------------------------
+
+HuskyExpr::AssignContext* HuskyExpr::ExtractAssignContext::assign() {
+  return getRuleContext<HuskyExpr::AssignContext>(0);
+}
+
+tree::TerminalNode* HuskyExpr::ExtractAssignContext::SEMI() {
+  return getToken(HuskyExpr::SEMI, 0);
+}
+
+HuskyExpr::HuskyExprContext* HuskyExpr::ExtractAssignContext::huskyExpr() {
+  return getRuleContext<HuskyExpr::HuskyExprContext>(0);
+}
+
+HuskyExpr::ExtractAssignContext::ExtractAssignContext(HuskyExprContext *ctx) { copyFrom(ctx); }
+
+void HuskyExpr::ExtractAssignContext::enterRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->enterExtractAssign(this);
+}
+void HuskyExpr::ExtractAssignContext::exitRule(tree::ParseTreeListener *listener) {
+  auto parserListener = dynamic_cast<HuskyExprListener *>(listener);
+  if (parserListener != nullptr)
+    parserListener->exitExtractAssign(this);
+}
+
+antlrcpp::Any HuskyExpr::ExtractAssignContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<HuskyExprVisitor*>(visitor))
+    return parserVisitor->visitExtractAssign(this);
+  else
+    return visitor->visitChildren(this);
+}
 HuskyExpr::HuskyExprContext* HuskyExpr::huskyExpr() {
   HuskyExprContext *_localctx = _tracker.createInstance<HuskyExprContext>(_ctx, getState());
   enterRule(_localctx, 0, HuskyExpr::RuleHuskyExpr);
@@ -121,7 +121,7 @@ HuskyExpr::HuskyExprContext* HuskyExpr::huskyExpr() {
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 0, _ctx)) {
     case 1: {
-      _localctx = dynamic_cast<HuskyExprContext *>(_tracker.createInstance<HuskyExpr::ToAssignContext>(_localctx));
+      _localctx = dynamic_cast<HuskyExprContext *>(_tracker.createInstance<HuskyExpr::ExtractAssignContext>(_localctx));
       enterOuterAlt(_localctx, 1);
       setState(18);
       assign();

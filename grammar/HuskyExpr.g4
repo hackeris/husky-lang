@@ -3,8 +3,8 @@ parser grammar HuskyExpr;
 options { tokenVocab=HuskyLexer; }
 
 huskyExpr
-    : assign SEMI huskyExpr              # ToAssign
-    | expression EOF                # ToExpression
+    : assign SEMI huskyExpr              # ExtractAssign
+    | expression EOF                     # ToExpression
     ;
 
 expressionList

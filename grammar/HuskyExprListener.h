@@ -14,8 +14,8 @@
 class  HuskyExprListener : public antlr4::tree::ParseTreeListener {
 public:
 
-  virtual void enterToAssign(HuskyExpr::ToAssignContext *ctx) = 0;
-  virtual void exitToAssign(HuskyExpr::ToAssignContext *ctx) = 0;
+  virtual void enterExtractAssign(HuskyExpr::ExtractAssignContext *ctx) = 0;
+  virtual void exitExtractAssign(HuskyExpr::ExtractAssignContext *ctx) = 0;
 
   virtual void enterToExpression(HuskyExpr::ToExpressionContext *ctx) = 0;
   virtual void exitToExpression(HuskyExpr::ToExpressionContext *ctx) = 0;

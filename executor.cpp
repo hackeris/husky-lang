@@ -7,13 +7,9 @@
 using namespace husky;
 
 std::shared_ptr<CompileTime> buildCompileTime(const std::string &def) {
-
     auto compileTime = std::make_shared<DefaultCompileTime>();
-
     CompileTimeBuilder builder(compileTime);
-
     builder.compile(def);
-
     return compileTime;
 }
 
@@ -38,6 +34,7 @@ int main(int argc, char *argv[]) {
     GraphBase *root = nullptr;
     try {
         root = compiler.compile(exprCode, &errorListener);
+
         if (!errorListener.hasError() && root != nullptr) {
             auto type = root->type();
             std::cout << "Inference type is: " << type->name() << std::endl;

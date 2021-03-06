@@ -3,7 +3,7 @@ project(husky_lang)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(husky_lang main.cpp
+set(common_files
         lang/HuskyCompiler.cpp
         lang/HuskyCompiler.h
         grammar/HuskyExpr.cpp
@@ -27,13 +27,30 @@ add_executable(husky_lang main.cpp
         grammar/HuskyDefineVisitor.cpp
         grammar/HuskyDefineVisitor.h
         grammar/HuskyLexer.cpp
-        grammar/HuskyLexer.h)
+        grammar/HuskyLexer.h
+        utils/File.h)
+
+add_executable(husky_lang main.cpp ${common_files})
+add_executable(husky_compiler main.cpp ${common_files})
+add_executable(husky_executor executor.cpp ${common_files})
 
 target_include_directories(husky_lang PUBLIC
         /usr/local/include/antlr4-runtime)
-
 target_link_directories(husky_lang PUBLIC
         /usr/local/lib)
-
 target_link_libraries(husky_lang
+        antlr4-runtime)
+
+target_include_directories(husky_compiler PUBLIC
+        /usr/local/include/antlr4-runtime)
+target_link_directories(husky_compiler PUBLIC
+        /usr/local/lib)
+target_link_libraries(husky_compiler
+        antlr4-runtime)
+
+target_include_directories(husky_executor PUBLIC
+        /usr/local/include/antlr4-runtime)
+target_link_directories(husky_executor PUBLIC
+        /usr/local/lib)
+target_link_libraries(husky_executor
         antlr4-runtime)

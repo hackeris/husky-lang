@@ -19,7 +19,7 @@ public:
   /**
    * Visit parse trees produced by HuskyExpr.
    */
-    virtual antlrcpp::Any visitToAssign(HuskyExpr::ToAssignContext *context) = 0;
+    virtual antlrcpp::Any visitExtractAssign(HuskyExpr::ExtractAssignContext *context) = 0;
 
     virtual antlrcpp::Any visitToExpression(HuskyExpr::ToExpressionContext *context) = 0;
 
