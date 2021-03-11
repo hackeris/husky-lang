@@ -385,8 +385,9 @@ antlrcpp::Any CompileTimeBuilder::visitDefineStatements(HuskyDefine::DefineState
 
 antlrcpp::Any CompileTimeBuilder::visitArgs(HuskyDefine::ArgsContext *context) {
     std::vector<Type *> types;
-    for (int i = 0; i < context->IDENTIFIER().size(); i += 1) {
-        auto typeName = context->IDENTIFIER(i)->getText();
+    for (int i = 0; i < context->singleArg().size(); i += 1) {
+        auto argName = context->singleArg(i)->argName->getText();
+        auto typeName = context->singleArg(i)->argType->getText();
         auto type = _compileTime->findType(typeName);
         types.emplace_back(type);
     }
@@ -408,9 +409,9 @@ antlrcpp::Any CompileTimeBuilder::visitFuncDefine(HuskyDefine::FuncDefineContext
         name = context->uop()->getText();
     }
 
+    auto argTypes = visit(context->args()).as<std::vector<Type *>>();
     auto returnTypeName = context->returnType->getText();
     auto returnType = _compileTime->findType(returnTypeName);
-    auto argTypes = visit(context->args()).as<std::vector<Type *>>();
 
     _compileTime->registerFunction(name, returnType, argTypes);
     return nullptr;
@@ -490,20 +491,6 @@ antlrcpp::Any CompileTimeBuilder::visitDefineStatement(HuskyDefine::DefineStatem
     return nullptr;
 }
 
-Recomputable *HuskyExprEvaluator::visitLiteral(Literal *literal) {
-
-    if (literal->is<IntegerLiteral>()) {
-        auto type = _runtime->getType("Integer");
-        auto integer = literal->as<IntegerLiteral>();
-        return new Recomputable(new IntegerValue(integer->value, type), literal);
-    } else if (literal->is<FloatLiteral>()) {
-        auto type = _runtime->getType("Float");
-        auto number = literal->as<FloatLiteral>();
-        return new Recomputable(new FloatValue(number->value, type), literal);
-    } else if (literal->is<BoolLiteral>()) {
-        auto type = _runtime->getType("Bool");
-        auto value = literal->as<BoolLiteral>();
-        return new Recomputable(new BoolValue(value->value, type), literal);
-    }
-    throw std::runtime_error("no such literal type " + literal->type()->name());
+antlrcpp::Any CompileTimeBuilder::visitSingleArg(HuskyDefine::SingleArgContext *context) {
+    return nullptr;
 }

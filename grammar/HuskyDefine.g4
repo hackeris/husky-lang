@@ -6,7 +6,9 @@ defineStatements
     : (defineStatement)* EOF
     ;
 
-args: IDENTIFIER (COMMA IDENTIFIER)*;
+args: singleArg (COMMA singleArg)*;
+
+singleArg: (argName=IDENTIFIER COLON argType=IDENTIFIER);
 
 bop:  GT | LT | EQUAL | LE | GE | NOTEQUAL | AND | OR | ADD | SUB | MUL | DIV CARET ;
 uop:  ADD | SUB | BANG;
@@ -25,8 +27,8 @@ typeDefine
 
 funcDefine
     : FUNC (name=IDENTIFIER | bop | uop)
-              LPAREN args? RPAREN
-                COLON returnType=IDENTIFIER
+              (LPAREN args? RPAREN)
+                COLON (returnType=IDENTIFIER)
     ;
 
 memberFuncDefine

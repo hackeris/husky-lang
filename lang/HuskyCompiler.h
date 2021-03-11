@@ -382,6 +382,15 @@ namespace husky {
         std::string message;
     };
 
+    class NodeTransformer {
+    public:
+        virtual GraphBase *apply(GraphBase *node) = 0;
+
+        virtual Type *returnType() = 0;
+
+        virtual ~NodeTransformer() = default;
+    };
+
     class CompileTime {
     public:
         virtual Type *findIdentifier(const std::string &name) = 0;
@@ -506,6 +515,8 @@ namespace husky {
 
         antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) override;
 
+        antlrcpp::Any visitSingleArg(HuskyDefine::SingleArgContext *context) override;
+
         antlrcpp::Any visitBop(HuskyDefine::BopContext *context) override;
 
         antlrcpp::Any visitUop(HuskyDefine::UopContext *context) override;
@@ -576,16 +587,6 @@ namespace husky {
         }
     };
 
-    class Recomputable {
-    public:
-        Recomputable(Value *value, GraphBase *graph)
-                : value(value), graph(graph) {}
-
-    public:
-        Value *value;
-        GraphBase *graph;
-    };
-
     class ExprRuntime {
     public:
         virtual Type *getType(const std::string &name) = 0;
@@ -597,56 +598,6 @@ namespace husky {
         virtual Function *getFunction(const std::string &name, const std::vector<Type *> &args) = 0;
 
         virtual Function *getFunction(Type *type, const std::string &name, const std::vector<Type *> &args) = 0;
-    };
-
-    class DefineExprRuntime : public ExprRuntime {
-    public:
-        Type *getType(const std::string &name) override;
-
-        Value *getValue(const std::string &name) override;
-
-        Value *getValue(Value *value, const std::string &name) override;
-
-        Function *getFunction(const std::string &name, const std::vector<Type *> &args) override;
-
-        Function *getFunction(Type *type, const std::string &name, const std::vector<Type *> &args) override;
-
-    private:
-        std::map<std::string, Value *> _values;
-        std::map<std::string, Type *> _types;
-        std::map<std::string, Function *> _funcs;
-
-        std::map<std::string, std::function<Value *(Value *)>> _fields;
-        std::map<std::string, Function *> _memberFunctions;
-    };
-
-    class HuskyExprEvaluator : public HuskyExprGraphVisitor<Recomputable *> {
-    public:
-        Recomputable *visitRoot(ExprRoot *root) override;
-
-        Recomputable *visitLiteral(Literal *literal) override;
-
-        Recomputable *visitAssign(AssignStatement *assign) override;
-
-        Recomputable *visitBinaryExpression(BinaryExpr *expr) override;
-
-        Recomputable *visitUnaryExpression(UnaryExpr *expr) override;
-
-        Recomputable *visitMethodCall(MethodCall *expr) override;
-
-        Recomputable *visitAttrGet(AttrGet *expr) override;
-
-        Recomputable *visitArrayRef(ArrayRef *expr) override;
-
-        Recomputable *visitArraySlice(ArraySlice *expr) override;
-
-        Recomputable *visitIdentifier(Identifier *identifier) override;
-
-        Value *evaluate(ExprRoot *expr);
-
-    private:
-        ExprRuntime *_runtime;
-        std::map<std::string, Recomputable *> _locals;
     };
 
     class HuskyExprCompiler : public HuskyExprVisitor {

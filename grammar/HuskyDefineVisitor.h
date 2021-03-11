@@ -23,6 +23,8 @@ public:
 
     virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) = 0;
 
+    virtual antlrcpp::Any visitSingleArg(HuskyDefine::SingleArgContext *context) = 0;
+
     virtual antlrcpp::Any visitBop(HuskyDefine::BopContext *context) = 0;
 
     virtual antlrcpp::Any visitUop(HuskyDefine::UopContext *context) = 0;

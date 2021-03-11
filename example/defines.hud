@@ -5,20 +5,19 @@ type Bool
 type Integer
 type FloatVector
 
-func add(Integer, Integer): Integer
-func +(Integer): Integer
-func -(Integer): Integer
-func +(Integer, Integer): Integer
-func +(Float, Float): Float
-func +(FloatVector, FloatVector): FloatVector
-func +(Integer, FloatVector): FloatVector
-func +(FloatVector, Integer): FloatVector
-func &(Bool, Bool): Bool
-func |(Bool, Bool): Bool
-func !(Bool): Bool
-func FloatVector.[](Integer): Float
+func add(x:Integer, y:Integer): Integer
+func +(x:Integer): Integer
+func -(x:Integer): Integer
+func +(x:Integer, y:Integer): Integer
+func +(x:Float, y:Float): Float
+func +(x:FloatVector, y:FloatVector): FloatVector
+func +(x:Integer, y:FloatVector): FloatVector
+func +(x:FloatVector, y:Integer): FloatVector
+func &(x:Bool, y:Bool): Bool
+func |(x:Bool, y:Bool): Bool
+func !(x:Bool): Bool
+func FloatVector.[](x:Integer): Float
 
 val x: Integer
 val f: Float
 val v: FloatVector
-
