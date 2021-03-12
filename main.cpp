@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 
     auto compileTime = buildCompileTime(defCode);
     HuskyExprCompiler compiler(compileTime);
-    ErrorListener errorListener;
+    ExprErrorListener errorListener;
 
     GraphBase *root = nullptr;
     try {

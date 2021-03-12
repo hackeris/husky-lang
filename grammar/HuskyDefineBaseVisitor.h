@@ -19,11 +19,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *ctx) override {
+  virtual antlrcpp::Any visitSingleArg(HuskyDefine::SingleArgContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitSingleArg(HuskyDefine::SingleArgContext *ctx) override {
+  virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *ctx) override {
     return visitChildren(ctx);
   }
 

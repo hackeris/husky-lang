@@ -6,12 +6,13 @@ defineStatements
     : (defineStatement)* EOF
     ;
 
-args: singleArg (COMMA singleArg)*;
+singleArg
+    : (argName=IDENTIFIER COLON argType=IDENTIFIER);
 
-singleArg: (argName=IDENTIFIER COLON argType=IDENTIFIER);
+args
+    : LPAREN (singleArg (COMMA singleArg)*)? RPAREN;
 
 bop:  GT | LT | EQUAL | LE | GE | NOTEQUAL | AND | OR | ADD | SUB | MUL | DIV CARET ;
-uop:  ADD | SUB | BANG;
 
 defineStatement
     : typeDefine
@@ -26,16 +27,14 @@ typeDefine
     ;
 
 funcDefine
-    : FUNC (name=IDENTIFIER | bop | uop)
-              (LPAREN args? RPAREN)
-                COLON (returnType=IDENTIFIER)
+    : FUNC (name=IDENTIFIER | bop | bang=BANG)
+        args COLON (returnType=IDENTIFIER)
     ;
 
 memberFuncDefine
     : FUNC typeName=IDENTIFIER
-              DOT (member=IDENTIFIER | bop | uop | ARRAY_INDEX | ARRAY_SLICE)
-                LPAREN args? RPAREN
-                  COLON returnType=IDENTIFIER
+          DOT (member=IDENTIFIER | bop | bang=BANG | ARRAY_INDEX | ARRAY_SLICE)
+            args COLON returnType=IDENTIFIER
     ;
 
 valueDefine

@@ -98,37 +98,37 @@ UnaryExpr::Operation parseUnaryOperation(const std::string &str) {
 }
 
 
-void husky::ErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
-                                       size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
+void husky::ExprErrorListener::syntaxError(antlr4::Recognizer *recognizer, antlr4::Token *offendingSymbol, size_t line,
+                                           size_t charPositionInLine, const std::string &msg, std::exception_ptr e) {
     errors.emplace_back(SyntaxError{(int) line, (int) charPositionInLine, msg});
     std::cout << "syntaxError" << std::endl;
 }
 
 void
-husky::ErrorListener::reportAmbiguity(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, size_t startIndex,
-                                      size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts,
-                                      antlr4::atn::ATNConfigSet *configs) {
+husky::ExprErrorListener::reportAmbiguity(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa, size_t startIndex,
+                                          size_t stopIndex, bool exact, const antlrcpp::BitSet &ambigAlts,
+                                          antlr4::atn::ATNConfigSet *configs) {
     std::cout << "reportAmbiguity" << std::endl;
 }
 
-void husky::ErrorListener::reportAttemptingFullContext(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa,
-                                                       size_t startIndex, size_t stopIndex,
-                                                       const antlrcpp::BitSet &conflictingAlts,
-                                                       antlr4::atn::ATNConfigSet *configs) {
+void husky::ExprErrorListener::reportAttemptingFullContext(antlr4::Parser *recognizer, const antlr4::dfa::DFA &dfa,
+                                                           size_t startIndex, size_t stopIndex,
+                                                           const antlrcpp::BitSet &conflictingAlts,
+                                                           antlr4::atn::ATNConfigSet *configs) {
     std::cout << "reportAttemptingFullContext" << std::endl;
 }
 
-void husky::ErrorListener::reportContextSensitivity(Parser *recognizer, const dfa::DFA &dfa, size_t startIndex,
-                                                    size_t stopIndex, size_t prediction,
-                                                    atn::ATNConfigSet *configs) {
+void husky::ExprErrorListener::reportContextSensitivity(Parser *recognizer, const dfa::DFA &dfa, size_t startIndex,
+                                                        size_t stopIndex, size_t prediction,
+                                                        atn::ATNConfigSet *configs) {
     std::cout << "reportContextSensitivity" << std::endl;
 }
 
-bool ErrorListener::hasError() const {
+bool ExprErrorListener::hasError() const {
     return !errors.empty();
 }
 
-const std::vector<ErrorListener::SyntaxError> &ErrorListener::getErrors() const {
+const std::vector<ExprErrorListener::SyntaxError> &ExprErrorListener::getErrors() const {
     return errors;
 }
 
@@ -320,7 +320,7 @@ antlrcpp::Any husky::HuskyExprCompiler::visitToAttrGet(HuskyExpr::ToAttrGetConte
     }
 }
 
-GraphBase *HuskyExprCompiler::compile(const std::string &code, ErrorListener *errorListener) {
+GraphBase *HuskyExprCompiler::compile(const std::string &code, ExprErrorListener *errorListener) {
 
     using namespace antlr4;
     using namespace antlr4::tree;
@@ -405,8 +405,8 @@ antlrcpp::Any CompileTimeBuilder::visitFuncDefine(HuskyDefine::FuncDefineContext
         name = context->name->getText();
     } else if (context->bop() != nullptr) {
         name = context->bop()->getText();
-    } else if (context->uop() != nullptr) {
-        name = context->uop()->getText();
+    } else if (context->bang != nullptr) {
+        name = context->bang->getText();
     }
 
     auto argTypes = visit(context->args()).as<std::vector<Type *>>();
@@ -431,8 +431,8 @@ antlrcpp::Any CompileTimeBuilder::visitMemberFuncDefine(HuskyDefine::MemberFuncD
         member = context->member->getText();
     } else if (context->bop() != nullptr) {
         member = context->bop()->getText();
-    } else if (context->uop() != nullptr) {
-        member = context->uop()->getText();
+    } else if (context->bang != nullptr) {
+        member = context->bang->getText();
     } else if (context->ARRAY_INDEX() != nullptr) {
         member = context->ARRAY_INDEX()->getText();
     } else if (context->ARRAY_SLICE() != nullptr) {
@@ -480,7 +480,14 @@ void CompileTimeBuilder::compile(const std::string &code) {
     CommonTokenStream tokens(&lexer);
     HuskyDefine parser(&tokens);
 
+    ExprErrorListener errorListener;
+    parser.addErrorListener(&errorListener);
+
     ParseTree *tree = parser.defineStatements();
+    if (errorListener.hasError()) {
+        throw std::runtime_error("syntax error at defines");
+    }
+
     this->visit(tree);
 }
 

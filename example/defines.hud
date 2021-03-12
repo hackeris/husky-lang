@@ -5,7 +5,7 @@ type Bool
 type Integer
 type FloatVector
 
-func add(x:Integer, y:Integer): Integer
+func add(x: Integer, y: Integer): Integer
 func +(x:Integer): Integer
 func -(x:Integer): Integer
 func +(x:Integer, y:Integer): Integer

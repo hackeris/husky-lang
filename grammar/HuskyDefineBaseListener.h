@@ -19,11 +19,11 @@ public:
   virtual void enterDefineStatements(HuskyDefine::DefineStatementsContext * /*ctx*/) override { }
   virtual void exitDefineStatements(HuskyDefine::DefineStatementsContext * /*ctx*/) override { }
 
-  virtual void enterArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }
-  virtual void exitArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }
-
   virtual void enterSingleArg(HuskyDefine::SingleArgContext * /*ctx*/) override { }
   virtual void exitSingleArg(HuskyDefine::SingleArgContext * /*ctx*/) override { }
+
+  virtual void enterArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }
+  virtual void exitArgs(HuskyDefine::ArgsContext * /*ctx*/) override { }
 
   virtual void enterBop(HuskyDefine::BopContext * /*ctx*/) override { }
   virtual void exitBop(HuskyDefine::BopContext * /*ctx*/) override { }

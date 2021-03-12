@@ -17,11 +17,11 @@ public:
   virtual void enterDefineStatements(HuskyDefine::DefineStatementsContext *ctx) = 0;
   virtual void exitDefineStatements(HuskyDefine::DefineStatementsContext *ctx) = 0;
 
-  virtual void enterArgs(HuskyDefine::ArgsContext *ctx) = 0;
-  virtual void exitArgs(HuskyDefine::ArgsContext *ctx) = 0;
-
   virtual void enterSingleArg(HuskyDefine::SingleArgContext *ctx) = 0;
   virtual void exitSingleArg(HuskyDefine::SingleArgContext *ctx) = 0;
+
+  virtual void enterArgs(HuskyDefine::ArgsContext *ctx) = 0;
+  virtual void exitArgs(HuskyDefine::ArgsContext *ctx) = 0;
 
   virtual void enterBop(HuskyDefine::BopContext *ctx) = 0;
   virtual void exitBop(HuskyDefine::BopContext *ctx) = 0;

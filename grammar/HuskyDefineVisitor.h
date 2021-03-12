@@ -21,9 +21,9 @@ public:
    */
     virtual antlrcpp::Any visitDefineStatements(HuskyDefine::DefineStatementsContext *context) = 0;
 
-    virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) = 0;
-
     virtual antlrcpp::Any visitSingleArg(HuskyDefine::SingleArgContext *context) = 0;
+
+    virtual antlrcpp::Any visitArgs(HuskyDefine::ArgsContext *context) = 0;
 
     virtual antlrcpp::Any visitBop(HuskyDefine::BopContext *context) = 0;
 

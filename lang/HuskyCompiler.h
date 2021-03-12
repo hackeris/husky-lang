@@ -475,7 +475,7 @@ namespace husky {
         std::map<std::string, Type *> _symbols;
     };
 
-    class ErrorListener : public ANTLRErrorListener {
+    class ExprErrorListener : public ANTLRErrorListener {
     public:
         struct SyntaxError {
         public:
@@ -644,7 +644,7 @@ namespace husky {
 
         antlrcpp::Any visitToLiteral(HuskyExpr::ToLiteralContext *context) override;
 
-        GraphBase *compile(const std::string &code, ErrorListener *errorListener);
+        GraphBase *compile(const std::string &code, ExprErrorListener *errorListener);
 
         template<class U>
         U *get(const antlrcpp::Any &any) {
